@@ -75,10 +75,10 @@
 
 #include <ATen/AccumulateType.h>
 #include <ATen/cuda/NumericLimits.cuh>
+#include <ATen/cuda/ThrustAllocator.h>
 
 #include <THC/THC.h>
 #include <THC/THCGeneral.h>
-#include <THC/THCThrustAllocator.cuh>
 
 #include "type_shim.h"
 #include "compat.h"
