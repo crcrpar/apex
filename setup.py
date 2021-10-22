@@ -77,6 +77,8 @@ if "--cpp_ext" in sys.argv:
         CppExtension('apex_C',
                      ['csrc/flatten_unflatten.cpp',]))
 
+ext_modules.append(CUDAExtension("undefined_symbol", ["csrc/sample.cpp"]))
+
 def get_cuda_bare_metal_version(cuda_dir):
     raw_output = subprocess.check_output([cuda_dir + "/bin/nvcc", "-V"], universal_newlines=True)
     output = raw_output.split()
