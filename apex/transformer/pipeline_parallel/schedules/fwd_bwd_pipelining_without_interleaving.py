@@ -84,7 +84,7 @@ def forward_backward_pipelining_without_interleaving(
     ###################################################################################################################
     # Run warmup forward passes.
     ###################################################################################################################
-    _logger.info("Warmup")
+    _logger.debug("Warmup")
     for i in range(num_warmup_microbatches):
         _logger.debug(f"warmup iter: {i} / {num_warmup_microbatches}")
         _logger.debug("receive fwd")
@@ -108,7 +108,7 @@ def forward_backward_pipelining_without_interleaving(
     ###################################################################################################################
     # Run 1F1B in steady state.
     ###################################################################################################################
-    _logger.info("Steady phase")
+    _logger.debug("Steady phase")
     for i in range(num_microbatches_remaining):
         _logger.debug(f"steady iter: {i} / {num_microbatches_remaining}")
         last_iteration = i == (num_microbatches_remaining - 1)
@@ -150,7 +150,7 @@ def forward_backward_pipelining_without_interleaving(
     ###################################################################################################################
     # Run cooldown backward passes.
     ###################################################################################################################
-    _logger.info("Cooldown phase")
+    _logger.debug("Cooldown phase")
     if not forward_only:
         for i in range(num_warmup_microbatches):
             _logger.debug(f"cooldown iter: {i} / {num_warmup_microbatches}")

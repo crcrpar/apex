@@ -159,7 +159,7 @@ def _forward_backward_pipelining_with_interleaving(
     ###################################################################################################################
     parallel_state.set_virtual_pipeline_model_parallel_rank(0)
     input_tensors[0].append(p2p_communication.recv_forward(tensor_shape=tensor_shape))
-    _logger.info("Warmup phase")
+    _logger.debug("Warmup phase")
     for k in range(num_warmup_microbatches):
         _logger.debug(f"warmup iter: {k} / {num_warmup_microbatches}")
         output_tensor = forward_step_helper(k, curr_iters)
@@ -206,7 +206,7 @@ def _forward_backward_pipelining_with_interleaving(
     ###################################################################################################################
     # Run 1F1B in steady state.
     ###################################################################################################################
-    _logger.info("Steady phase")
+    _logger.debug("Steady phase")
     for k in range(num_microbatches_remaining):
         # Forward pass.
         _logger.debug(f" steady phase iter {k} / {num_microbatches_remaining}")
@@ -287,7 +287,7 @@ def _forward_backward_pipelining_with_interleaving(
     ###################################################################################################################
     # Run cooldown backward passes (flush out pipeline).
     ###################################################################################################################
-    _logger.info("Cooldown phase")
+    _logger.debug("Cooldown phase")
     if not forward_only:
         if all_warmup_microbatches:
             output_tensor_grads[num_model_chunks - 1].append(p2p_communication.recv_backward(tensor_shape=tensor_shape))
