@@ -77,6 +77,8 @@ if "--cpp_ext" in sys.argv:
         CppExtension('apex_C',
                      ['csrc/flatten_unflatten.cpp',]))
 
+    ext_modules.append("tensor_grouping_C", ["csrc/tensor_grouping/tensor_grouping.cpp"])
+
 def get_cuda_bare_metal_version(cuda_dir):
     raw_output = subprocess.check_output([cuda_dir + "/bin/nvcc", "-V"], universal_newlines=True)
     output = raw_output.split()
