@@ -190,7 +190,7 @@ void wgrad_gemm_accum_fp32_cuda_stub(
     #if defined(CUBLAS_VERSION) && CUBLAS_VERSION >= 11000
     DISPATCH_FLOAT_HALF_AND_BFLOAT(input_2d.scalar_type(), 0, "wgrad_gemm_accum_fp32",
     #else
-    DISPATCH_FLOAT_HALF(input_2d.scalar_type(), 0, "wgrad_gemm_accum_fp32",
+    DISPATCH_FLOAT_AND_HALF(input_2d.scalar_type(), 0, "wgrad_gemm_accum_fp32",
     #endif
         wgrad_gemm_accum_fp32_cuda<scalar_t_0>(
             input_2d.data_ptr<scalar_t_0>(),
