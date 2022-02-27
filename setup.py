@@ -264,8 +264,7 @@ if "--cuda_ext" in sys.argv:
                 "cxx": ["-O3"] + version_dependent_macros,
                 "nvcc": append_nvcc_threads(
                     [
-                        "--debug",
-                        "--device-debug",
+                        "-O3",
                         "-U__CUDA_NO_HALF_OPERATORS__",
                         "-U__CUDA_NO_HALF_CONVERSIONS__",
                         "--expt-relaxed-constexpr",
@@ -286,8 +285,7 @@ if "--cuda_ext" in sys.argv:
                 "cxx": ["-O3"] + version_dependent_macros,
                 "nvcc": append_nvcc_threads(
                     [
-                        "--debug",
-                        "--device-debug",
+                        "-O3",
                         "-U__CUDA_NO_HALF_OPERATORS__",
                         "-U__CUDA_NO_HALF_CONVERSIONS__",
                         "--expt-relaxed-constexpr",
