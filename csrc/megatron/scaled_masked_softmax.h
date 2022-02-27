@@ -45,7 +45,12 @@ template <>
 __device__ __inline__ void copy_vector<uint8_t, 1>(uint8_t *dst, const uint8_t *src) { *dst = *src; }
 
 template <>
-__device__ __inline__ void copy_vector<uint8_t, 4>(uint8_t *dst, const uint8_t *src) {*((half2*) dst) = *((half2*) src); }
+__device__ __inline__ void copy_vector<uint8_t, 4>(uint8_t *dst, const uint8_t *src) {
+#pragma unroll
+  for (int i = 0; i < 4; ++i) {
+    dst[i] = src[i];
+  }
+}
 
 int log2_ceil(int value) {
     int log2_value = 0;
