@@ -44,12 +44,12 @@ torch::Tensor fwd_cuda(
   const int attn_heads = input.size(1);
   const int query_seq_len = input.size(2);
   const int key_seq_len = input.size(3);
-  TORCH_INTERNAL_ASSERT(key_seq_len <= 2048);
-  TORCH_INTERNAL_ASSERT(query_seq_len > 1);
-  TORCH_INTERNAL_ASSERT(pad_batches == 1 || pad_batches == batches);
-  TORCH_INTERNAL_ASSERT(mask.size(1) == 1);
-  TORCH_INTERNAL_ASSERT(mask.size(2) == query_seq_len);
-  TORCH_INTERNAL_ASSERT(mask.size(3) == key_seq_len);
+  TORCH_CHECK(key_seq_len <= 2048);
+  TORCH_CHECK(query_seq_len > 1);
+  TORCH_CHECK(pad_batches == 1 || pad_batches == batches);
+  TORCH_CHECK(mask.size(1) == 1);
+  TORCH_CHECK(mask.size(2) == query_seq_len);
+  TORCH_CHECK(mask.size(3) == key_seq_len);
 
   // Output 
   auto act_options = input.options().requires_grad(false);
@@ -112,6 +112,6 @@ torch::Tensor bwd_cuda(
   //backward pass is completely in-place
   return output_grads;
 }
-}
-}
-}
+} // scaled_masked_softmax
+} // fused_softmax
+} // multihead_attn

@@ -126,8 +126,9 @@ __global__ void scaled_masked_softmax_warp_forward(
     // micro_batch_size might not be a multiple of WARP_BATCH. Check how
     // many batches have to computed within this WARP.
     int local_batches = micro_batch_size - first_batch;
-    if (local_batches > WARP_BATCH)
+    if (local_batches > WARP_BATCH) {
         local_batches = WARP_BATCH;
+    }
 
     // there might be multiple batches per warp. compute the index within the batch
     int local_idx = threadIdx.x;
@@ -197,8 +198,9 @@ __global__ void scaled_masked_softmax_warp_forward(
     output_t out[ELEMENTS_PER_LDG_STG];
     #pragma unroll
     for (int i = 0;  i < WARP_BATCH;  ++i) {
-        if (i >= local_batches)
+        if (i >= local_batches) {
             break;
+        }
         #pragma unroll
         for (int it = 0;  it < WARP_ITERATIONS;  it+=ELEMENTS_PER_LDG_STG) {
             int element_index = ELEMENTS_PER_LDG_STG * local_idx + it * WARP_SIZE;
