@@ -208,17 +208,6 @@ def initialize_model_parallel(
         if rank in ranks:
             _POSITION_EMBEDDING_GLOBAL_RANKS = position_embedding_ranks
 
-def get_rank_info() -> Tuple[int, int, int]:
-    """Returns a tuple of (data, tensor, pipeline, virtual pipeline)-parallel-rank for logger."""
-    if model_parallel_is_initialized():
-        return (
-            get_data_parallel_rank(),
-            get_tensor_model_parallel_rank(),
-            get_pipeline_model_parallel_rank(),
-            get_virtual_pipeline_model_parallel_rank(),
-        )
-    return (0, 0, 0, 0)
-
 
 def model_parallel_is_initialized():
     """Check if model and data parallel groups are initialized."""
@@ -367,18 +356,6 @@ def get_pipeline_model_parallel_rank():
     return torch.distributed.get_rank(group=get_pipeline_model_parallel_group())
 
 
-def get_pipeline_model_parallel_split_rank():
-    """Return my rank for the pipeline model parallel split rank."""
-    global _PIPELINE_MODEL_PARALLEL_SPLIT_RANK
-    return _PIPELINE_MODEL_PARALLEL_SPLIT_RANK
-
-
-def set_pipeline_model_parallel_split_rank(pipeline_model_parallel_split_rank: int):
-    """Set my rank for the pipeline model parallel split rank."""
-    global _PIPELINE_MODEL_PARALLEL_SPLIT_RANK
-    _PIPELINE_MODEL_PARALLEL_SPLIT_RANK = pipeline_model_parallel_split_rank
-
-
 def is_pipeline_first_stage(ignore_virtual=False):
     """Return True if in the first pipeline model-parallel stage, False otherwise."""
     if not ignore_virtual:
@@ -476,3 +453,30 @@ def destroy_model_parallel() -> None:
     _EMBEDDING_GROUP = None
     global _POSITION_EMBEDDING_GROUP
     _POSITION_EMBEDDING_GROUP = None
+
+
+# ################################################################################################
+# Utility functions unique to APEX
+# ################################################################################################
+def get_rank_info() -> Tuple[int, int, int, int]:
+    """Returns a tuple of (data, tensor, pipeline, virtual pipeline)-parallel-rank for logger."""
+    if model_parallel_is_initialized():
+        return (
+            get_data_parallel_rank(),
+            get_tensor_model_parallel_rank(),
+            get_pipeline_model_parallel_rank(),
+            get_virtual_pipeline_model_parallel_rank(),
+        )
+    return (0, 0, 0, 0)
+
+
+def get_pipeline_model_parallel_split_rank() -> Optional[Rank]:
+    """Return my rank for the pipeline model parallel split rank."""
+    global _PIPELINE_MODEL_PARALLEL_SPLIT_RANK
+    return _PIPELINE_MODEL_PARALLEL_SPLIT_RANK
+
+
+def set_pipeline_model_parallel_split_rank(pipeline_model_parallel_split_rank: Rank) -> None:
+    """Set my rank for the pipeline model parallel split rank."""
+    global _PIPELINE_MODEL_PARALLEL_SPLIT_RANK
+    _PIPELINE_MODEL_PARALLEL_SPLIT_RANK = pipeline_model_parallel_split_rank
