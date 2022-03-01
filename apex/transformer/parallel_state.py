@@ -209,41 +209,47 @@ def initialize_model_parallel(
             _POSITION_EMBEDDING_GLOBAL_RANKS = position_embedding_ranks
 
 
-def model_parallel_is_initialized():
+def model_parallel_is_initialized() -> bool:
     """Check if model and data parallel groups are initialized."""
     if _TENSOR_MODEL_PARALLEL_GROUP is None or _PIPELINE_MODEL_PARALLEL_GROUP is None or _DATA_PARALLEL_GROUP is None:
         return False
     return True
 
 
-def get_model_parallel_group():
+def get_model_parallel_group() -> TorchProcessGroup:
     """Get the model parallel group the caller rank belongs to."""
     assert _MODEL_PARALLEL_GROUP is not None, "model parallel group is not initialized"
     return _MODEL_PARALLEL_GROUP
 
 
-def get_tensor_model_parallel_group():
+def get_tensor_model_parallel_group() -> TorchProcessGroup:
     """Get the tensor model parallel group the caller rank belongs to."""
     assert _TENSOR_MODEL_PARALLEL_GROUP is not None, "intra_layer_model parallel group is not initialized"
     return _TENSOR_MODEL_PARALLEL_GROUP
 
 
-def get_pipeline_model_parallel_group():
+def get_pipeline_model_parallel_group() -> TorchProcessGroup:
     """Get the pipeline model parallel group the caller rank belongs to."""
     assert _PIPELINE_MODEL_PARALLEL_GROUP is not None, "pipeline_model parallel group is not initialized"
     return _PIPELINE_MODEL_PARALLEL_GROUP
 
 
-def get_data_parallel_group():
+def get_data_parallel_group() -> TorchProcessGroup:
     """Get the data parallel group the caller rank belongs to."""
     assert _DATA_PARALLEL_GROUP is not None, "data parallel group is not initialized"
     return _DATA_PARALLEL_GROUP
 
 
-def get_embedding_group():
+def get_embedding_group() -> TorchProcessGroup:
     """Get the embedding group the caller rank belongs to."""
     assert _EMBEDDING_GROUP is not None, "embedding group is not initialized"
     return _EMBEDDING_GROUP
+
+
+def get_position_embedding_group() -> TorchProcessGroup:
+    """Get the position embedding group the caller rank belongs to."""
+    assert _POSITION_EMBEDDING_GROUP is not None, "position embedding group is not initialized"
+    return _POSITION_EMBEDDING_GROUP
 
 
 def is_rank_in_embedding_group(ignore_virtual=False):
