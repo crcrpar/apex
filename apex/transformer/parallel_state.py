@@ -311,9 +311,31 @@ def get_pipeline_model_parallel_rank() -> Rank:
 # TODO (mkozuki): Port `get_num_layers` from Megatron-LM
 
 
-def is_rank_in_embedding_group(ignore_virtual=False):
+def is_pipeline_first_stage(ignore_virtual: bool = False) -> bool:
+    """Return True if in the first pipeline model-parallel stage, False otherwise."""
+    if not ignore_virtual:
+        if (
+            get_virtual_pipeline_model_parallel_world_size() is not None
+            and get_virtual_pipeline_model_parallel_rank() != 0
+        ):
+            return False
+    return get_pipeline_model_parallel_rank() == 0
+
+
+def is_pipeline_last_stage(ignore_virtual: bool = False) -> bool:
+    """Return True if in the last pipeline model-parallel stage, False otherwise."""
+    if not ignore_virtual:
+        virtual_pipeline_model_parallel_world_size = get_virtual_pipeline_model_parallel_world_size()
+        if virtual_pipeline_model_parallel_world_size is not None and get_virtual_pipeline_model_parallel_rank() != (
+            virtual_pipeline_model_parallel_world_size - 1
+        ):
+            return False
+    return get_pipeline_model_parallel_rank() == (get_pipeline_model_parallel_world_size() - 1)
+
+
+def is_rank_in_embedding_group(ignore_virtual: bool = False) -> bool:
     """Return true if current rank is in embedding group, False otherwise."""
-    rank = torch.distributed.get_rank()
+    rank = dist.get_rank()
     global _EMBEDDING_GLOBAL_RANKS
     if ignore_virtual:
         return rank in _EMBEDDING_GLOBAL_RANKS
@@ -327,7 +349,14 @@ def is_rank_in_embedding_group(ignore_virtual=False):
     return False
 
 
-def is_pipeline_stage_before_split(rank=None):
+def is_rank_in_position_embedding_group() -> bool:
+    """Return True if current rank is in position embedding group, False otherwise."""
+    rank = dist.get_rank()
+    global _POSITION_EMBEDDING_GLOBAL_RANKS
+    return rank in _POSITION_EMBEDDING_GLOBAL_RANKS
+
+
+def is_pipeline_stage_before_split(rank: Optional[Rank] = None) -> bool:
     """Return True if pipeline stage executes encoder block for a model
     with both encoder and decoder."""
     if get_pipeline_model_parallel_world_size() == 1:
@@ -342,7 +371,7 @@ def is_pipeline_stage_before_split(rank=None):
     return False
 
 
-def is_pipeline_stage_after_split(rank=None):
+def is_pipeline_stage_after_split(rank: Optional[Rank] = None) -> bool:
     """Return True if pipeline stage executes decoder block for a model
     with both encoder and decoder."""
     if get_pipeline_model_parallel_world_size() == 1:
@@ -357,7 +386,7 @@ def is_pipeline_stage_after_split(rank=None):
     return False
 
 
-def is_pipeline_stage_at_split():
+def is_pipeline_stage_at_split() -> bool:
     """Return true if pipeline stage executes decoder block and next
     stage executes encoder block for a model with both encoder and
     decoder."""
@@ -365,47 +394,25 @@ def is_pipeline_stage_at_split():
     return is_pipeline_stage_before_split(rank) and is_pipeline_stage_after_split(rank + 1)
 
 
-def is_pipeline_first_stage(ignore_virtual=False):
-    """Return True if in the first pipeline model-parallel stage, False otherwise."""
-    if not ignore_virtual:
-        if (
-            get_virtual_pipeline_model_parallel_world_size() is not None
-            and get_virtual_pipeline_model_parallel_rank() != 0
-        ):
-            return False
-    return get_pipeline_model_parallel_rank() == 0
-
-
-def is_pipeline_last_stage(ignore_virtual=False):
-    """Return True if in the last pipeline model-parallel stage, False otherwise."""
-    if not ignore_virtual:
-        virtual_pipeline_model_parallel_world_size = get_virtual_pipeline_model_parallel_world_size()
-        if virtual_pipeline_model_parallel_world_size is not None and get_virtual_pipeline_model_parallel_rank() != (
-            virtual_pipeline_model_parallel_world_size - 1
-        ):
-            return False
-    return get_pipeline_model_parallel_rank() == (get_pipeline_model_parallel_world_size() - 1)
-
-
-def get_virtual_pipeline_model_parallel_rank():
+def get_virtual_pipeline_model_parallel_rank() -> Optional[Rank]:
     """Return the virtual pipeline-parallel rank."""
     global _VIRTUAL_PIPELINE_MODEL_PARALLEL_RANK
     return _VIRTUAL_PIPELINE_MODEL_PARALLEL_RANK
 
 
-def set_virtual_pipeline_model_parallel_rank(rank):
+def set_virtual_pipeline_model_parallel_rank(rank: Rank) -> None:
     """Set the virtual pipeline-parallel rank."""
     global _VIRTUAL_PIPELINE_MODEL_PARALLEL_RANK
     _VIRTUAL_PIPELINE_MODEL_PARALLEL_RANK = rank
 
 
-def get_virtual_pipeline_model_parallel_world_size():
+def get_virtual_pipeline_model_parallel_world_size() -> Optional[WorldSize]:
     """Return the virtual pipeline-parallel world size."""
     global _VIRTUAL_PIPELINE_MODEL_PARALLEL_WORLD_SIZE
     return _VIRTUAL_PIPELINE_MODEL_PARALLEL_WORLD_SIZE
 
 
-def get_tensor_model_parallel_src_rank():
+def get_tensor_model_parallel_src_rank() -> Rank:
     """Calculate the global rank corresponding to the first local rank
     in the tensor model parallel group."""
     global_rank = torch.distributed.get_rank()
@@ -413,39 +420,39 @@ def get_tensor_model_parallel_src_rank():
     return (global_rank // local_world_size) * local_world_size
 
 
-def get_pipeline_model_parallel_first_rank():
+def get_pipeline_model_parallel_first_rank() -> Rank:
     assert _PIPELINE_GLOBAL_RANKS is not None, "Pipeline parallel group is not initialized"
     return _PIPELINE_GLOBAL_RANKS[0]
 
 
-def get_pipeline_model_parallel_last_rank():
+def get_pipeline_model_parallel_last_rank() -> Rank:
     assert _PIPELINE_GLOBAL_RANKS is not None, "Pipeline parallel group is not initialized"
     last_rank_local = get_pipeline_model_parallel_world_size() - 1
     return _PIPELINE_GLOBAL_RANKS[last_rank_local]
 
 
-def get_pipeline_model_parallel_next_rank():
+def get_pipeline_model_parallel_next_rank() -> Rank:
     assert _PIPELINE_GLOBAL_RANKS is not None, "Pipeline parallel group is not initialized"
     rank_in_pipeline = get_pipeline_model_parallel_rank()
     world_size = get_pipeline_model_parallel_world_size()
     return _PIPELINE_GLOBAL_RANKS[(rank_in_pipeline + 1) % world_size]
 
 
-def get_pipeline_model_parallel_prev_rank():
+def get_pipeline_model_parallel_prev_rank() -> Rank:
     assert _PIPELINE_GLOBAL_RANKS is not None, "Pipeline parallel group is not initialized"
     rank_in_pipeline = get_pipeline_model_parallel_rank()
     world_size = get_pipeline_model_parallel_world_size()
     return _PIPELINE_GLOBAL_RANKS[(rank_in_pipeline - 1) % world_size]
 
 
-def get_data_parallel_world_size():
+def get_data_parallel_world_size() -> WorldSize:
     """Return world size for the data parallel group."""
-    return torch.distributed.get_world_size(group=get_data_parallel_group())
+    return dist.get_world_size(group=get_data_parallel_group())
 
 
-def get_data_parallel_rank():
+def get_data_parallel_rank() -> Rank:
     """Return my rank for the data parallel group."""
-    return torch.distributed.get_rank(group=get_data_parallel_group())
+    return dist.get_rank(group=get_data_parallel_group())
 
 
 def destroy_model_parallel() -> None:
