@@ -462,7 +462,7 @@ def get_data_parallel_rank():
     return torch.distributed.get_rank(group=get_data_parallel_group())
 
 
-def destroy_model_parallel():
+def destroy_model_parallel() -> None:
     """Set the groups to none."""
     global _MODEL_PARALLEL_GROUP
     _MODEL_PARALLEL_GROUP = None
@@ -476,15 +476,3 @@ def destroy_model_parallel():
     _EMBEDDING_GROUP = None
     global _POSITION_EMBEDDING_GROUP
     _POSITION_EMBEDDING_GROUP = None
-    global _VIRTUAL_PIPELINE_MODEL_PARALLEL_RANK
-    _VIRTUAL_PIPELINE_MODEL_PARALLEL_RANK = None
-    global _VIRTUAL_PIPELINE_MODEL_PARALLEL_WORLD_SIZE
-    _VIRTUAL_PIPELINE_MODEL_PARALLEL_WORLD_SIZE = None
-    global _MPU_TENSOR_MODEL_PARALLEL_WORLD_SIZE
-    _MPU_TENSOR_MODEL_PARALLEL_WORLD_SIZE = None
-    global _MPU_PIPELINE_MODEL_PARALLEL_WORLD_SIZE
-    _MPU_PIPELINE_MODEL_PARALLEL_WORLD_SIZE = None
-    global _MPU_TENSOR_MODEL_PARALLEL_RANK
-    _MPU_TENSOR_MODEL_PARALLEL_RANK = None
-    global _MPU_PIPELINE_MODEL_PARALLEL_RANK
-    _MPU_PIPELINE_MODEL_PARALLEL_RANK = None
