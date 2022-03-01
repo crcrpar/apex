@@ -252,6 +252,65 @@ def get_position_embedding_group() -> TorchProcessGroup:
     return _POSITION_EMBEDDING_GROUP
 
 
+def set_tensor_model_parallel_world_size(world_size: WorldSize) -> None:
+    """Set the tensor model parallel size"""
+    global _MPU_TENSOR_MODEL_PARALLEL_WORLD_SIZE
+    _MPU_TENSOR_MODEL_PARALLEL_WORLD_SIZE = world_size
+
+
+def set_pipeline_model_parallel_world_size(world_size: WorldSize) -> None:
+    """Set the pipeline model parallel size"""
+    global _MPU_PIPELINE_MODEL_PARALLEL_WORLD_SIZE
+    _MPU_PIPELINE_MODEL_PARALLEL_WORLD_SIZE = world_size
+
+
+def get_tensor_model_parallel_world_size() -> WorldSize:
+    """Return world size for the tensor model parallel group."""
+    global _MPU_TENSOR_MODEL_PARALLEL_WORLD_SIZE
+    if _MPU_TENSOR_MODEL_PARALLEL_WORLD_SIZE is not None:
+        return _MPU_TENSOR_MODEL_PARALLEL_WORLD_SIZE
+    return dist.get_world_size(group=get_tensor_model_parallel_group())
+
+
+def get_pipeline_model_parallel_world_size() -> WorldSize:
+    """Return world size for the pipeline model parallel group."""
+    global _MPU_PIPELINE_MODEL_PARALLEL_WORLD_SIZE
+    if _MPU_PIPELINE_MODEL_PARALLEL_WORLD_SIZE is not None:
+        return _MPU_PIPELINE_MODEL_PARALLEL_WORLD_SIZE
+    return dist.get_world_size(group=get_pipeline_model_parallel_group())
+
+
+def set_tensor_model_parallel_rank(rank: Rank) -> None:
+    """Set tensor model parallel rank."""
+    global _MPU_TENSOR_MODEL_PARALLEL_RANK
+    _MPU_TENSOR_MODEL_PARALLEL_RANK = rank
+
+
+def set_pipeline_model_parallel_rank(rank: Rank) -> None:
+    """Set pipeline model parallel rank."""
+    global _MPU_PIPELINE_MODEL_PARALLEL_RANK
+    _MPU_PIPELINE_MODEL_PARALLEL_RANK = rank
+
+
+def get_tensor_model_parallel_rank() -> Rank:
+    """Return my rank for the tensor model parallel group."""
+    global _MPU_TENSOR_MODEL_PARALLEL_RANK
+    if _MPU_TENSOR_MODEL_PARALLEL_RANK is not None:
+        return _MPU_TENSOR_MODEL_PARALLEL_RANK
+    return dist.get_rank(group=get_tensor_model_parallel_group())
+
+
+def get_pipeline_model_parallel_rank() -> Rank:
+    """Return my rank for the pipeline model parallel group."""
+    global _MPU_PIPELINE_MODEL_PARALLEL_RANK
+    if _MPU_PIPELINE_MODEL_PARALLEL_RANK is not None:
+        return _MPU_PIPELINE_MODEL_PARALLEL_RANK
+    return dist.get_rank(group=get_pipeline_model_parallel_group())
+
+
+# TODO (mkozuki): Port `get_num_layers` from Megatron-LM
+
+
 def is_rank_in_embedding_group(ignore_virtual=False):
     """Return true if current rank is in embedding group, False otherwise."""
     rank = torch.distributed.get_rank()
@@ -304,62 +363,6 @@ def is_pipeline_stage_at_split():
     decoder."""
     rank = get_pipeline_model_parallel_rank()
     return is_pipeline_stage_before_split(rank) and is_pipeline_stage_after_split(rank + 1)
-
-
-def set_tensor_model_parallel_world_size(world_size):
-    """Set the tensor model parallel size"""
-    global _MPU_TENSOR_MODEL_PARALLEL_WORLD_SIZE
-    _MPU_TENSOR_MODEL_PARALLEL_WORLD_SIZE = world_size
-
-
-def set_pipeline_model_parallel_world_size(world_size):
-    """Set the pipeline model parallel size"""
-    global _MPU_PIPELINE_MODEL_PARALLEL_WORLD_SIZE
-    _MPU_PIPELINE_MODEL_PARALLEL_WORLD_SIZE = world_size
-
-
-def get_tensor_model_parallel_world_size():
-    """Return world size for the tensor model parallel group."""
-    global _MPU_TENSOR_MODEL_PARALLEL_WORLD_SIZE
-    if _MPU_TENSOR_MODEL_PARALLEL_WORLD_SIZE is not None:
-        return _MPU_TENSOR_MODEL_PARALLEL_WORLD_SIZE
-    return torch.distributed.get_world_size(group=get_tensor_model_parallel_group())
-
-
-def get_pipeline_model_parallel_world_size():
-    """Return world size for the pipeline model parallel group."""
-    global _MPU_PIPELINE_MODEL_PARALLEL_WORLD_SIZE
-    if _MPU_PIPELINE_MODEL_PARALLEL_WORLD_SIZE is not None:
-        return _MPU_PIPELINE_MODEL_PARALLEL_WORLD_SIZE
-    return torch.distributed.get_world_size(group=get_pipeline_model_parallel_group())
-
-
-def set_tensor_model_parallel_rank(rank):
-    """Set tensor model parallel rank."""
-    global _MPU_TENSOR_MODEL_PARALLEL_RANK
-    _MPU_TENSOR_MODEL_PARALLEL_RANK = rank
-
-
-def set_pipeline_model_parallel_rank(rank):
-    """Set pipeline model parallel rank."""
-    global _MPU_PIPELINE_MODEL_PARALLEL_RANK
-    _MPU_PIPELINE_MODEL_PARALLEL_RANK = rank
-
-
-def get_tensor_model_parallel_rank():
-    """Return my rank for the tensor model parallel group."""
-    global _MPU_TENSOR_MODEL_PARALLEL_RANK
-    if _MPU_TENSOR_MODEL_PARALLEL_RANK is not None:
-        return _MPU_TENSOR_MODEL_PARALLEL_RANK
-    return torch.distributed.get_rank(group=get_tensor_model_parallel_group())
-
-
-def get_pipeline_model_parallel_rank():
-    """Return my rank for the pipeline model parallel group."""
-    global _MPU_PIPELINE_MODEL_PARALLEL_RANK
-    if _MPU_PIPELINE_MODEL_PARALLEL_RANK is not None:
-        return _MPU_PIPELINE_MODEL_PARALLEL_RANK
-    return torch.distributed.get_rank(group=get_pipeline_model_parallel_group())
 
 
 def is_pipeline_first_stage(ignore_virtual=False):
