@@ -46,9 +46,10 @@ except ImportError:
     # `--cpp_ext` and `--cuda_ext`. The example installation command is as follows:
     # `pip install --global-option="--cpp_ext" --global-option="--cuda_ext ."
     # at the root of APEX repository.
-    _logger.warning(
+    import warnings
+    warnings.warn(
         "`fused_weight_gradient_mlp_cuda` module not found. "
-        "gradient accumulation fusion with weight gradient computation disabled."
+        "gradient accumulation fusion with weight gradient in ColumnParallelLInear will not be available.",
     )
 else:
     _grad_accum_fusion_available = True

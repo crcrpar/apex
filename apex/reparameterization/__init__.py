@@ -1,5 +1,11 @@
+import warnings
+
 from .weight_norm import WeightNorm
 from .reparameterization import Reparameterization
+
+
+warnings.warn("apex.reperameterization module has been deprecated and will be removed by the end of July, 2022.")
+
 
 def apply_weight_norm(module, name='', dim=0, hook_child=True):
     r"""
