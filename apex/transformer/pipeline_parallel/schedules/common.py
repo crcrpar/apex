@@ -1,4 +1,5 @@
 from typing import Any, Callable, Dict, List, Tuple, Union, Optional, Sequence
+import warnings
 
 import torch
 from torch.autograd.variable import Variable
@@ -196,7 +197,8 @@ def _get_params_for_weight_decay_optimization(
 
 
 def free_output_tensor(
-    output_tensors: Optional[Union[torch.Tensor, Sequence[torch.Tensor]]],
+    output_tensors: Optional[Union[torch.Tensor, Sequence[torch.Tensor]]] = None,
+    out: Optional[torch.Tensor] = None,
     deallocate_pipeline_outputs: bool = False,
 ) -> None:
     """Pseudo-free the output tensor's `.data` field.
@@ -207,35 +209,60 @@ def free_output_tensor(
     """
     if not deallocate_pipeline_outputs:
         return
-    if output_tensors is None:
+    warnings.warn("This feature could cause an unexpected behavior as this modifies `out`'s `data` attribute.")
+    if output_tensors is not None and out is not None:
+        msg = "Both `output_tensors` and `out` are specified. Should specify `out` only"
+        _logger.error(msg)
+        raise RuntimeError(msg)
+    if output_tensors is not None and out is None:
+        out = output_tensors
+    if not isinstance(out, torch.Tensor):
+        msg = f"expected `torch.Tensor`, but {type(out)}"
+        _logger.error(msg)
+        raise RuntimeError(msg)
+    if out._base is not None:
+        msg = f"counter-productive to free a view of another tensor"
+        _logger.error(msg)
+        raise RuntimeError(msg)
+    out.data = torch.empty((1,), device=out.device, dtype=out.dtype)
+
+
+def deallocate_output_tensor(
+    out: Optional[torch.Tensor] = None,
+    deallocate_pipeline_outputs: bool = False,
+) -> None:
+    if not deallocate_pipeline_outputs:
         return
-    if isinstance(output_tensors, torch.Tensor):
-        output_tensors = [output_tensors]
-    for output_tensor in output_tensors:
-        output_tensor.data = torch.cuda.FloatTensor([0])
+    free_output_tensor(output_tensors=None, out=out, deallocate_pipeline_outputs=deallocate_pipeline_outputs)
 
 
-def custom_backward(output: torch.Tensor, grad_output: Optional[torch.Tensor]) -> None:
+def custom_backward(
+    output: torch.Tensor,
+    grad_output: Optional[torch.Tensor],
+) -> None:
     """Directly call C++ autograd engine.
 
-    To make the `free_output_tensor` optimization work, the C++ autograd engine must be called
+    To make `deallocate_output_tensor`, previously known as `free_output_tensor` work, the C++ autograd engine must be called
     directly, bypassing PyTorch's `torch.autograd.backward`. PyTorch's `backward` checks that the
     output and grad have the same shape, while C++ `backward` does not.
     """
-    assert (
-        output.numel() == 1
-    ), "output should be pseudo-freed in schedule, to optimize memory consumption"
-    assert isinstance(output, torch.Tensor), "output == {}.".format(
-        type(output).__name__
-    )
-    assert isinstance(
-        grad_output, (torch.Tensor, type(None))
-    ), "grad_outptu == {}.".format(type(grad_output).__name__)
+    if output.numel() != 1:
+        _logger.error("output should be pseudo-freed in schedule, to optimize memory consumption") 
+        raise RuntimeError("output should be pseudo-freed in schedule, to optimize memory consumption")
+    if not isinstance(output, torch.Tensor):
+        msg = f"expected `output` to be torch.Tensor, but {type(output)}"
+        _logger.error(msg)
+        raise RuntimeError(msg)
+    if (not isinstance(grad_output, torch.Tensor)) and (grad_output is not None):
+        msg = f"expected `grad_output` to be torch.Tensor or None, but {type(grad_output)}"
+        _logger.error(msg)
+        raise RuntimeError(msg)
 
-    # Handle scalar output
-    if grad_output is None:
-        assert output.numel() == 1, "Implicit grad requires scalar output."
-        grad_output = torch.ones_like(output, memory_format=torch.preserve_format)
+    # n.b. (mkozuki): As this function first asserts `output.numel() == 1`
+    #                 the following check and the above seem contradicting.
+    # if grad_output is None:
+    #     assert output.numel() == 1, "Implicit grad requires scalar output."
+    #     grad_output = torch.ones_like(output, memory_format=torch.preserve_format)
 
     # Call C++ engine [ see torch/csrc/autograd/python_engine.cpp ]
     Variable._execution_engine.run_backward(

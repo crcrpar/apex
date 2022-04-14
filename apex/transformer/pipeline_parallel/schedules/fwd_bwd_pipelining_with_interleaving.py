@@ -8,21 +8,24 @@ from apex.transformer.pipeline_parallel.schedules.common import Batch
 from apex.transformer.pipeline_parallel.schedules.common import FwdStepFunc
 from apex.transformer.pipeline_parallel.schedules.common import backward_step
 from apex.transformer.pipeline_parallel.schedules.common import forward_step
-from apex.transformer.pipeline_parallel.schedules.common import free_output_tensor
+from apex.transformer.pipeline_parallel.schedules.common import deallocate_output_tensor
 from apex.transformer.pipeline_parallel.utils import get_kth_microbatch
 from apex.transformer.pipeline_parallel.utils import get_num_microbatches
 from apex.transformer.pipeline_parallel.utils import get_model_type
 from apex.transformer.log_util import get_transformer_logger
 
 
-__all__ = ["_forward_backward_pipelining_with_interleaving"]
+__all__ = [
+    "forward_backward_pipelining_with_interleaving",
+    "_forward_backward_pipelining_with_interleaving",
+]
 
 
 _logger = get_transformer_logger(__name__)
 
 
 # TODO(mkozuki): Reduce cyclomatic complexity
-def _forward_backward_pipelining_with_interleaving(
+def forward_backward_pipelining_with_interleaving(
     forward_step_func: FwdStepFunc,
     batch: List[Optional[Batch]],
     model: List[torch.nn.Module],
@@ -250,8 +253,8 @@ def _forward_backward_pipelining_with_interleaving(
                 tensor_shape=tensor_shape,
                 dtype=dtype,
             )
-        free_output_tensor(output_tensor, deallocate_pipeline_outputs)
         input_tensors[next_forward_model_chunk_id].append(input_tensor)
+        deallocate_output_tensor(out=output_tensor, deallocate_pipeline_outputs=deallocate_pipeline_outputs)
 
     ###################################################################################################################
     # Run 1F1B in steady state.
@@ -333,7 +336,7 @@ def _forward_backward_pipelining_with_interleaving(
             tensor_shape=tensor_shape,
             dtype=dtype,
         )
-        free_output_tensor(output_tensor, deallocate_pipeline_outputs)
+        deallocate_output_tensor(out=output_tensor, deallocate_pipeline_outputs=deallocate_pipeline_outputs)
 
         # Put input_tensor and output_tensor_grad in data structures in the
         # right location.
@@ -373,3 +376,6 @@ def _forward_backward_pipelining_with_interleaving(
             )
 
     return losses_reduced
+
+
+_forward_backward_pipelining_with_interleaving = forward_backward_pipelining_with_interleaving
