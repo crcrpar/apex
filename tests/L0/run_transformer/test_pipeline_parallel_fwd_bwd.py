@@ -48,7 +48,9 @@ def get_init_weights_func(offset: int = 0):
     return init_weights
 
 
-def get_target_loss_and_model(global_batch_shape: tuple, hidden_size: int, total_layers: int) -> Tuple[float, List[torch.nn.Module]]: 
+def get_target_loss_and_model(
+    global_batch_shape: tuple, hidden_size: int, total_layers: int,
+) -> Tuple[torch.Tensor, List[torch.Tensor]]:
     model = []
     data = torch.ones(global_batch_shape, dtype=torch.double)
     for i in range(total_layers):
@@ -158,7 +160,7 @@ class PipelineParallelForwardBackwardTestBase:
                 hidden_size=self.HIDDEN_SIZE,
             )
 
-            
+
             offset = pipeline_model_parallel_world_size if virtual_pipeline_model_parallel_size is not None else 0
             for idx, model_module in enumerate(model):
                 model_module = model_module.to(dtype)
@@ -168,7 +170,7 @@ class PipelineParallelForwardBackwardTestBase:
             optimizer = torch.optim.Adam(_param_groups, lr=1e-3)
 
             pp_utils.update_num_microbatches(0)
-            
+
             loss = fwd_bwd_func(
                 testing_utils.fwd_step_func,
                 batch,
