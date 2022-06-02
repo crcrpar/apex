@@ -225,17 +225,11 @@ class _ScatterToSequenceParallelRegion(torch.autograd.Function):
 
     @staticmethod
     def forward(ctx, input_):
-        _logger.debug("Scatter to Sequence Parallel Region Forward -- Start")
-        ret = _split_along_first_dim(input_)
-        _logger.debug("Scatter to Sequence Parallel Region Forward -- Finish")
-        return ret
+        return _split_along_first_dim(input_)
 
     @staticmethod
     def backward(ctx, grad_output):
-        _logger.debug("Scatter to Sequence Parallel Region Backward -- Start")
-        ret = _gather_along_first_dim(grad_output)
-        _logger.debug("Scatter to Sequence Parallel Region Backward -- Finish")
-        return ret
+        return _gather_along_first_dim(grad_output)
 
 
 class _GatherFromSequenceParallelRegion(torch.autograd.Function):
@@ -249,21 +243,15 @@ class _GatherFromSequenceParallelRegion(torch.autograd.Function):
 
     @staticmethod
     def forward(ctx, input_, to_model_parallel: bool = True):
-        _logger.debug("Gather from Sequence Parallel Region Forward -- Start")
         ctx.to_model_parallel = to_model_parallel
-        ret = _gather_along_first_dim(input_)
-        _logger.debug("Gather from Sequence Parallel Region Forward -- Finish")
-        return ret
+        return _gather_along_first_dim(input_)
 
     @staticmethod
     def backward(ctx, grad_output):
-        _logger.debug("Gather from Sequence Parallel Region Backward -- Start")
         if ctx.to_model_parallel:
-            ret = _reduce_scatter_along_first_dim(grad_output), None
+            return _reduce_scatter_along_first_dim(grad_output), None
         else:
-            ret = _split_along_first_dim(grad_output), None
-        _logger.debug("Gather from Sequence Parallel Region Backward -- Finish")
-        return ret
+            return _split_along_first_dim(grad_output), None
 
 
 class _ReduceScatterToSequenceParallelRegion(torch.autograd.Function):
