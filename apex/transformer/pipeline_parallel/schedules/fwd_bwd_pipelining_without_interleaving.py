@@ -324,7 +324,7 @@ def forward_backward_pipelining_without_interleaving(
     ###################################################################################################################
     _logger.info("Warmup")
     for i in range(num_warmup_microbatches):
-        _logger.debug(f"warmup iter: {i} / {num_warmup_microbatches}")
+        _logger.info(f"warmup iter: {i} / {num_warmup_microbatches}")
         _logger.debug("receive fwd")
         input_tensor = recv_forward(
             tensor_shapes=recv_tensor_shapes,
@@ -368,7 +368,7 @@ def forward_backward_pipelining_without_interleaving(
     ###################################################################################################################
     _logger.info("Steady phase")
     for i in range(num_microbatches_remaining):
-        _logger.debug(f"steady iter: {i} / {num_microbatches_remaining}")
+        _logger.info(f"steady iter: {i} / {num_microbatches_remaining}")
         last_iteration: bool = i == (num_microbatches_remaining - 1)
 
         cur_microbatch: Optional[torch.Tensor] = get_kth_microbatch(batch, i + num_warmup_microbatches)

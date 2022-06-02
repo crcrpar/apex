@@ -319,6 +319,7 @@ class LinearWithGradAccumulationAndAsyncCommunication(torch.autograd.Function):
     def backward(ctx, grad_output):
         input, weight = ctx.saved_tensors
         use_bias = ctx.use_bias
+        _logger.debug(f"input.shape, weight.shape = {input.shape, weight.shape}")
 
         if ctx.sequence_parallel_enabled:
             world_size = get_tensor_model_parallel_world_size()
@@ -353,6 +354,7 @@ class LinearWithGradAccumulationAndAsyncCommunication(torch.autograd.Function):
             grad_output.shape[0] * grad_output.shape[1], grad_output.shape[2]
         )
         total_input = total_input.view(total_input.shape[0] * total_input.shape[1], total_input.shape[2])
+        _logger.debug(f"grad_output.shape, total_input.shape = {grad_output.shape, total_input.shape}")
         if ctx.async_grad_allreduce:
             # Asynchronous all-reduce
             handle = torch.distributed.all_reduce(
@@ -390,6 +392,7 @@ class LinearWithGradAccumulationAndAsyncCommunication(torch.autograd.Function):
         grad_bias = grad_output.sum(dim=0) if use_bias else None
         if ctx.sequence_parallel_enabled:
             handle.wait()
+            _logger.debug(f"sub_grad_input.shape, grad_weight.shape = {sub_grad_input.shape}, {grad_weight.shape}")
             return sub_grad_input, grad_weight, grad_bias, None, None, None, None
         if ctx.async_grad_allreduce:
             handle.wait()

@@ -183,10 +183,11 @@ def _communicate(
     dtype = params_dtype or torch.float
     if fp32_residual_connection:
         dtype = torch.float
-    requires_grad = True
     if dtype_ is not None:
         dtype = dtype_
         requires_grad = False
+    # NOTE(mkozuki): Tentatively overriding dtype-requires_grad logic/cargo cult during debugging a hang in NeMo Megatron, pipeline parallel with sequence parallel.
+    requires_grad = True
 
     if recv_prev:
         tensor_recv_prev = torch.empty(

@@ -384,6 +384,11 @@ def backward_step(
         input_tensor_grad = []
         for x in input_tensor:
             input_tensor_grad.append(None if x is None else x.grad)
+    if parallel_state.is_pipeline_last_stage():
+        is_tensor_ = [isinstance(x, torch.Tensor) for x in input_tensor_grad]
+        _logger.info(f"input_tensor_grad is torch.Tensor? {[isinstance(x, torch.Tensor) for x in input_tensor_grad]}")
+        if not any(is_tensor_):
+            raise RuntimeError("None of input_tensor_grad (= x.grad) is torch.Tensor")
 
     # Handle single skip connection if it exists (encoder_hidden_state in model with encoder and decoder).
     if (
