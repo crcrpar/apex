@@ -185,7 +185,7 @@ def _communicate(
         dtype = torch.float
     if dtype_ is not None:
         dtype = dtype_
-        requires_grad = False
+        # requires_grad = False
     # NOTE(mkozuki): Tentatively overriding dtype-requires_grad logic/cargo cult during debugging a hang in NeMo Megatron, pipeline parallel with sequence parallel.
     requires_grad = True
 

@@ -362,6 +362,11 @@ def forward_backward_pipelining_without_interleaving(
     if num_microbatches_remaining > 0:
         _logger.debug("recv_forward before steady state start")
         input_tensor: List[Union[None, torch.Tensor, FutureTensor]] = recv_forward(tensor_shapes=recv_tensor_shapes, dtype=dtype, async_comm=async_comm)
+        if parallel_state.is_pipeline_last_stage():
+            is_tensor_ = [isinstance(x, torch.Tensor) for x in input_tensor]
+            _logger.info(f"input_tensor is torch.Tensor? {is_tensor_}")
+            if not any(is_tensor_):
+                raise RuntimeError("None of input_tensor (= x.grad) is torch.Tensor")
 
     ###################################################################################################################
     # Run 1F1B in steady state.
