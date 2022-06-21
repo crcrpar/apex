@@ -106,6 +106,8 @@ class PipelineParallelForwardBackwardTestBase:
         *,
         default_backend: Optional[str] = None,
         p2p_backend: Optional[str] = None,
+        disable_chunk_to_optimize_p2p: bool = False,
+        force_chunk_to_optimize_p2p: bool = False,
     ) -> None:
         if fwd_bwd_func == _forward_backward_pipelining_with_interleaving:
             self.assertIsNotNone(virtual_pipeline_model_parallel_size)
@@ -185,6 +187,8 @@ class PipelineParallelForwardBackwardTestBase:
                 async_comm=async_comm,
                 grad_scaler=grad_scaler,
                 deallocate_pipeline_output=deallocate_pipeline_outputs,
+                disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
+                force_chunk_to_optimize_p2p=force_chunk_to_optimize_p2p,
             )
 
             if dtype == torch.double:
@@ -335,6 +339,8 @@ class NcclPipelineParallelWithToyParallelMLP(NcclDistributedTestBase):
         sequence_parallel_enabled: bool,
         model_type: ModelType,
         dtype: torch.dtype = torch.float32,
+        disable_chunk_to_optimize_p2p: bool = False,
+        force_chunk_to_optimize_p2p: bool = False,
     ) -> None:
         # N.B.(mkozuki): It might be better to set `tensor_model_parallel_size` to >1
         # if `self.world_size > 5`. Otherwise, `pipeline_model_parallel_split_rank`
@@ -399,6 +405,8 @@ class NcclPipelineParallelWithToyParallelMLP(NcclDistributedTestBase):
             deallocate_pipeline_outputs=False,
             dtype=dtype,
             sequence_parallel_enabled=sequence_parallel_enabled,
+            disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
+            force_chunk_to_optimize_p2p=force_chunk_to_optimize_p2p,
         )
 
     def test_pipelining_without_interleaving_encoder_and_decoder(self) -> None:
