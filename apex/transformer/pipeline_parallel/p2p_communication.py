@@ -109,16 +109,6 @@ def _communicate(
 ) -> Tuple[Union[torch.Tensor, FutureTensor, None], Union[torch.Tensor, FutureTensor, None]]:
     """Base function for communication of tensors between stages.
 
-
-    .. note::
-        Reference https://gitlab-master.nvidia.com/ADLR/megatron-lm/-/blob/cfd2e2160700b7f2c1bf35298ac14bc341f4c759/megatron/p2p_communication.py#L24-L159
-
-    dtype logic: If none of ``dtype_``, ``params_dtype``, ``fp32_residual_connection`` is specified,
-    torch.float32 is used.
-
-    See https://github.com/NVIDIA/Megatron-LM/blob/d41696840ed0a7edb7e0499eb82a48ae112d9bb3/megatron/arguments.py#L145-L159
-    for the details of arguments of ``dtype_``, ``params_dtype``, ``fp32_residual_connection``.
-
     Args:
         tensor_send_next: tensor to send to next rank (no tensor sent if set to None).
         tensor_send_prev: tensor to send to prev rank (no tensor sent if set to None).
@@ -177,7 +167,7 @@ def _communicate(
             tensor_send_prev = split_tensor_into_1d_equal_chunks(tensor_send_prev)
 
     # Send tensors in both the forward and backward directions as appropriate.
-    _, tensor_recv_prev_req, _, tensor_recv_next_req = _run_p2pops(tensor_send_prev, tensor_send_next, tensor_recv_prev, tensor_recv_next, async_comm=async_comm)
+    tensor_send_prev_req, tensor_recv_prev_req, tensor_send_next_req, tensor_recv_next_req = _run_p2pops(tensor_send_prev, tensor_send_next, tensor_recv_prev, tensor_recv_next, async_comm=async_comm)
 
     if async_comm:
         tensor_recv_prev_waitfunc = None
@@ -253,8 +243,9 @@ def log_wrapper(func):
     def wrapper(*args, **kwargs):
 
         _logger.debug(f"[{name}] start")
-        func(*args, **kwargs)
+        ret = func(*args, **kwargs)
         _logger.debug(f"[{name}] done")
+        return ret
 
     return wrapper
 
@@ -347,7 +338,7 @@ def send_backward(
         recv_prev=False,
         recv_next=False,
         tensor_shape=tensor_shape,
-        dtype_=dtype,
+        dtype=dtype,
         async_comm=async_comm,
         disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
     )
