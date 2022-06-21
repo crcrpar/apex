@@ -35,6 +35,8 @@ def _forward_backward_pipelining_with_interleaving(
     disable_autocast: bool = False,
     deallocate_pipeline_outputs: bool = False,
     sequence_parallel_enabled: bool = False,
+    disable_chunk_to_optimize_p2p: bool = False,
+    force_chunk_to_optimize_p2p: bool = False,
     **kwargs,
 ) -> List[Union[torch.Tensor, Sequence[torch.Tensor]]]:
     """Run interleaved 1F1B schedule with communication between pipeline stages as needed.
@@ -81,6 +83,10 @@ def _forward_backward_pipelining_with_interleaving(
             "`deallocate_pipeline_outputs` is experimental and subject to change. "
             "This option is not recommended."
         )
+
+    disable_chunk_to_optimize_p2p = disable_chunk_to_optimize_p2p and not sequence_parallel_enabled
+    if force_chunk_to_optimize_p2p:
+        disable_chunk_to_optimize_p2p = True
 
     # mypy will blame the following if statement
     if sequence_parallel_enabled:
@@ -218,7 +224,8 @@ def _forward_backward_pipelining_with_interleaving(
         p2p_communication.recv_forward(
             tensor_shape=tensor_shape,
             dtype=dtype,
-            sequence_parallel_enabled=sequence_parallel_enabled,
+            async_comm=False,
+            disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
         )
     )
     _logger.info("Warmup phase")
@@ -265,7 +272,8 @@ def _forward_backward_pipelining_with_interleaving(
                 recv_next=recv_next,
                 tensor_shape=tensor_shape,
                 dtype=dtype,
-                sequence_parallel_enabled=sequence_parallel_enabled,
+                async_comm=False,
+                disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
             )
             output_tensor_grads[num_model_chunks - 1].append(output_tensor_grad)
         else:
@@ -275,7 +283,8 @@ def _forward_backward_pipelining_with_interleaving(
                 recv_prev=recv_prev,
                 tensor_shape=tensor_shape,
                 dtype=dtype,
-                sequence_parallel_enabled=sequence_parallel_enabled,
+                async_comm=False,
+                disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
             )
         input_tensors[next_forward_model_chunk_id].append(input_tensor)
         free_output_tensor(output_tensor, deallocate_pipeline_outputs)
@@ -359,7 +368,8 @@ def _forward_backward_pipelining_with_interleaving(
             recv_next=recv_next,
             tensor_shape=tensor_shape,
             dtype=dtype,
-            sequence_parallel_enabled=sequence_parallel_enabled,
+            async_comm=False,
+            disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
         )
         free_output_tensor(output_tensor, deallocate_pipeline_outputs)
 
@@ -380,7 +390,8 @@ def _forward_backward_pipelining_with_interleaving(
                 p2p_communication.recv_backward(
                     tensor_shape=tensor_shape,
                     dtype=dtype,
-                    sequence_parallel_enabled=sequence_parallel_enabled,
+                    async_comm=False,
+                    disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
                 )
             )
         for k in range(num_microbatches_remaining, num_microbatches):
@@ -401,7 +412,8 @@ def _forward_backward_pipelining_with_interleaving(
                     recv_next=recv_next,
                     tensor_shape=tensor_shape,
                     dtype=dtype,
-                    sequence_parallel_enabled=sequence_parallel_enabled,
+                    async_comm=False,
+                    disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
                 )
             )
 

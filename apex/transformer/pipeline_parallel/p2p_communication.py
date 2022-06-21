@@ -25,18 +25,17 @@ from apex.transformer.log_util import get_transformer_logger
 from apex.transformer.utils import split_tensor_into_1d_equal_chunks
 from apex.transformer.utils import gather_split_1d_tensor
 from apex.transformer.pipeline_parallel.utils import Shape
-from apex.transformer.pipeline_parallel._timers import _Timers
 
 
 _logger = get_transformer_logger(__name__)
 
 
 class FutureTensor:
-    def __init__(self, tensor: torch.Tensor, waitfunc):
+    def __init__(self, tensor: torch.Tensor, waitfunc) -> None:
         self.tensor = tensor
         self.waitfunc = waitfunc
 
-    def get(self):
+    def get(self) -> torch.Tensor:
         if self.waitfunc is not None:
             res = self.waitfunc()
             if isinstance(res, torch.Tensor):
@@ -97,25 +96,16 @@ def _run_p2pops(
     return (None, None, None, None)
 
 
-# TODO(mkozuki): Check if it's possible to sunset `override_scatter_gather_tensors_in_pipeline`.
-# TODO(mkozuki): Think about if it's possible to push some logic and arguments e.g.
-# `scatter_gather_tensors_in_pipeline`, `sequence_parallel_enabled`, and
-# `override_scatter_gather_tensors_in_pipeline` # to the user of
-# apex.transformer forward_backwardfunctions.
 def _communicate(
     tensor_send_next: Optional[torch.Tensor],
     tensor_send_prev: Optional[torch.Tensor],
     recv_prev: bool,
     recv_next: bool,
     tensor_shape: Optional[Shape] = None,
-    override_scatter_gather_tensors_in_pipeline: bool = False,
-    dtype_: Optional[torch.dtype] = None,
+    dtype: Optional[torch.dtype] = None,
     *,
-    scatter_gather_tensors_in_pipeline: bool = True,
-    params_dtype: Optional[torch.dtype] = None,
-    fp32_residual_connection: bool = False,
     async_comm: bool = False,
-    sequence_parallel_enabled: bool = False,
+    disable_chunk_to_optimize_p2p: bool = False,
 ) -> Tuple[Union[torch.Tensor, FutureTensor, None], Union[torch.Tensor, FutureTensor, None]]:
     """Base function for communication of tensors between stages.
 
@@ -154,13 +144,6 @@ def _communicate(
         - tensor_recv_prev: `torch.Tensor` if `recv_prev` is :obj:`True`, `None` otherwise.
         - tensor_recv_next: `torch.Tensor` if `recv_next` is :obj:`True`, `None` otherwise.
     """
-    if async_comm and sequence_parallel_enabled:
-        import warnings  # NOQA
-        class ExperimentalWarning(UserWarning): pass  # NOQA
-        warnings.warn(
-            "The combination of `async_comm` and `sequence_parallel_enabled` is not well tested.",
-            ExperimentalWarning,
-        )
     # Create placeholder tensors for receive in forward and backward directions if needed.
     tensor_recv_prev = None
     tensor_recv_next = None
@@ -170,43 +153,13 @@ def _communicate(
             "`tensor_shape` must be specified. Common `tensor_shape` is `(seq_length, micro_batch_size, hidden_size)`")
 
     tensor_parallel_size = parallel_state.get_tensor_model_parallel_world_size()
-    override_scatter_gather_tensors_in_pipeline_ = False
-    # TODO(mkozuki): Demystify hardcode False of `scatter_gather_tensors_in_pipeline` and add a testcase if possible.
-    # NOTE(mkozuki): This is super strange and doesn't make sense to me. I have no idea what is happening here.
-    # However, I can say that this hardcoding override is necessary for sequence parallel in nemo megatron to work.
-    # I've not managed to reproduce the hang using standalone GPT with sequence parallel.
-    # The hang in NeMo Megatron happens in the 3rd iteration, the last iteration of stead phase inside
-    # forward_backward_pipelining_without_interleaving, pipeline parallel rank of 0 (tensor model parallel world
-    # size of 2 and pipeline model parallel world size of 2). The commit then of APEX and NeMo were
-    # https://github.com/NVIDIA/apex/pull/1396/commits/3060c98dd8ba42abf7702ea9d2cff0f39ea74f45 and
-    # https://github.com/NVIDIA/NeMo/pull/4232/commits/1cb32dfca2ab9b20f53ebdb84476c34cb42f0205.
-    # The PyTorch version was 1.13.0a0+git2d354cd, for what is worth.
-    # Currently, indiscriminately this is set to `False`, which can lead to an unexpected performance regression
-    # for non sequence parallel case.
-    scatter_gather_tensors_in_pipeline = False
-    if scatter_gather_tensors_in_pipeline and not sequence_parallel_enabled:
-        tensor_chunk_size = int(reduce(operator.mul, tensor_shape, 1))
-        if tensor_chunk_size % tensor_parallel_size == 0:
-            tensor_chunk_shape = [tensor_chunk_size // tensor_parallel_size]
-        else:
-            tensor_chunk_shape = tensor_shape
-            override_scatter_gather_tensors_in_pipeline_ = True
+    tensor_chunk_size = int(reduce(operator.mul, tensor_shape, 1))
+    split_tensors_to_optimize_p2p = (not disable_chunk_to_optimize_p2p) and (tensor_chunk_size % tensor_parallel_size == 0)
+    if split_tensors_to_optimize_p2p:
+        tensor_chunk_shape = [tensor_chunk_size // tensor_parallel_size]
     else:
         tensor_chunk_shape = tensor_shape
-
-    # The dtype logic below is copied from NVIDIA/Megatron-LM repo:
-    # https://github.com/NVIDIA/Megatron-LM/blob/d41696840ed0a7edb7e0499eb82a48ae112d9bb3/megatron/p2p_communication.py#L74-L81
-    dtype = params_dtype or torch.float
-    if fp32_residual_connection:
-        dtype = torch.float
     requires_grad = True
-    if dtype_ is not None:
-        dtype = dtype_
-        # TODO(mkozuki): Figure out why this logic of requires_grad isn't working
-        # when sequence_parallel_enabled=True. Otherwise, `x.retain_grad()` of
-        # https://github.com/crcrpar/apex/blob/069832078a652b4bd8a99db84faf953a81415ab3/apex/transformer/pipeline_parallel/schedules/common.py#L360
-        # fails.
-        # requires_grad = False
 
     if recv_prev:
         tensor_recv_prev = torch.empty(
@@ -223,21 +176,14 @@ def _communicate(
             dtype=dtype,
         )
 
-    # Split tensor into smaller chunks if using scatter-gather optimization.
-    scatter_gather_optimization_doable = (
-        not override_scatter_gather_tensors_in_pipeline_
-        and scatter_gather_tensors_in_pipeline
-        and not sequence_parallel_enabled
-    )
-    if scatter_gather_optimization_doable:
+    if split_tensors_to_optimize_p2p:
         if tensor_send_next is not None:
             tensor_send_next = split_tensor_into_1d_equal_chunks(tensor_send_next)
-
         if tensor_send_prev is not None:
             tensor_send_prev = split_tensor_into_1d_equal_chunks(tensor_send_prev)
 
     # Send tensors in both the forward and backward directions as appropriate.
-    tensor_send_prev_req, tensor_recv_prev_req, tensor_send_next_req, tensor_recv_next_req = _run_p2pops(tensor_send_prev, tensor_send_next, tensor_recv_prev, tensor_recv_next, async_comm=async_comm)
+    _, tensor_recv_prev_req, _, tensor_recv_next_req = _run_p2pops(tensor_send_prev, tensor_send_next, tensor_recv_prev, tensor_recv_next, async_comm=async_comm)
 
     if async_comm:
         tensor_recv_prev_waitfunc = None
@@ -259,7 +205,7 @@ def _communicate(
         torch.cuda.synchronize()
 
     # If using scatter-gather optimization, gather smaller chunks.
-    if scatter_gather_optimization_doable:
+    if split_tensors_to_optimize_p2p:
         if not async_comm:
             if recv_prev:
                 tensor_recv_prev = (
@@ -306,92 +252,88 @@ def _communicate(
     return tensor_recv_prev, tensor_recv_next
 
 
+def log_wrapper(func):
+
+    name = func.__name__
+
+    def wrapper(*args, **kwargs):
+
+        _logger.debug(f"[{name}] start")
+        func(*args, **kwargs)
+        _logger.debug(f"[{name}] done")
+
+    return wrapper
+
+
+@log_wrapper
 def recv_forward(
     tensor_shape: Shape,
-    override_scatter_gather_tensors_in_pipeline: bool = False,
     *,
     dtype: Optional[torch.dtype] = None,
     async_comm: bool = False,
-    sequence_parallel_enabled: bool = False,
-    timers: _Timers = None,
+    disable_chunk_to_optimize_p2p: bool = False,
 ) -> Union[torch.Tensor, FutureTensor, None]:
     """Receive tensor from previous rank in pipeline (forward receive)."""
     if parallel_state.is_pipeline_first_stage():
         return None
-    # if timers is not None:
-    #     timers("forward-recv").start()
     input_tensor, _ = _communicate(
         tensor_send_next=None,
         tensor_send_prev=None,
         recv_prev=True,
         recv_next=False,
         tensor_shape=tensor_shape,
-        override_scatter_gather_tensors_in_pipeline=override_scatter_gather_tensors_in_pipeline,
-        dtype_=dtype,
+        dtype=dtype,
         async_comm=async_comm,
-        sequence_parallel_enabled=sequence_parallel_enabled,
+        disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
     )
-    # if timers is not None:
-    #     timers("forward-recv").stop()
     return input_tensor
 
 
+@log_wrapper
 def recv_backward(
     tensor_shape: Shape = None,
     *,
     dtype: Optional[torch.dtype] = None,
     async_comm: bool = False,
-    sequence_parallel_enabled: bool = False,
-    timers: _Timers = None,
+    disable_chunk_to_optimize_p2p: bool = False,
 ) -> Union[torch.Tensor, FutureTensor, None]:
     """Receive tensor from next rank in pipeline (backward receive)."""
     if parallel_state.is_pipeline_last_stage():
         return None
-    # if timers is not None:
-    #     timers("backward-recv").start()
     _, output_tensor_grad = _communicate(
         tensor_send_next=None,
         tensor_send_prev=None,
         recv_prev=False,
         recv_next=True,
         tensor_shape=tensor_shape,
-        dtype_=dtype,
+        dtype=dtype,
         async_comm=async_comm,
-        sequence_parallel_enabled=sequence_parallel_enabled,
+        disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
     )
-    # if timers is not None:
-    #     timers("backward-recv").stop()
     return output_tensor_grad
 
 
 def send_forward(
     output_tensor: torch.Tensor,
-    override_scatter_gather_tensors_in_pipeline: bool = False,
     tensor_shape: Shape = None,
     *,
     dtype: Optional[torch.dtype] = None,
     async_comm: bool = False,
-    sequence_parallel_enabled: bool = False,
-    timers: _Timers = None,
+    disable_chunk_to_optimize_p2p: bool = False,
 ) -> None:
     """Send tensor to next rank in pipeline (forward send)."""
     if parallel_state.is_pipeline_last_stage():
         return
-    # if timers is not None:
-    #     timers("forward-send").start()
     _communicate(
         tensor_send_next=output_tensor,
         tensor_send_prev=None,
         recv_prev=False,
         recv_next=False,
-        override_scatter_gather_tensors_in_pipeline=override_scatter_gather_tensors_in_pipeline,
         tensor_shape=tensor_shape,
-        dtype_=dtype,
+        dtype=dtype,
         async_comm=async_comm,
-        sequence_parallel_enabled=sequence_parallel_enabled,
+        disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
     )
-    # if timers is not None:
-    #     timers("forward-send").stop()
 
 
 def send_backward(
@@ -400,14 +342,11 @@ def send_backward(
     *,
     dtype: Optional[torch.dtype] = None,
     async_comm: bool = False,
-    sequence_parallel_enabled: bool = False,
-    timers: _Timers = None,
+    disable_chunk_to_optimize_p2p: bool = False,
 ) -> None:
     """Send tensor to previous rank in pipeline (backward send)."""
     if parallel_state.is_pipeline_first_stage():
         return
-    # if timers is not None:
-    #     timers("backward-send").start()
     _communicate(
         tensor_send_next=None,
         tensor_send_prev=input_tensor_grad,
@@ -416,10 +355,8 @@ def send_backward(
         tensor_shape=tensor_shape,
         dtype_=dtype,
         async_comm=async_comm,
-        sequence_parallel_enabled=sequence_parallel_enabled,
+        disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
     )
-    # if timers is not None:
-    #     timers("backward-send").stop()
 
 
 def send_forward_recv_backward(
@@ -428,26 +365,21 @@ def send_forward_recv_backward(
     *,
     dtype: Optional[torch.dtype] = None,
     async_comm: bool = False,
-    sequence_parallel_enabled: bool = False,
-    timers: _Timers = None,
+    disable_chunk_to_optimize_p2p: bool = False,
 ) -> Union[torch.Tensor, FutureTensor, None]:
     """Batched send and recv with next rank in pipeline."""
     if parallel_state.is_pipeline_last_stage():
         return None
-    # if timers is not None:
-    #     timers("forward-send-backward-recv").start()
     _, output_tensor_grad = _communicate(
         tensor_send_next=output_tensor,
         tensor_send_prev=None,
         recv_prev=False,
         recv_next=True,
         tensor_shape=tensor_shape,
-        dtype_=dtype,
+        dtype=dtype,
         async_comm=async_comm,
-        sequence_parallel_enabled=sequence_parallel_enabled,
+        disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
     )
-    # if timers is not None:
-    #     timers("forward-send-backward-recv").stop()
     return output_tensor_grad
 
 
@@ -457,26 +389,21 @@ def send_backward_recv_forward(
     *,
     dtype: Optional[torch.dtype] = None,
     async_comm: bool = False,
-    sequence_parallel_enabled: bool = False,
-    timers: _Timers = None,
+    disable_chunk_to_optimize_p2p: bool = False,
 ) -> Union[torch.Tensor, FutureTensor, None]:
     """Batched send and recv with previous rank in pipeline."""
     if parallel_state.is_pipeline_first_stage():
         return None
-    # if timers is not None:
-    #     timers("backward-send-forward-recv").start()
     input_tensor, _ = _communicate(
         tensor_send_next=None,
         tensor_send_prev=input_tensor_grad,
         recv_prev=True,
         recv_next=False,
         tensor_shape=tensor_shape,
-        dtype_=dtype,
+        dtype=dtype,
         async_comm=async_comm,
-        sequence_parallel_enabled=sequence_parallel_enabled,
+        disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
     )
-    # if timers is not None:
-    #     timers("backward-send-forward-recv").stop()
     return input_tensor
 
 
@@ -487,24 +414,19 @@ def send_forward_recv_forward(
     *,
     dtype: Optional[torch.dtype] = None,
     async_comm: bool = False,
-    sequence_parallel_enabled: bool = False,
-    timers: _Timers = None,
+    disable_chunk_to_optimize_p2p: bool = False,
 ) -> Union[torch.Tensor, FutureTensor]:
     """Batched recv from previous rank and send to next rank in pipeline."""
-    # if timers is not None:
-    #     timers("forward-send-forward-recv").start()
     input_tensor, _ = _communicate(
         tensor_send_next=output_tensor,
         tensor_send_prev=None,
         recv_prev=recv_prev,
         recv_next=False,
         tensor_shape=tensor_shape,
-        dtype_=dtype,
+        dtype=dtype,
         async_comm=async_comm,
-        sequence_parallel_enabled=sequence_parallel_enabled,
+        disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
     )
-    # if timers is not None:
-    #     timers("forward-send-forward-recv").stop()
     return input_tensor
 
 
@@ -515,24 +437,19 @@ def send_backward_recv_backward(
     *,
     dtype: Optional[torch.dtype] = None,
     async_comm: bool = False,
-    sequence_parallel_enabled: bool = False,
-    timers: _Timers = None,
+    disable_chunk_to_optimize_p2p: bool = False,
 ) -> Union[torch.Tensor, FutureTensor]:
     """Batched recv from next rank and send to previous rank in pipeline."""
-    # if timers is not None:
-    #     timers("backward-send-backward-recv").start()
     _, output_tensor_grad = _communicate(
         tensor_send_next=None,
         tensor_send_prev=input_tensor_grad,
         recv_prev=False,
         recv_next=recv_next,
         tensor_shape=tensor_shape,
-        dtype_=dtype,
+        dtype=dtype,
         async_comm=async_comm,
-        sequence_parallel_enabled=sequence_parallel_enabled,
+        disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
     )
-    # if timers is not None:
-    #     timers("backward-send-backward-recv").stop()
     return output_tensor_grad
 
 
@@ -545,22 +462,17 @@ def send_forward_backward_recv_forward_backward(
     *,
     dtype: Optional[torch.dtype] = None,
     async_comm: bool = False,
-    sequence_parallel_enabled: bool = False,
-    timers: _Timers = None,
+    disable_chunk_to_optimize_p2p: bool = False,
 ) -> Tuple[Union[torch.Tensor, FutureTensor], Union[torch.Tensor, FutureTensor]]:
     """Batched send and recv with previous and next ranks in pipeline."""
-    # if timers is not None:
-    #     timers("forward-backward-send-forward-backward-recv").start()
     input_tensor, output_tensor_grad = _communicate(
         tensor_send_next=output_tensor,
         tensor_send_prev=input_tensor_grad,
         recv_prev=recv_prev,
         recv_next=recv_next,
         tensor_shape=tensor_shape,
-        dtype_=dtype,
+        dtype=dtype,
         async_comm=async_comm,
-        sequence_parallel_enabled=sequence_parallel_enabled,
+        disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
     )
-    # if timers is not None:
-    #     timers("forward-backward-send-forward-backward-recv").stop()
     return input_tensor, output_tensor_grad

@@ -85,7 +85,7 @@ def recv_forward(
     *,
     dtype: Optional[torch.dtype] = None,
     async_comm: bool = False,
-    sequence_parallel_enabled: bool = False,
+    disable_chunk_to_optimize_p2p: bool = False,
 ) -> List[Union[None, torch.Tensor, FutureTensor]]:
     input_tensors = []
     for tensor_shape in tensor_shapes:
@@ -97,7 +97,7 @@ def recv_forward(
                     tensor_shape=tensor_shape,
                     dtype=dtype,
                     async_comm=async_comm,
-                    sequence_parallel_enabled=sequence_parallel_enabled,
+                    disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
                 )
             )
     return input_tensors
@@ -108,7 +108,7 @@ def recv_backward(
     *,
     dtype: Optional[torch.dtype] = None,
     async_comm: bool = False,
-    sequence_parallel_enabled: bool = False,
+    disable_chunk_to_optimize_p2p: bool = False,
 ) -> List[Union[None, torch.Tensor, FutureTensor]]:
     output_tensor_grads = []
     for tensor_shape in tensor_shapes:
@@ -120,7 +120,7 @@ def recv_backward(
                     tensor_shape=tensor_shape,
                     dtype=dtype,
                     async_comm=async_comm,
-                    sequence_parallel_enabled=sequence_parallel_enabled,
+                    disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
                 )
             )
     return output_tensor_grads
@@ -132,7 +132,7 @@ def send_forward(
     *,
     dtype: Optional[torch.dtype] = None,
     async_comm: bool = False,
-    sequence_parallel_enabled: bool = False,
+    disable_chunk_to_optimize_p2p: bool = False,
 ) -> None:
     if not isinstance(output_tensors, list):
         output_tensors = [output_tensors]
@@ -144,7 +144,7 @@ def send_forward(
             tensor_shape=tensor_shape,
             dtype=dtype,
             async_comm=async_comm,
-            sequence_parallel_enabled=sequence_parallel_enabled,
+            disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
         )
 
 
@@ -154,7 +154,7 @@ def send_backward(
     *,
     dtype: Optional[torch.dtype] = None,
     async_comm: bool = False,
-    sequence_parallel_enabled: bool = False,
+    disable_chunk_to_optimize_p2p: bool = False,
 ) -> None:
     if not isinstance(input_tensor_grads, list):
         input_tensor_grads = [input_tensor_grads]
@@ -166,7 +166,7 @@ def send_backward(
             tensor_shape=tensor_shape,
             dtype=dtype,
             async_comm=async_comm,
-            sequence_parallel_enabled=sequence_parallel_enabled,
+            disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
         )
 
 
@@ -176,7 +176,7 @@ def send_forward_recv_backward(
     *,
     dtype: Optional[torch.dtype] = None,
     async_comm: bool = False,
-    sequence_parallel_enabled: bool = False,
+    disable_chunk_to_optimize_p2p: bool = False,
 ) -> List[Union[None, torch.Tensor, FutureTensor]]:
     if not isinstance(output_tensors, list):
         output_tensors = [output_tensors]
@@ -190,7 +190,7 @@ def send_forward_recv_backward(
             tensor_shape=tensor_shape,
             dtype=dtype,
             async_comm=async_comm,
-            sequence_parallel_enabled=sequence_parallel_enabled,
+            disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
         )
         output_tensor_grads.append(output_tensor_grad)
     return output_tensor_grads
@@ -202,7 +202,7 @@ def send_backward_recv_forward(
     *,
     dtype: Optional[torch.dtype] = None,
     async_comm: bool = False,
-    sequence_parallel_enabled: bool = False,
+    disable_chunk_to_optimize_p2p: bool = False,
 ) -> List[Union[None, torch.Tensor, FutureTensor]]:
     if not isinstance(input_tensor_grads, list):
         input_tensor_grads = [input_tensor_grads]
@@ -216,7 +216,7 @@ def send_backward_recv_forward(
             tensor_shape=tensor_shape,
             dtype=dtype,
             async_comm=async_comm,
-            sequence_parallel_enabled=sequence_parallel_enabled,
+            disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
         )
         input_tensors.append(input_tensor)
     return input_tensors
@@ -236,6 +236,8 @@ def forward_backward_pipelining_without_interleaving(
     deallocate_pipeline_outputs: bool = False,
     async_comm: bool = False,
     sequence_parallel_enabled: bool = False,
+    disable_chunk_to_optimize_p2p: bool = False,
+    force_chunk_to_optimize_p2p: bool = False,
     **kwargs,
 ) -> List[Union[torch.Tensor, Sequence[torch.Tensor]]]:
     """Run non-interleaved 1F1B schedule, with communication between pipeline stages.
@@ -270,7 +272,9 @@ def forward_backward_pipelining_without_interleaving(
     Returns:
         a list of loss `torch.Tensor`s if the last stage, empty list otherwise.
     """
-    # timers = get_timers()
+    disable_chunk_to_optimize_p2p = disable_chunk_to_optimize_p2p and not sequence_parallel_enabled
+    if force_chunk_to_optimize_p2p:
+        disable_chunk_to_optimize_p2p = True
 
     if deallocate_pipeline_outputs:
         warnings.warn(
@@ -325,12 +329,11 @@ def forward_backward_pipelining_without_interleaving(
     _logger.info("Warmup")
     for i in range(num_warmup_microbatches):
         _logger.debug(f"warmup iter: {i} / {num_warmup_microbatches}")
-        _logger.debug("receive fwd")
         input_tensor = recv_forward(
             tensor_shapes=recv_tensor_shapes,
             dtype=dtype,
             async_comm=async_comm,
-            sequence_parallel_enabled=sequence_parallel_enabled,
+            disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
         )
         cur_microbatch: Optional[torch.Tensor] = get_kth_microbatch(batch, i)
         output_tensor = forward_step(
@@ -342,13 +345,12 @@ def forward_backward_pipelining_without_interleaving(
             dtype,
             disable_autocast,
         )
-        _logger.debug("send fwd")
         send_forward(
             output_tensor,
             tensor_shapes=send_tensor_shapes,
             dtype=dtype,
             async_comm=async_comm,
-            sequence_parallel_enabled=sequence_parallel_enabled,
+            disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
         )
 
         if not forward_only:
@@ -360,8 +362,11 @@ def forward_backward_pipelining_without_interleaving(
     # If all microbatches are run in warmup / cooldown phase, then no need to
     # receive this tensor here.
     if num_microbatches_remaining > 0:
-        _logger.debug("recv_forward before steady state start")
-        input_tensor: List[Union[None, torch.Tensor, FutureTensor]] = recv_forward(tensor_shapes=recv_tensor_shapes, dtype=dtype, async_comm=async_comm)
+        input_tensor: List[Union[None, torch.Tensor, FutureTensor]] = recv_forward(
+            tensor_shapes=recv_tensor_shapes,
+            dtype=dtype,
+            async_comm=async_comm, disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
+        )
 
     ###################################################################################################################
     # Run 1F1B in steady state.
@@ -382,32 +387,29 @@ def forward_backward_pipelining_without_interleaving(
             disable_autocast,
         )
         if forward_only:
-            _logger.debug("send fwd")
             send_forward(
                 output_tensor,
                 tensor_shapes=send_tensor_shapes,
                 dtype=dtype,
                 async_comm=async_comm,
-                sequence_parallel_enabled=sequence_parallel_enabled,
+                disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
             )
 
             if not last_iteration:
-                _logger.debug("receive fwd (last iteration)")
                 input_tensor = recv_forward(
                     tensor_shapes=recv_tensor_shapes,
                     dtype=dtype,
                     async_comm=async_comm,
-                    sequence_parallel_enabled=sequence_parallel_enabled,
+                    disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
                 )
 
         else:
-            _logger.debug("send fwd & receive bwd")
             output_tensor_grad = send_forward_recv_backward(
                 output_tensor,
                 tensor_shapes=send_tensor_shapes,
                 dtype=dtype,
                 async_comm=async_comm,
-                sequence_parallel_enabled=sequence_parallel_enabled,
+                disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
             )
 
             # Add input_tensor and output_tensor to end of list.
@@ -430,22 +432,20 @@ def forward_backward_pipelining_without_interleaving(
 
             if last_iteration:
                 input_tensor = None
-                _logger.debug("send bwd")
                 send_backward(
                     input_tensor_grad,
                     tensor_shapes=recv_tensor_shapes,
                     dtype=dtype,
                     async_comm=async_comm,
-                    sequence_parallel_enabled=sequence_parallel_enabled,
+                    disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
                 )
             else:
-                _logger.debug("send bwd and receive fwd")
                 input_tensor = send_backward_recv_forward(
                     input_tensor_grad,
                     tensor_shapes=recv_tensor_shapes,
                     dtype=dtype,
                     async_comm=async_comm,
-                    sequence_parallel_enabled=sequence_parallel_enabled,
+                    disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
                 )
     ###################################################################################################################
     # Run cooldown backward passes.
@@ -457,12 +457,11 @@ def forward_backward_pipelining_without_interleaving(
             input_tensor = input_tensors.pop(0)
             output_tensor = output_tensors.pop(0)
 
-            _logger.debug("receive bwd")
             output_tensor_grad = recv_backward(
                 tensor_shapes=send_tensor_shapes,
                 dtype=dtype,
                 async_comm=async_comm,
-                sequence_parallel_enabled=sequence_parallel_enabled,
+                disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
             )
 
             input_tensor_grad = backward_step(
@@ -474,13 +473,12 @@ def forward_backward_pipelining_without_interleaving(
                 deallocate_pipeline_outputs=deallocate_pipeline_outputs,
             )
 
-            _logger.debug("send bwd")
             send_backward(
                 input_tensor_grad,
                 tensor_shapes=recv_tensor_shapes,
                 dtype=dtype,
                 async_comm=async_comm,
-                sequence_parallel_enabled=sequence_parallel_enabled,
+                disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
             )
 
     return losses_reduced
