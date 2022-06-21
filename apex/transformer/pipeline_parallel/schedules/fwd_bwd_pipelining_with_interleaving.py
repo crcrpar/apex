@@ -84,9 +84,11 @@ def _forward_backward_pipelining_with_interleaving(
             "This option is not recommended."
         )
 
-    disable_chunk_to_optimize_p2p_comm = disable_chunk_to_optimize_p2p and not sequence_parallel_enabled
-    if force_chunk_to_optimize_p2p:
+    disable_chunk_to_optimize_p2p_comm = disable_chunk_to_optimize_p2p
+    if sequence_parallel_enabled:
         disable_chunk_to_optimize_p2p_comm = True
+    if force_chunk_to_optimize_p2p:
+        disable_chunk_to_optimize_p2p_comm = False
 
     # mypy will blame the following if statement
     if sequence_parallel_enabled:

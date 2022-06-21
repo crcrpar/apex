@@ -272,7 +272,9 @@ def forward_backward_pipelining_without_interleaving(
     Returns:
         a list of loss `torch.Tensor`s if the last stage, empty list otherwise.
     """
-    disable_chunk_to_optimize_p2p_comm = disable_chunk_to_optimize_p2p and not sequence_parallel_enabled
+    disable_chunk_to_optimize_p2p_comm = disable_chunk_to_optimize_p2p
+    if sequence_parallel_enabled:
+        disable_chunk_to_optimize_p2p_comm = True
     if force_chunk_to_optimize_p2p:
         disable_chunk_to_optimize_p2p_comm = False
 
