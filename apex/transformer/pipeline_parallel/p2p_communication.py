@@ -125,18 +125,12 @@ def _communicate(
         recv_prev: boolean for whether tensor should be received from previous rank.
         recv_next: boolean for whether tensor should be received from next rank.
         tensor_shape: optional, use when the input sequence contains less tokens than the default sequence length
-        override_scatter_gather_tensors_in_pipeline:
-            optional, this is used when tensor_shape is provided to override scatter gather tensors
-        dtype_: This is used when tensor_shape is provided and what is the type of tensor_shape
+        dtype: dtype of tensor.
 
     Keyword args:
-        scatter_gather_tensors_in_pipeline: Optional. If :obj:`True`, use scatter/gather to optimize communication of tensors.
-        params_dtype: Optional and legacy. Defaults to torch.float. If you manually call `.half()` or `.bfloat16()` on
-            your model deliberately, pass this argument.
-        fp32_residual_connection: Optional. If :obj:`True`, move residual connections to fp32.
-        sequence_parallel_enabled: Set to :obj:`True` if sequence parallel is enabled.
-            This argument is here for consistency with Megatron-LM.
-            This argument has an effect on the communication optimization, not on tensor_shape update.
+        async_comm: An experimental optimization for slower network such as UCC.
+        disable_chunk_to_optimize_p2p: Flag to disable split&gather among tensor parallel group
+            before&after P2P communication.
 
     Returns:
         tuple containing
