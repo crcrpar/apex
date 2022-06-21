@@ -272,9 +272,9 @@ def forward_backward_pipelining_without_interleaving(
     Returns:
         a list of loss `torch.Tensor`s if the last stage, empty list otherwise.
     """
-    disable_chunk_to_optimize_p2p = disable_chunk_to_optimize_p2p and not sequence_parallel_enabled
+    disable_chunk_to_optimize_p2p_comm = disable_chunk_to_optimize_p2p and not sequence_parallel_enabled
     if force_chunk_to_optimize_p2p:
-        disable_chunk_to_optimize_p2p = True
+        disable_chunk_to_optimize_p2p_comm = False
 
     if deallocate_pipeline_outputs:
         warnings.warn(
@@ -333,7 +333,7 @@ def forward_backward_pipelining_without_interleaving(
             tensor_shapes=recv_tensor_shapes,
             dtype=dtype,
             async_comm=async_comm,
-            disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
+            disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p_comm,
         )
         cur_microbatch: Optional[torch.Tensor] = get_kth_microbatch(batch, i)
         output_tensor = forward_step(
@@ -350,7 +350,7 @@ def forward_backward_pipelining_without_interleaving(
             tensor_shapes=send_tensor_shapes,
             dtype=dtype,
             async_comm=async_comm,
-            disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
+            disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p_comm,
         )
 
         if not forward_only:
@@ -365,7 +365,8 @@ def forward_backward_pipelining_without_interleaving(
         input_tensor: List[Union[None, torch.Tensor, FutureTensor]] = recv_forward(
             tensor_shapes=recv_tensor_shapes,
             dtype=dtype,
-            async_comm=async_comm, disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
+            async_comm=async_comm,
+            disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p_comm,
         )
 
     ###################################################################################################################
@@ -392,7 +393,7 @@ def forward_backward_pipelining_without_interleaving(
                 tensor_shapes=send_tensor_shapes,
                 dtype=dtype,
                 async_comm=async_comm,
-                disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
+                disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p_comm,
             )
 
             if not last_iteration:
@@ -400,7 +401,7 @@ def forward_backward_pipelining_without_interleaving(
                     tensor_shapes=recv_tensor_shapes,
                     dtype=dtype,
                     async_comm=async_comm,
-                    disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
+                    disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p_comm,
                 )
 
         else:
@@ -409,7 +410,7 @@ def forward_backward_pipelining_without_interleaving(
                 tensor_shapes=send_tensor_shapes,
                 dtype=dtype,
                 async_comm=async_comm,
-                disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
+                disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p_comm,
             )
 
             # Add input_tensor and output_tensor to end of list.
@@ -437,7 +438,7 @@ def forward_backward_pipelining_without_interleaving(
                     tensor_shapes=recv_tensor_shapes,
                     dtype=dtype,
                     async_comm=async_comm,
-                    disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
+                    disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p_comm,
                 )
             else:
                 input_tensor = send_backward_recv_forward(
@@ -445,7 +446,7 @@ def forward_backward_pipelining_without_interleaving(
                     tensor_shapes=recv_tensor_shapes,
                     dtype=dtype,
                     async_comm=async_comm,
-                    disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
+                    disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p_comm,
                 )
     ###################################################################################################################
     # Run cooldown backward passes.
@@ -461,7 +462,7 @@ def forward_backward_pipelining_without_interleaving(
                 tensor_shapes=send_tensor_shapes,
                 dtype=dtype,
                 async_comm=async_comm,
-                disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
+                disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p_comm,
             )
 
             input_tensor_grad = backward_step(
@@ -478,7 +479,7 @@ def forward_backward_pipelining_without_interleaving(
                 tensor_shapes=recv_tensor_shapes,
                 dtype=dtype,
                 async_comm=async_comm,
-                disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
+                disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p_comm,
             )
 
     return losses_reduced
