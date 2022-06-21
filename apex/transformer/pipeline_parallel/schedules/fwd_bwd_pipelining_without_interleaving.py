@@ -268,6 +268,12 @@ def forward_backward_pipelining_without_interleaving(
         sequence_parallel_enabled: Set to :obj:`True` for this function to handle sequence length.
             When :obj:`True`, the sequence length on each tensor model parallel rank is updated
             to :math:`original\_sequence\_length / tensor\_model\_parallel\_world\_size`.
+        disable_chunk_to_optimize_p2p: Flag to disable P2P optimization by chunking tensor
+            among tensor parallel group.
+        force_chunk_to_optimize_p2p: Set to :obj:`True` if you want to enable the optimization above
+            regardless of ``sequence_parallel_enabled``. When ``sequence_parallel_enabled`` is :obj:`True`,
+            the optimization is disabled by default following NVIDIA/Megatron-LM, e.g.
+            https://github.com/NVIDIA/Megatron-LM/blob/d898a8991d1a08d29074f87819d1bf41517e35f5/megatron/p2p_communication.py#L95-L98
 
     Returns:
         a list of loss `torch.Tensor`s if the last stage, empty list otherwise.
