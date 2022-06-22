@@ -278,17 +278,21 @@ def forward_backward_pipelining_without_interleaving(
     Returns:
         a list of loss `torch.Tensor`s if the last stage, empty list otherwise.
     """
-    disable_chunk_to_optimize_p2p_comm = disable_chunk_to_optimize_p2p
-    if sequence_parallel_enabled:
-        disable_chunk_to_optimize_p2p_comm = True
-    if force_chunk_to_optimize_p2p:
-        disable_chunk_to_optimize_p2p_comm = False
-
     if deallocate_pipeline_outputs:
         warnings.warn(
             "`deallocate_pipeline_outputs` is experimental and subject to change. "
             "This option is not recommended."
         )
+
+    disable_chunk_to_optimize_p2p_comm = disable_chunk_to_optimize_p2p
+    if sequence_parallel_enabled:
+        disable_chunk_to_optimize_p2p_comm = True
+    if force_chunk_to_optimize_p2p:
+        if sequence_parallel_enabled:
+            warnings.warn(
+                "When `sequence_parallel_enabled` is `True`, chunking optimization might lead to an unexpected result"
+            )
+        disable_chunk_to_optimize_p2p_comm = False
 
     model: List[torch.nn.Module] = listify_model(model)
     if len(model) != 1:

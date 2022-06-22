@@ -408,27 +408,58 @@ class NcclPipelineParallelWithToyParallelMLP(NcclDistributedTestBase):
             disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
             force_chunk_to_optimize_p2p=force_chunk_to_optimize_p2p,
         )
+        parallel_state.destroy_model_parallel()
 
     def test_pipelining_without_interleaving_encoder_and_decoder(self) -> None:
-        self._forward_backward_test_impl(forward_only=False, sequence_parallel_enabled=False, model_type=ModelType.encoder_and_decoder)
+        for disable_chunk_to_optimize_p2p, force_chunk_to_optimize_p2p in itertools.product((False, True), (False, True)):
+            with self.subTest(disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p):
+                self._forward_backward_test_impl(
+                    forward_only=False, sequence_parallel_enabled=False, model_type=ModelType.encoder_and_decoder,
+                    disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
+                    force_chunk_to_optimize_p2p=force_chunk_to_optimize_p2p,
+                )
 
-    def test_pipelining_without_interleaving_inferenc_encoder_and_decoder(self) -> None:
+    def test_pipelining_without_interleaving_inference_encoder_and_decoder(self) -> None:
         self._forward_backward_test_impl(forward_only=True, sequence_parallel_enabled=False, model_type=ModelType.encoder_and_decoder)
 
     def test_pipelining_without_interleaving_sequence_paralle_encoder_and_decoder(self) -> None:
-        self._forward_backward_test_impl(forward_only=False, sequence_parallel_enabled=True, model_type=ModelType.encoder_and_decoder)
+        for disable_chunk_to_optimize_p2p, force_chunk_to_optimize_p2p in itertools.product((False, True), (False, True)):
+            with self.subTest(disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p):
+                self._forward_backward_test_impl(
+                    forward_only=False, sequence_parallel_enabled=True, model_type=ModelType.encoder_and_decoder,
+                    disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
+                    force_chunk_to_optimize_p2p=force_chunk_to_optimize_p2p,
+                )
 
     def test_pipelining_without_interleaving_inference_sequence_paralle_encoder_and_decoder(self) -> None:
         self._forward_backward_test_impl(forward_only=True, sequence_parallel_enabled=True, model_type=ModelType.encoder_and_decoder)
 
     def test_pipelining_without_interleaving_encoder_or_decoder(self) -> None:
-        self._forward_backward_test_impl(forward_only=False, sequence_parallel_enabled=False, model_type=ModelType.encoder_or_decoder)
+        for disable_chunk_to_optimize_p2p, force_chunk_to_optimize_p2p in itertools.product((False, True), (False, True)):
+            with self.subTest(disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p):
+                self._forward_backward_test_impl(
+                    forward_only=False, sequence_parallel_enabled=False, model_type=ModelType.encoder_or_decoder,
+                    disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
+                    force_chunk_to_optimize_p2p=force_chunk_to_optimize_p2p,
+                )
 
     def test_pipelining_without_interleaving_sequence_parallel_encoder_or_decoder(self) -> None:
-        self._forward_backward_test_impl(forward_only=False, sequence_parallel_enabled=True, model_type=ModelType.encoder_or_decoder)
+        for disable_chunk_to_optimize_p2p, force_chunk_to_optimize_p2p in itertools.product((False, True), (False, True)):
+            with self.subTest(disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p):
+                self._forward_backward_test_impl(
+                    forward_only=False, sequence_parallel_enabled=True, model_type=ModelType.encoder_or_decoder,
+                    disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
+                    force_chunk_to_optimize_p2p=force_chunk_to_optimize_p2p,
+                )
 
     def test_pipelining_without_interleaving_sequence_parallel_encoder_or_decoder_half(self) -> None:
-        self._forward_backward_test_impl(forward_only=False, sequence_parallel_enabled=True, model_type=ModelType.encoder_or_decoder, dtype=torch.half)
+        for disable_chunk_to_optimize_p2p, force_chunk_to_optimize_p2p in itertools.product((False, True), (False, True)):
+            with self.subTest(disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p):
+                self._forward_backward_test_impl(
+                    forward_only=False, sequence_parallel_enabled=True, model_type=ModelType.encoder_or_decoder, dtype=torch.half,
+                    disable_chunk_to_optimize_p2p=disable_chunk_to_optimize_p2p,
+                    force_chunk_to_optimize_p2p=force_chunk_to_optimize_p2p,
+                )
 
 
 if __name__ == "__main__":
