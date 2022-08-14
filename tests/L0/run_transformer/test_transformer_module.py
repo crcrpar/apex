@@ -31,7 +31,8 @@ def get_launch_option(test_filename) -> Tuple[bool, str]:
     return should_skip, ""
 
 
-def run_transformer_tests():
+# def run_transformer_tests(test_file_path):
+def define_test_methods(cls):
     python_executable_path = sys.executable
     directory = os.path.dirname(__file__)
     files = [
@@ -75,32 +76,23 @@ def run_transformer_tests():
         else:
             test_run_cmd += f" --use-cpu-initialization"
         print(f"### {i} / {len(files)}: cmd: {test_run_cmd}")
-        try:
-            output = (
-                subprocess.check_output(test_run_cmd, shell=True)
-                .decode(sys.stdout.encoding)
-                .strip()
-            )
-        except Exception as e:
-            errors.append((test_file, str(e)))
-        else:
-            if ">> passed the test :-)" not in output:
-                errors.append((test_file, output))
-    else:
-        if not errors:
-            print("### PASSED")
-        else:
-            print("### FAILED")
-            short_msg = f"{len(errors)} out of {len(files)} tests failed"
-            print(short_msg)
-            for (filename, log) in errors:
-                print(f"File: {filename}\nLog: {log}")
-            raise RuntimeError(short_msg)
+
+        def test_method(self, *args, **kwargs):
+            subprocess.check_output(test_run_cmd, shell=True)
+
+        filename = os.path.splitext(os.path.basename(test_file))[0]
+        setattr(cls, f"test_{filename}", test_method)
+    return cls
 
 
 class TestTransformer(unittest.TestCase):
-    def test_transformer(self):
-        run_transformer_tests()
+
+    @classmethod
+    def setUpClass(cls):
+        define_test_methods(cls)
+
+    # def test_transformer(self):
+    #     run_transformer_tests()
 
 
 if __name__ == "__main__":
