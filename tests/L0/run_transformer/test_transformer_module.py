@@ -4,6 +4,8 @@ import subprocess
 import sys
 import unittest
 
+from packaging.version import Version, parse
+
 
 SEVERALGPU_TEST = [
     "bert_minimal_test",
@@ -33,7 +35,6 @@ def get_launch_option(test_filename) -> Tuple[bool, str]:
 
 def get_test_command(test_file: str) -> str:
     python_executable_path = sys.executable
-    is_denied = False
     should_skip, launch_option = get_launch_option(test_file)
     if should_skip:
         return ""
@@ -63,7 +64,6 @@ def get_test_command(test_file: str) -> str:
 
 
 def _get_test_file(key):
-    python_executable_path = sys.executable
     directory = os.path.dirname(__file__)
     test_file = [
         os.path.join(directory, f)
@@ -73,12 +73,26 @@ def _get_test_file(key):
     return test_file
 
 
+def is_eligible_device() -> bool:
+    import torch
+    prop = torch.cuda.get_device_properties("cuda")
+    return Version("8.0") <= parse(f"{prop.major}.{prop.minor}")
+
+
 class TestTransformer(unittest.TestCase):
     def _test_impl(self, key: str):
         test_file = _get_test_file(key)
         command = get_test_command(test_file)
         if command:
-            subprocess.run(command, shell=True, check=True)
+            try:
+                subprocess.run(command, shell=True, check=True)
+            except Exception as e:
+                if is_eligible_device():
+                    raise
+                else:
+                    if self.rank == 0:
+                        import warnings
+                        warnings.warn(f"{e}")
         else:
             self.skipTest("Appropriate command is not generated")
 
@@ -88,6 +102,7 @@ class TestTransformer(unittest.TestCase):
     def test_standalone_gpt(self):
         self._test_impl("gpt")
 
+    @unittest.skip("The implementation is outdated.")
     def test_dynamic_batch_size(self):
         self._test_impl("dynamic_batchsize")
 
