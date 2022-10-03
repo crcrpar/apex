@@ -106,11 +106,7 @@ class UccDistributedTestBase(DistributedTestBase):
         if self._has_master_port:
             self.master_port = os.environ["MASTER_PORT"]
         else:
-            try:
-                from caffe2.torch.fb.common.utils import get_free_port
-                self.master_port = str(get_free_port())
-            except ImportError:
-                self.master_port = "12375"
+            self.master_port = str(common_utils.find_free_port())
             os.environ["MASTER_PORT"] = self.master_port
 
         self._has_ucx_tls = "UCX_TLS" in os.environ
