@@ -1,0 +1,29 @@
+[tool.black]
+line-length = 120
+target-version = ["py38",]
+exclude = '''
+/(
+    apex/amp
+    apex/RNN
+    apex/fp16_utils
+    apex/parallel/distributed.py
+    apex/parallel/multiproc.py
+    apex/parallel/optimized_sync_batchnorm.py
+    apex/parallel/optimized_sync_batchnorm_kernel.py
+    apex/parallel/sync_batchnorm.py
+    apex/parallel/sync_batchnorm_kernel.py
+    apex/contrib/csrc/cudnn-frontend
+  | apex/contrib/csrc/multihead_attn/cutlass
+)/
+'''
+
+[tool.pysen]
+version = "0.10.2"
+
+[tool.pysen.lint]
+enable_black = true
+enable_flake8 = true
+enable_isort = true
+enable_mypy = false
+line_length = 120
+py_version = "py38"
