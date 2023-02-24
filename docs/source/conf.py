@@ -103,8 +103,9 @@ todo_include_todos = True
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'sphinx_rtd_theme'
-html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+html_theme = 'sphinx_book_theme'
+html_logo = '_static/img/nv-pytorch2.png'
+html_title = 'NVIDIA APEX'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -114,9 +115,14 @@ html_theme_options = {
     'collapse_navigation': False,
     'display_version': True,
     'logo_only': True,
+    'repository_url': 'https://github.com/nvidia/apex',
+    'use_repository_button': True,
+    'show_navbar_depth': 1,
+    'show_toc_level': 10,
+    'collapse_navigation': False,
+    'navigation_depth': 10,
 }
 
-# html_logo = '_static/img/nv-pytorch2.png'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -124,18 +130,18 @@ html_theme_options = {
 html_static_path = ['_static']
 
 # html_style_path = 'css/pytorch_theme.css'
-html_context = {
-    'css_files': [
-        'https://fonts.googleapis.com/css?family=Lato',
-        '_static/css/pytorch_theme.css'
-    ],
-}
+# html_context = {
+#     'css_files': [
+#         'https://fonts.googleapis.com/css?family=Lato',
+#         '_static/css/pytorch_theme.css'
+#     ],
+# }
 
 
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'PyTorchdoc'
+# htmlhelp_basename = 'PyTorchdoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------

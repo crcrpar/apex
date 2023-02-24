@@ -1,0 +1,1359 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>apex.transformer.tensor_parallel.layers &#8212; NVIDIA APEX</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../../../_static/nv-pytorch2.png" class="logo" alt="logo">
+      
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../../../optimizers.html">
+   apex.optimizers
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.optimizers.FusedSGD.html">
+     apex.optimizers.FusedSGD
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.optimizers.FusedAdam.html">
+     apex.optimizers.FusedAdam
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.optimizers.FusedLAMB.html">
+     apex.optimizers.FusedLAMB
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.optimizers.FusedMixedPrecisionLamb.html">
+     apex.optimizers.FusedMixedPrecisionLamb
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.optimizers.FusedNovoGrad.html">
+     apex.optimizers.FusedNovoGrad
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../../../normalization.html">
+   apex.normalization
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.normalization.FusedLayerNorm.html">
+     apex.normalization.FusedLayerNorm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.normalization.FusedRMSNorm.html">
+     apex.normalization.FusedRMSNorm
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../../../transformer.html">
+   apex.transformer
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.functional.fused_softmax.FusedScaleMaskSoftmax.html">
+     apex.transformer.functional.fused_softmax.FusedScaleMaskSoftmax
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.functional.fused_softmax.GenericFusedScaleMaskSoftmax.html">
+     apex.transformer.functional.fused_softmax.GenericFusedScaleMaskSoftmax
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.parallel_state.initialize_model_parallel.html">
+     apex.transformer.parallel_state.initialize_model_parallel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.pipeline_parallel.get_forward_backward_func.html">
+     apex.transformer.pipeline_parallel.get_forward_backward_func
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.pipeline_parallel.schedules.fwd_bwd_no_pipelining.forward_backward_no_pipelining.html">
+     apex.transformer.pipeline_parallel.schedules.fwd_bwd_no_pipelining.forward_backward_no_pipelining
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.pipeline_parallel.schedules.fwd_bwd_pipelining_with_interleaving._forward_backward_pipelining_with_interleaving.html">
+     apex.transformer.pipeline_parallel.schedules.fwd_bwd_pipelining_with_interleaving._forward_backward_pipelining_with_interleaving
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.pipeline_parallel.schedules.fwd_bwd_pipelining_without_interleaving.forward_backward_pipelining_without_interleaving.html">
+     apex.transformer.pipeline_parallel.schedules.fwd_bwd_pipelining_without_interleaving.forward_backward_pipelining_without_interleaving
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.tensor_parallel.vocab_parallel_cross_entropy.html">
+     apex.transformer.tensor_parallel.vocab_parallel_cross_entropy
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.tensor_parallel.broadcast_data.html">
+     apex.transformer.tensor_parallel.broadcast_data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.tensor_parallel.ColumnParallelLinear.html">
+     apex.transformer.tensor_parallel.ColumnParallelLinear
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.tensor_parallel.RowParallelLinear.html">
+     apex.transformer.tensor_parallel.RowParallelLinear
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.tensor_parallel.VocabParallelEmbedding.html">
+     apex.transformer.tensor_parallel.VocabParallelEmbedding
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.tensor_parallel.model_parallel_cuda_manual_seed.html">
+     apex.transformer.tensor_parallel.model_parallel_cuda_manual_seed
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.utils.split_tensor_into_1d_equal_chunks.html">
+     apex.transformer.utils.split_tensor_into_1d_equal_chunks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.utils.gather_split_1d_tensor.html">
+     apex.transformer.utils.gather_split_1d_tensor
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../../../contrib.html">
+   apex.contrib
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.Bottleneck.html">
+     apex.contrib.bottleneck.Bottleneck
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.SpatialBottleneck.html">
+     apex.contrib.bottleneck.SpatialBottleneck
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.HaloExchangerNoComm.html">
+     apex.contrib.bottleneck.HaloExchangerNoComm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.HaloExchangerAllGather.html">
+     apex.contrib.bottleneck.HaloExchangerAllGather
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.HaloExchangerSendRecv.html">
+     apex.contrib.bottleneck.HaloExchangerSendRecv
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.HaloExchangerPeer.html">
+     apex.contrib.bottleneck.HaloExchangerPeer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.clip_grad.clip_grad_norm_.html">
+     apex.contrib.clip_grad.clip_grad_norm_
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.conv_bias_relu.ConvBiasReLU.html">
+     apex.contrib.conv_bias_relu.ConvBiasReLU
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.conv_bias_relu.ConvBias.html">
+     apex.contrib.conv_bias_relu.ConvBias
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.conv_bias_relu.ConvBiasMaskReLU.html">
+     apex.contrib.conv_bias_relu.ConvBiasMaskReLU
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.cudnn_gbn.GroupBatchNorm2d.html">
+     apex.contrib.cudnn_gbn.GroupBatchNorm2d
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.fmha.fmha.FMHA.html">
+     apex.contrib.fmha.fmha.FMHA
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.focal_loss.focal_loss.focal_loss.html">
+     apex.contrib.focal_loss.focal_loss.focal_loss
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.groupbn.BatchNorm2d_NHWC.html">
+     apex.contrib.groupbn.BatchNorm2d_NHWC
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.index_mul_2d.index_mul_2d.html">
+     apex.contrib.index_mul_2d.index_mul_2d
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.layer_norm.FastLayerNorm.html">
+     apex.contrib.layer_norm.FastLayerNorm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.multihead_attn.SelfMultiheadAttn.html">
+     apex.contrib.multihead_attn.SelfMultiheadAttn
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.multihead_attn.EncdecMultiheadAttn.html">
+     apex.contrib.multihead_attn.EncdecMultiheadAttn
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.multihead_attn.fast_mask_softmax_dropout_func.html">
+     apex.contrib.multihead_attn.fast_mask_softmax_dropout_func
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam.html">
+     apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB.html">
+     apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.peer_memory.PeerMemoryPool.html">
+     apex.contrib.peer_memory.PeerMemoryPool
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.peer_memory.PeerHaloExchanger1d.html">
+     apex.contrib.peer_memory.PeerHaloExchanger1d
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.sparsity.create_mask.html">
+     apex.contrib.sparsity.create_mask
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.sparsity.ASP.html">
+     apex.contrib.sparsity.ASP
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.transducer.TransducerJoint.html">
+     apex.contrib.transducer.TransducerJoint
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.transducer.TransducerLoss.html">
+     apex.contrib.transducer.TransducerLoss
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.xentropy.SoftmaxCrossEntropyLoss.html">
+     apex.contrib.xentropy.SoftmaxCrossEntropyLoss
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+<a href="https://github.com/nvidia/apex"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="bottom"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1></h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <h1>Source code for apex.transformer.tensor_parallel.layers</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding=utf-8</span>
+<span class="c1"># Copyright (c) 2021-22, NVIDIA CORPORATION.  All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+
+<span class="c1"># Parts of the code here are adapted from PyTorch</span>
+<span class="c1"># repo: https://github.com/pytorch/pytorch</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">import</span> <span class="nn">torch.nn.init</span> <span class="k">as</span> <span class="nn">init</span>
+<span class="kn">from</span> <span class="nn">torch.nn.parameter</span> <span class="kn">import</span> <span class="n">Parameter</span>
+
+<span class="kn">from</span> <span class="nn">apex._autocast_utils</span> <span class="kn">import</span> <span class="n">_cast_if_autocast_enabled</span>
+<span class="kn">from</span> <span class="nn">apex.transformer.parallel_state</span> <span class="kn">import</span> <span class="n">get_tensor_model_parallel_group</span>
+<span class="kn">from</span> <span class="nn">apex.transformer.parallel_state</span> <span class="kn">import</span> <span class="n">get_tensor_model_parallel_rank</span>
+<span class="kn">from</span> <span class="nn">apex.transformer.parallel_state</span> <span class="kn">import</span> <span class="n">get_tensor_model_parallel_world_size</span>
+<span class="kn">from</span> <span class="nn">apex.transformer.utils</span> <span class="kn">import</span> <span class="n">divide</span>
+<span class="kn">from</span> <span class="nn">apex.transformer.tensor_parallel.mappings</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">copy_to_tensor_model_parallel_region</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">apex.transformer.tensor_parallel.mappings</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">gather_from_tensor_model_parallel_region</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">apex.transformer.tensor_parallel.mappings</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">reduce_from_tensor_model_parallel_region</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">apex.transformer.tensor_parallel.mappings</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">scatter_to_tensor_model_parallel_region</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">apex.transformer.tensor_parallel.mappings</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">reduce_scatter_to_sequence_parallel_region</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">apex.transformer.tensor_parallel.random</span> <span class="kn">import</span> <span class="n">get_cuda_rng_tracker</span>
+<span class="kn">from</span> <span class="nn">apex.transformer.tensor_parallel.utils</span> <span class="kn">import</span> <span class="n">VocabUtility</span>
+<span class="kn">from</span> <span class="nn">apex.transformer.log_util</span> <span class="kn">import</span> <span class="n">get_transformer_logger</span>
+
+<span class="c1"># `all_gather_into_tensor` and `reduce_scatter_tensor` are new placeholders for</span>
+<span class="c1"># `_all_gather_base` and `_reduce_scatter_base`. They require the most recent</span>
+<span class="c1"># version of PyTorch. The following 4 lines are for backward comparability with</span>
+<span class="c1"># older PyTorch.</span>
+<span class="k">if</span> <span class="s2">&quot;reduce_scatter_tensor&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">distributed</span><span class="p">):</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">reduce_scatter_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">_reduce_scatter_base</span>
+<span class="k">if</span> <span class="s2">&quot;all_gather_into_tensor&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">distributed</span><span class="p">):</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">all_gather_into_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">_all_gather_base</span>
+
+<span class="n">_logger</span> <span class="o">=</span> <span class="n">get_transformer_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="n">_grad_accum_fusion_available</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">fused_weight_gradient_mlp_cuda</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">_grad_accum_fusion_available</span> <span class="o">=</span> <span class="kc">False</span>
+
+
+<span class="n">_MODEL_PARALLEL_ATTRIBUTE_DEFAULTS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;tensor_model_parallel&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s2">&quot;partition_dim&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;partition_stride&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">param_is_not_tensor_parallel_duplicate</span><span class="p">(</span><span class="n">param</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="nb">hasattr</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="s2">&quot;tensor_model_parallel&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">param</span><span class="o">.</span><span class="n">tensor_model_parallel</span>
+    <span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">get_tensor_model_parallel_rank</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">set_tensor_model_parallel_attributes</span><span class="p">(</span><span class="n">tensor</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">is_parallel</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">stride</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="c1"># Make sure the attributes are not set.</span>
+    <span class="k">for</span> <span class="n">attribute</span> <span class="ow">in</span> <span class="n">_MODEL_PARALLEL_ATTRIBUTE_DEFAULTS</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">attribute</span><span class="p">)</span>
+    <span class="c1"># Set the attributes.</span>
+    <span class="nb">setattr</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="s2">&quot;tensor_model_parallel&quot;</span><span class="p">,</span> <span class="n">is_parallel</span><span class="p">)</span>
+    <span class="nb">setattr</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="s2">&quot;partition_dim&quot;</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+    <span class="nb">setattr</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="s2">&quot;partition_stride&quot;</span><span class="p">,</span> <span class="n">stride</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">set_defaults_if_not_set_tensor_model_parallel_attributes</span><span class="p">(</span><span class="n">tensor</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">maybe_set</span><span class="p">(</span><span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">attribute</span><span class="p">):</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">attribute</span> <span class="ow">in</span> <span class="n">_MODEL_PARALLEL_ATTRIBUTE_DEFAULTS</span><span class="p">:</span>
+        <span class="n">maybe_set</span><span class="p">(</span><span class="n">attribute</span><span class="p">,</span> <span class="n">_MODEL_PARALLEL_ATTRIBUTE_DEFAULTS</span><span class="p">[</span><span class="n">attribute</span><span class="p">])</span>
+
+
+<span class="k">def</span> <span class="nf">copy_tensor_model_parallel_attributes</span><span class="p">(</span><span class="n">destination_tensor</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">source_tensor</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">maybe_copy</span><span class="p">(</span><span class="n">attribute</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">source_tensor</span><span class="p">,</span> <span class="n">attribute</span><span class="p">):</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">destination_tensor</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">source_tensor</span><span class="p">,</span> <span class="n">attribute</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">attribute</span> <span class="ow">in</span> <span class="n">_MODEL_PARALLEL_ATTRIBUTE_DEFAULTS</span><span class="p">:</span>
+        <span class="n">maybe_copy</span><span class="p">(</span><span class="n">attribute</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_initialize_affine_weight_gpu</span><span class="p">(</span><span class="n">weight</span><span class="p">,</span> <span class="n">init_method</span><span class="p">,</span> <span class="n">partition_dim</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Initialize affine weight for model parallel on GPU.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        weight (Parameter):</span>
+<span class="sd">        init_method (Callable[[Tensor], None]): Taking a Tensor and initialize its elements.</span>
+<span class="sd">        partition_dim (int): Dimension to apply partition.</span>
+<span class="sd">        stride (int):</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">set_tensor_model_parallel_attributes</span><span class="p">(</span>
+        <span class="n">tensor</span><span class="o">=</span><span class="n">weight</span><span class="p">,</span> <span class="n">is_parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="n">partition_dim</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="n">stride</span>
+    <span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">get_cuda_rng_tracker</span><span class="p">()</span><span class="o">.</span><span class="n">fork</span><span class="p">():</span>
+        <span class="n">init_method</span><span class="p">(</span><span class="n">weight</span><span class="p">)</span>
+
+
+<span class="c1"># TODO (mkozuki): Re-consider removing params_dtype from arguments to make this</span>
+<span class="c1"># more parallel with _initialize_affine_weight_gpu</span>
+<span class="k">def</span> <span class="nf">_initialize_affine_weight_cpu</span><span class="p">(</span>
+    <span class="n">weight</span><span class="p">,</span>
+    <span class="n">output_size</span><span class="p">,</span>
+    <span class="n">input_size</span><span class="p">,</span>
+    <span class="n">per_partition_size</span><span class="p">,</span>
+    <span class="n">partition_dim</span><span class="p">,</span>
+    <span class="n">init_method</span><span class="p">,</span>
+    <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">return_master_weight</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">params_dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Initialize affine weight for model parallel.</span>
+
+<span class="sd">    Build the master weight on all processes and scatter</span>
+<span class="sd">    the relevant chunk.&quot;&quot;&quot;</span>
+
+    <span class="n">set_tensor_model_parallel_attributes</span><span class="p">(</span>
+        <span class="n">tensor</span><span class="o">=</span><span class="n">weight</span><span class="p">,</span> <span class="n">is_parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="n">partition_dim</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="n">stride</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Initialize master weight</span>
+    <span class="n">master_weight</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span>
+        <span class="n">output_size</span><span class="p">,</span> <span class="n">input_size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="n">init_method</span><span class="p">(</span><span class="n">master_weight</span><span class="p">)</span>
+    <span class="n">master_weight</span> <span class="o">=</span> <span class="n">master_weight</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">params_dtype</span><span class="p">)</span>
+
+    <span class="c1"># Split and copy</span>
+    <span class="n">per_partition_per_stride_size</span> <span class="o">=</span> <span class="n">divide</span><span class="p">(</span><span class="n">per_partition_size</span><span class="p">,</span> <span class="n">stride</span><span class="p">)</span>
+    <span class="n">weight_list</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">split</span><span class="p">(</span>
+        <span class="n">master_weight</span><span class="p">,</span> <span class="n">per_partition_per_stride_size</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="n">partition_dim</span>
+    <span class="p">)</span>
+    <span class="n">rank</span> <span class="o">=</span> <span class="n">get_tensor_model_parallel_rank</span><span class="p">()</span>
+    <span class="n">world_size</span> <span class="o">=</span> <span class="n">get_tensor_model_parallel_world_size</span><span class="p">()</span>
+    <span class="n">my_weight_list</span> <span class="o">=</span> <span class="n">weight_list</span><span class="p">[</span><span class="n">rank</span><span class="p">::</span><span class="n">world_size</span><span class="p">]</span>
+
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">my_weight_list</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="n">partition_dim</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">weight</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">return_master_weight</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">master_weight</span>
+    <span class="k">return</span> <span class="kc">None</span>
+
+
+<div class="viewcode-block" id="VocabParallelEmbedding"><a class="viewcode-back" href="../../../../apex.transformer.tensor_parallel.VocabParallelEmbedding.html#apex.transformer.tensor_parallel.VocabParallelEmbedding">[docs]</a><span class="k">class</span> <span class="nc">VocabParallelEmbedding</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Embedding parallelized in the vocabulary dimension.</span>
+
+<span class="sd">    This is mainly adapted from torch.nn.Embedding and all the default</span>
+<span class="sd">    values are kept.</span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        num_embeddings: vocabulary size.</span>
+<span class="sd">        embedding_dim: size of hidden state.</span>
+<span class="sd">        init_method: method to initialize weights.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="VocabParallelEmbedding.__init__"><a class="viewcode-back" href="../../../../apex.transformer.tensor_parallel.VocabParallelEmbedding.html#apex.transformer.tensor_parallel.VocabParallelEmbedding.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">num_embeddings</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">embedding_dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">init_method</span><span class="o">=</span><span class="n">init</span><span class="o">.</span><span class="n">xavier_normal_</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">params_dtype</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+        <span class="n">use_cpu_initialization</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># Keep the input dimensions.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_embeddings</span> <span class="o">=</span> <span class="n">num_embeddings</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">embedding_dim</span> <span class="o">=</span> <span class="n">embedding_dim</span>
+        <span class="c1"># Set the detauls for compatibility.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">padding_idx</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_norm</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">norm_type</span> <span class="o">=</span> <span class="mf">2.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale_grad_by_freq</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sparse</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_weight</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tensor_model_parallel_size</span> <span class="o">=</span> <span class="n">get_tensor_model_parallel_world_size</span><span class="p">()</span>
+        <span class="c1"># Divide the weight matrix along the vocabulary dimension.</span>
+        <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vocab_start_index</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vocab_end_index</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">=</span> <span class="n">VocabUtility</span><span class="o">.</span><span class="n">vocab_range_from_global_vocab_size</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">num_embeddings</span><span class="p">,</span>
+            <span class="n">get_tensor_model_parallel_rank</span><span class="p">(),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tensor_model_parallel_size</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_embeddings_per_partition</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vocab_end_index</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">vocab_start_index</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Allocate weights and initialize.</span>
+        <span class="k">if</span> <span class="n">use_cpu_initialization</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span>
+                <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">num_embeddings_per_partition</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">embedding_dim</span><span class="p">,</span>
+                    <span class="n">dtype</span><span class="o">=</span><span class="n">params_dtype</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">_initialize_affine_weight_cpu</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">num_embeddings</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">embedding_dim</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">num_embeddings_per_partition</span><span class="p">,</span>
+                <span class="mi">0</span><span class="p">,</span>
+                <span class="n">init_method</span><span class="p">,</span>
+                <span class="n">params_dtype</span><span class="o">=</span><span class="n">params_dtype</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span>
+                <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">num_embeddings_per_partition</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">embedding_dim</span><span class="p">,</span>
+                    <span class="n">device</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_device</span><span class="p">(),</span>
+                    <span class="n">dtype</span><span class="o">=</span><span class="n">params_dtype</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">_initialize_affine_weight_gpu</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">init_method</span><span class="p">,</span> <span class="n">partition_dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span>
+            <span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tensor_model_parallel_size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># Build the mask.</span>
+            <span class="n">input_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">input_</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">vocab_start_index</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span>
+                <span class="n">input_</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vocab_end_index</span>
+            <span class="p">)</span>
+            <span class="c1"># Mask the input.</span>
+            <span class="n">masked_input</span> <span class="o">=</span> <span class="n">input_</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">vocab_start_index</span>
+            <span class="n">masked_input</span><span class="p">[</span><span class="n">input_mask</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">masked_input</span> <span class="o">=</span> <span class="n">input_</span>
+            <span class="c1"># Get the embeddings.</span>
+        <span class="n">output_parallel</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">embedding</span><span class="p">(</span>
+            <span class="n">masked_input</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">padding_idx</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">max_norm</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">norm_type</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scale_grad_by_freq</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sparse</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="c1"># Mask the output embedding.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tensor_model_parallel_size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">output_parallel</span><span class="p">[</span><span class="n">input_mask</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="c1"># Reduce across all the model parallel GPUs.</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">reduce_from_tensor_model_parallel_region</span><span class="p">(</span><span class="n">output_parallel</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span></div>
+
+
+<span class="k">class</span> <span class="nc">LinearWithGradAccumulationAndAsyncCommunication</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">Function</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Linear layer execution with asynchronous communication and gradient accumulation fusion in backprop.&quot;&quot;&quot;</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span>
+        <span class="n">ctx</span><span class="p">,</span>
+        <span class="nb">input</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">weight</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">bias</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">],</span>
+        <span class="n">gradient_accumulation_fusion</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">async_grad_allreduce</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">sequence_parallel_enabled</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">use_16bit_in_wgrad_accum_fusion</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">use_bias</span> <span class="o">=</span> <span class="n">bias</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">weight</span><span class="o">.</span><span class="n">requires_grad</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">gradient_accumulation_fusion</span> <span class="o">=</span> <span class="n">gradient_accumulation_fusion</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">async_grad_allreduce</span> <span class="o">=</span> <span class="n">async_grad_allreduce</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">sequence_parallel_enabled</span> <span class="o">=</span> <span class="n">sequence_parallel_enabled</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">use_16bit_in_wgrad_accum_fusion</span> <span class="o">=</span> <span class="n">use_16bit_in_wgrad_accum_fusion</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">compute_weight_gradient</span> <span class="o">=</span> <span class="n">weight</span><span class="o">.</span><span class="n">requires_grad</span>
+
+        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">compute_weight_gradient</span><span class="p">:</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">save_for_backward</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">weight</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">save_for_backward</span><span class="p">(</span><span class="n">weight</span><span class="p">)</span>
+
+
+        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">sequence_parallel_enabled</span><span class="p">:</span>
+            <span class="n">world_size</span> <span class="o">=</span> <span class="n">get_tensor_model_parallel_world_size</span><span class="p">()</span>
+            <span class="c1"># `input` is supposed to be 3D and its order of dimension is [sequence, batch, hidden]</span>
+            <span class="n">shape</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+            <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*=</span> <span class="n">world_size</span>
+
+            <span class="n">all_gather_buffer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span>
+                <span class="n">shape</span><span class="p">,</span>
+                <span class="n">dtype</span><span class="o">=</span><span class="nb">input</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+                <span class="n">device</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_device</span><span class="p">(),</span>
+                <span class="n">requires_grad</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">all_gather_into_tensor</span><span class="p">(</span><span class="n">all_gather_buffer</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="n">get_tensor_model_parallel_group</span><span class="p">())</span>
+            <span class="n">total_input</span> <span class="o">=</span> <span class="n">all_gather_buffer</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">total_input</span> <span class="o">=</span> <span class="nb">input</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">total_input</span><span class="p">,</span> <span class="n">weight</span><span class="o">.</span><span class="n">t</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">bias</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">output</span> <span class="o">+</span> <span class="n">bias</span>
+        <span class="k">return</span> <span class="n">output</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">grad_output</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">compute_weight_gradient</span><span class="p">:</span>
+            <span class="nb">input</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">weight</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="nb">input</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">use_bias</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">use_bias</span>
+
+        <span class="c1">#only get sequence parallel inputs if need to calculate weight grad</span>
+        <span class="n">handle</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">compute_weight_gradient</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">sequence_parallel_enabled</span><span class="p">:</span>
+                <span class="n">world_size</span> <span class="o">=</span> <span class="n">get_tensor_model_parallel_world_size</span><span class="p">()</span>
+                <span class="n">shape</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+                <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*=</span> <span class="n">world_size</span>
+
+                <span class="n">all_gather_buffer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span>
+                    <span class="n">shape</span><span class="p">,</span>
+                    <span class="n">dtype</span><span class="o">=</span><span class="nb">input</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+                    <span class="n">device</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_device</span><span class="p">(),</span>
+                    <span class="n">requires_grad</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">handle</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">all_gather_into_tensor</span><span class="p">(</span>
+                    <span class="n">all_gather_buffer</span><span class="p">,</span>
+                    <span class="nb">input</span><span class="p">,</span>
+                    <span class="n">group</span><span class="o">=</span><span class="n">get_tensor_model_parallel_group</span><span class="p">(),</span>
+                    <span class="n">async_op</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">total_input</span> <span class="o">=</span> <span class="n">all_gather_buffer</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">total_input</span> <span class="o">=</span> <span class="nb">input</span>
+
+        <span class="n">grad_input</span> <span class="o">=</span> <span class="n">grad_output</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">weight</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">handle</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">handle</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">async_grad_allreduce</span><span class="p">:</span>
+            <span class="c1"># Asynchronous all-reduce</span>
+            <span class="n">handle</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">all_reduce</span><span class="p">(</span>
+                <span class="n">grad_input</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="n">get_tensor_model_parallel_group</span><span class="p">(),</span> <span class="n">async_op</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+
+        <span class="c1">#if no weight gradient, immediately return</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ctx</span><span class="o">.</span><span class="n">compute_weight_gradient</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">sequence_parallel_enabled</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="ow">not</span> <span class="n">ctx</span><span class="o">.</span><span class="n">async_grad_allreduce</span>
+                <span class="n">world_size</span> <span class="o">=</span> <span class="n">get_tensor_model_parallel_world_size</span><span class="p">()</span>
+                <span class="n">shape</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">grad_input</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+                <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//=</span> <span class="n">world_size</span>
+
+                <span class="n">sub_grad_input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">(</span><span class="n">shape</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">grad_input</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_device</span><span class="p">(),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">handle</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">reduce_scatter_tensor</span><span class="p">(</span>
+                    <span class="n">sub_grad_input</span><span class="p">,</span>
+                    <span class="n">grad_input</span><span class="p">,</span>
+                    <span class="n">group</span><span class="o">=</span><span class="n">get_tensor_model_parallel_group</span><span class="p">(),</span>
+                    <span class="n">async_op</span><span class="o">=</span><span class="kc">True</span>
+                <span class="p">)</span>
+                <span class="n">handle</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+                <span class="k">return</span> <span class="n">sub_grad_input</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">async_grad_allreduce</span><span class="p">:</span>
+                <span class="n">handle</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">grad_input</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+        <span class="c1"># Convert the tensor shapes to 2D for execution compatibility</span>
+        <span class="n">grad_output</span> <span class="o">=</span> <span class="n">grad_output</span><span class="o">.</span><span class="n">view</span><span class="p">(</span>
+            <span class="n">grad_output</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">grad_output</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">grad_output</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">total_input</span> <span class="o">=</span> <span class="n">total_input</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">total_input</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">total_input</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">total_input</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">sequence_parallel_enabled</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="ow">not</span> <span class="n">ctx</span><span class="o">.</span><span class="n">async_grad_allreduce</span>
+            <span class="n">sub_grad_input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">input</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_device</span><span class="p">(),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">handle</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">reduce_scatter_tensor</span><span class="p">(</span>
+                <span class="n">sub_grad_input</span><span class="p">,</span>
+                <span class="n">grad_input</span><span class="p">,</span>
+                <span class="n">group</span><span class="o">=</span><span class="n">get_tensor_model_parallel_group</span><span class="p">(),</span>
+                <span class="n">async_op</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">gradient_accumulation_fusion</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">ctx</span><span class="o">.</span><span class="n">use_16bit_in_wgrad_accum_fusion</span><span class="p">:</span>
+                <span class="n">fused_weight_gradient_mlp_cuda</span><span class="o">.</span><span class="n">wgrad_gemm_accum_fp32</span><span class="p">(</span>
+                    <span class="n">total_input</span><span class="p">,</span> <span class="n">grad_output</span><span class="p">,</span> <span class="n">weight</span><span class="o">.</span><span class="n">main_grad</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fused_weight_gradient_mlp_cuda</span><span class="o">.</span><span class="n">wgrad_gemm_accum_fp16</span><span class="p">(</span>
+                    <span class="n">total_input</span><span class="p">,</span> <span class="n">grad_output</span><span class="p">,</span> <span class="n">weight</span><span class="o">.</span><span class="n">main_grad</span>
+                <span class="p">)</span>
+            <span class="n">grad_weight</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">grad_weight</span> <span class="o">=</span> <span class="n">grad_output</span><span class="o">.</span><span class="n">t</span><span class="p">()</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">total_input</span><span class="p">)</span>
+        <span class="n">grad_bias</span> <span class="o">=</span> <span class="n">grad_output</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="k">if</span> <span class="n">use_bias</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">sequence_parallel_enabled</span><span class="p">:</span>
+            <span class="n">handle</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">sub_grad_input</span><span class="p">,</span> <span class="n">grad_weight</span><span class="p">,</span> <span class="n">grad_bias</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">async_grad_allreduce</span><span class="p">:</span>
+            <span class="n">handle</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">grad_input</span><span class="p">,</span> <span class="n">grad_weight</span><span class="p">,</span> <span class="n">grad_bias</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+
+<span class="k">def</span> <span class="nf">linear_with_grad_accumulation_and_async_allreduce</span><span class="p">(</span>
+    <span class="nb">input</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">weight</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">bias</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">],</span>
+    <span class="n">gradient_accumulation_fusion</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">async_grad_allreduce</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">sequence_parallel_enabled</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">_cast_if_autocast_enabled</span><span class="p">(</span>
+        <span class="nb">input</span><span class="p">,</span>
+        <span class="n">weight</span><span class="p">,</span>
+        <span class="n">bias</span><span class="p">,</span>
+        <span class="n">gradient_accumulation_fusion</span><span class="p">,</span>
+        <span class="n">async_grad_allreduce</span><span class="p">,</span>
+        <span class="n">sequence_parallel_enabled</span><span class="p">,</span>
+        <span class="kc">False</span><span class="p">,</span>  <span class="c1"># use_16bit_in_wgrad_accum_fusion</span>
+    <span class="p">)</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">amp</span><span class="o">.</span><span class="n">autocast</span><span class="p">(</span><span class="n">enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">LinearWithGradAccumulationAndAsyncCommunication</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">linear_with_grad_accumulation_and_async_allreduce_in16bit</span><span class="p">(</span>
+    <span class="nb">input</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">weight</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">bias</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">],</span>
+    <span class="n">gradient_accumulation_fusion</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">async_grad_allreduce</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">sequence_parallel_enabled</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">_cast_if_autocast_enabled</span><span class="p">(</span>
+        <span class="nb">input</span><span class="p">,</span>
+        <span class="n">weight</span><span class="p">,</span>
+        <span class="n">bias</span><span class="p">,</span>
+        <span class="n">gradient_accumulation_fusion</span><span class="p">,</span>
+        <span class="n">async_grad_allreduce</span><span class="p">,</span>
+        <span class="n">sequence_parallel_enabled</span><span class="p">,</span>
+        <span class="kc">True</span><span class="p">,</span>  <span class="c1"># use_16bit_in_wgrad_accum_fusion</span>
+    <span class="p">)</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">amp</span><span class="o">.</span><span class="n">autocast</span><span class="p">(</span><span class="n">enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">LinearWithGradAccumulationAndAsyncCommunication</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ColumnParallelLinear"><a class="viewcode-back" href="../../../../apex.transformer.tensor_parallel.ColumnParallelLinear.html#apex.transformer.tensor_parallel.ColumnParallelLinear">[docs]</a><span class="k">class</span> <span class="nc">ColumnParallelLinear</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Linear layer with column parallelism.</span>
+
+<span class="sd">    The linear layer is defined as Y = XA + b. A is parallelized along</span>
+<span class="sd">    its second dimension as A = [A_1, ..., A_p].</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        Input is supposed to be three dimensional and each dimension</span>
+<span class="sd">        is expected to be sequence, batch, and hidden feature, respectively.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        input_size: first dimension of matrix A.</span>
+<span class="sd">        output_size: second dimension of matrix A.</span>
+<span class="sd">        bias: If true, add bias</span>
+<span class="sd">        gather_output: If true, call all-gether on output and make Y avaiable</span>
+<span class="sd">                       to all GPUs, otherwise, every GPU will have its output</span>
+<span class="sd">                       which is Y_i = XA_i</span>
+<span class="sd">        init_method: method to initialize weights. Note that bias is always set</span>
+<span class="sd">                     to zero.</span>
+<span class="sd">        stride: For the strided linear layers.</span>
+<span class="sd">        keep_master_weight_for_test: This was added for testing and should be</span>
+<span class="sd">                                     set to False. It returns the master weights</span>
+<span class="sd">                                     used for initialization.</span>
+<span class="sd">        skip_bias_add: This was added to enable performance optimations where bias</span>
+<span class="sd">                       can be fused with other elementwise operations. we skip</span>
+<span class="sd">                       adding bias but instead return it.</span>
+
+<span class="sd">    Keyword Arguments:</span>
+<span class="sd">        no_async_tensor_model_parallel_allreduce:</span>
+<span class="sd">        params_dtype:</span>
+<span class="sd">        use_cpu_initialization:</span>
+<span class="sd">        gradient_accumulation_fusion:</span>
+<span class="sd">        accumulation_in_fp16:</span>
+<span class="sd">        sequence_parallel_enabled:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ColumnParallelLinear.__init__"><a class="viewcode-back" href="../../../../apex.transformer.tensor_parallel.ColumnParallelLinear.html#apex.transformer.tensor_parallel.ColumnParallelLinear.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">input_size</span><span class="p">,</span>
+        <span class="n">output_size</span><span class="p">,</span>
+        <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">gather_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">init_method</span><span class="o">=</span><span class="n">init</span><span class="o">.</span><span class="n">xavier_normal_</span><span class="p">,</span>
+        <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">keep_master_weight_for_test</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">skip_bias_add</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">no_async_tensor_model_parallel_allreduce</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">params_dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+        <span class="n">use_cpu_initialization</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">gradient_accumulation_fusion</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">accumulation_in_fp16</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">sequence_parallel_enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="c1"># Keep input parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_size</span> <span class="o">=</span> <span class="n">input_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_size</span> <span class="o">=</span> <span class="n">output_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gather_output</span> <span class="o">=</span> <span class="n">gather_output</span>
+        <span class="c1"># Divide the weight matrix along the last dimension.</span>
+        <span class="n">world_size</span> <span class="o">=</span> <span class="n">get_tensor_model_parallel_world_size</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_size_per_partition</span> <span class="o">=</span> <span class="n">divide</span><span class="p">(</span><span class="n">output_size</span><span class="p">,</span> <span class="n">world_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">skip_bias_add</span> <span class="o">=</span> <span class="n">skip_bias_add</span>
+
+        <span class="c1"># Parameters.</span>
+        <span class="c1"># Note: torch.nn.functional.linear performs XA^T + b and as a result</span>
+        <span class="c1"># we allocate the transpose.</span>
+        <span class="c1"># Initialize weight.</span>
+        <span class="k">if</span> <span class="n">use_cpu_initialization</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span>
+                <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_size_per_partition</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">params_dtype</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">master_weight</span> <span class="o">=</span> <span class="n">_initialize_affine_weight_cpu</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">output_size</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">input_size</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">output_size_per_partition</span><span class="p">,</span>
+                <span class="mi">0</span><span class="p">,</span>
+                <span class="n">init_method</span><span class="p">,</span>
+                <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span>
+                <span class="n">return_master_weight</span><span class="o">=</span><span class="n">keep_master_weight_for_test</span><span class="p">,</span>
+                <span class="n">params_dtype</span><span class="o">=</span><span class="n">params_dtype</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span>
+                <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">output_size_per_partition</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">input_size</span><span class="p">,</span>
+                    <span class="n">device</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_device</span><span class="p">(),</span>
+                    <span class="n">dtype</span><span class="o">=</span><span class="n">params_dtype</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">_initialize_affine_weight_gpu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">init_method</span><span class="p">,</span> <span class="n">partition_dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">bias</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">use_cpu_initialization</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_size_per_partition</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">params_dtype</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span>
+                    <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">output_size_per_partition</span><span class="p">,</span>
+                        <span class="n">device</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_device</span><span class="p">(),</span>
+                        <span class="n">dtype</span><span class="o">=</span><span class="n">params_dtype</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="n">set_tensor_model_parallel_attributes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">stride</span><span class="p">)</span>
+            <span class="c1"># Always initialize bias to zero.</span>
+            <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">register_parameter</span><span class="p">(</span><span class="s2">&quot;bias&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">async_tensor_model_parallel_allreduce</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="ow">not</span> <span class="n">no_async_tensor_model_parallel_allreduce</span> <span class="ow">and</span> <span class="n">world_size</span> <span class="o">&gt;</span> <span class="mi">1</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">sequence_parallel_enabled</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">world_size</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;`sequence_parallel_enabled` is set to `True`, but got world_size of </span><span class="si">{</span><span class="n">world_size</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+                <span class="c1"># sequence_parallel_enabled = False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sequence_parallel_enabled</span> <span class="o">=</span> <span class="n">sequence_parallel_enabled</span>
+        <span class="k">if</span> <span class="n">gradient_accumulation_fusion</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">_grad_accum_fusion_available</span><span class="p">:</span>
+                <span class="c1"># Basically, apex.transformer module users are expected to install APEX&#39;s</span>
+                <span class="c1"># `--cpp_ext` and `--cuda_ext`. The example installation command is as follows:</span>
+                <span class="c1"># `pip install --global-option=&quot;--cpp_ext&quot; --global-option=&quot;--cuda_ext .&quot;</span>
+                <span class="c1"># at the root of APEX repository.</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                    <span class="s2">&quot;`gradient_accumulation_fusion` is set to `True` but &quot;</span>
+                    <span class="s2">&quot;the custom CUDA extension of `fused_weight_gradient_mlp_cuda` module not &quot;</span>
+                    <span class="s2">&quot;found. Thus `gradient_accumulation_fusion` set to `False`. &quot;</span>
+                    <span class="s2">&quot;Note that the extension requires CUDA&gt;=11.&quot;</span>
+                <span class="p">)</span>
+                <span class="n">gradient_accumulation_fusion</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gradient_accumulation_fusion</span> <span class="o">=</span> <span class="n">gradient_accumulation_fusion</span>
+
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">async_tensor_model_parallel_allreduce</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence_parallel_enabled</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;`async_tensor_model_parallel_allreduce` and `sequence_parallel_enabled` cannot be enabled at the same time.&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_forward_impl</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">linear_with_grad_accumulation_and_async_allreduce_in16bit</span>
+            <span class="k">if</span> <span class="n">accumulation_in_fp16</span>
+            <span class="k">else</span> <span class="n">linear_with_grad_accumulation_and_async_allreduce</span>
+        <span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;Forward of ColumnParallelLinear</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            input_: 3D tensor whose order of dimension is [sequence, batch, hidden]</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            - output</span>
+<span class="sd">            - bias</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bias</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">skip_bias_add</span> <span class="k">else</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">async_tensor_model_parallel_allreduce</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence_parallel_enabled</span><span class="p">:</span>
+            <span class="n">input_parallel</span> <span class="o">=</span> <span class="n">input_</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">input_parallel</span> <span class="o">=</span> <span class="n">copy_to_tensor_model_parallel_region</span><span class="p">(</span><span class="n">input_</span><span class="p">)</span>
+
+        <span class="c1"># Matrix multiply.</span>
+        <span class="n">output_parallel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_impl</span><span class="p">(</span>
+            <span class="nb">input</span><span class="o">=</span><span class="n">input_parallel</span><span class="p">,</span>
+            <span class="n">weight</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span>
+            <span class="n">bias</span><span class="o">=</span><span class="n">bias</span><span class="p">,</span>
+            <span class="n">gradient_accumulation_fusion</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gradient_accumulation_fusion</span><span class="p">,</span>
+            <span class="n">async_grad_allreduce</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">async_tensor_model_parallel_allreduce</span><span class="p">,</span>
+            <span class="n">sequence_parallel_enabled</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sequence_parallel_enabled</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gather_output</span><span class="p">:</span>
+            <span class="c1"># All-gather across the partitions.</span>
+            <span class="k">assert</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence_parallel_enabled</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">gather_from_tensor_model_parallel_region</span><span class="p">(</span><span class="n">output_parallel</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">output_parallel</span>
+        <span class="n">output_bias</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">skip_bias_add</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">output</span><span class="p">,</span> <span class="n">output_bias</span></div>
+
+
+<div class="viewcode-block" id="RowParallelLinear"><a class="viewcode-back" href="../../../../apex.transformer.tensor_parallel.RowParallelLinear.html#apex.transformer.tensor_parallel.RowParallelLinear">[docs]</a><span class="k">class</span> <span class="nc">RowParallelLinear</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Linear layer with row parallelism.</span>
+
+<span class="sd">    The linear layer is defined as Y = XA + b. A is parallelized along</span>
+<span class="sd">    its first dimension and X along its second dimension as:</span>
+<span class="sd">               -   -</span>
+<span class="sd">              | A_1 |</span>
+<span class="sd">              | .   |</span>
+<span class="sd">          A = | .   |        X = [X_1, ..., X_p]</span>
+<span class="sd">              | .   |</span>
+<span class="sd">              | A_p |</span>
+<span class="sd">               -   -</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        Input is supposed to be three dimensional and each dimension</span>
+<span class="sd">        is expected to be sequence, batch, and hidden feature, respectively.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        input_size: first dimension of matrix A.</span>
+<span class="sd">        output_size: second dimension of matrix A.</span>
+<span class="sd">        bias: If true, add bias. Note that bias is not parallelized.</span>
+<span class="sd">        input_is_parallel: If true, we assume that the input is already</span>
+<span class="sd">                           split across the GPUs and we do not split</span>
+<span class="sd">                           again.</span>
+<span class="sd">        init_method: method to initialize weights. Note that bias is always set</span>
+<span class="sd">                     to zero.</span>
+<span class="sd">        stride: For the strided linear layers.</span>
+<span class="sd">        keep_master_weight_for_test: This was added for testing and should be</span>
+<span class="sd">                                     set to False. It returns the master weights</span>
+<span class="sd">                                     used for initialization.</span>
+<span class="sd">        skip_bias_add: This was added to enable performance optimization where bias</span>
+<span class="sd">                       can be fused with other elementwise operations. We skip</span>
+<span class="sd">                       adding bias but instead return it.</span>
+<span class="sd">    Keyword Arguments:</span>
+<span class="sd">        params_dtype:</span>
+<span class="sd">        use_cpu_initialization:</span>
+<span class="sd">        gradient_accumulation_fusion:</span>
+<span class="sd">        accumulation_in_fp16:</span>
+<span class="sd">        sequence_parallel_enabled:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="RowParallelLinear.__init__"><a class="viewcode-back" href="../../../../apex.transformer.tensor_parallel.RowParallelLinear.html#apex.transformer.tensor_parallel.RowParallelLinear.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">input_size</span><span class="p">,</span>
+        <span class="n">output_size</span><span class="p">,</span>
+        <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">input_is_parallel</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">init_method</span><span class="o">=</span><span class="n">init</span><span class="o">.</span><span class="n">xavier_normal_</span><span class="p">,</span>
+        <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">keep_master_weight_for_test</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">skip_bias_add</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">params_dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+        <span class="n">use_cpu_initialization</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">gradient_accumulation_fusion</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">accumulation_in_fp16</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">sequence_parallel_enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="c1"># Keep input parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_size</span> <span class="o">=</span> <span class="n">input_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_size</span> <span class="o">=</span> <span class="n">output_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_is_parallel</span> <span class="o">=</span> <span class="n">input_is_parallel</span>
+        <span class="c1"># Divide the weight matrix along the last dimension.</span>
+        <span class="n">world_size</span> <span class="o">=</span> <span class="n">get_tensor_model_parallel_world_size</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_size_per_partition</span> <span class="o">=</span> <span class="n">divide</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">world_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">skip_bias_add</span> <span class="o">=</span> <span class="n">skip_bias_add</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gradient_accumulation_fusion</span> <span class="o">=</span> <span class="n">gradient_accumulation_fusion</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sequence_parallel_enabled</span> <span class="o">=</span> <span class="n">sequence_parallel_enabled</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence_parallel_enabled</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_is_parallel</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;To enable `sequence_parallel_enabled`, `input_is_parallel` must be `True`&quot;</span><span class="p">)</span>
+
+        <span class="c1"># as an argument to this function?</span>
+        <span class="c1"># Parameters.</span>
+        <span class="c1"># Note: torch.nn.functional.linear performs XA^T + b and as a result</span>
+        <span class="c1"># we allocate the transpose.</span>
+        <span class="c1"># Initialize weight.</span>
+        <span class="k">if</span> <span class="n">use_cpu_initialization</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span>
+                <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">output_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_size_per_partition</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">params_dtype</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">master_weight</span> <span class="o">=</span> <span class="n">_initialize_affine_weight_cpu</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">output_size</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">input_size</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">input_size_per_partition</span><span class="p">,</span>
+                <span class="mi">1</span><span class="p">,</span>
+                <span class="n">init_method</span><span class="p">,</span>
+                <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span>
+                <span class="n">return_master_weight</span><span class="o">=</span><span class="n">keep_master_weight_for_test</span><span class="p">,</span>
+                <span class="n">params_dtype</span><span class="o">=</span><span class="n">params_dtype</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span>
+                <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">output_size</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">input_size_per_partition</span><span class="p">,</span>
+                    <span class="n">device</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_device</span><span class="p">(),</span>
+                    <span class="n">dtype</span><span class="o">=</span><span class="n">params_dtype</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">_initialize_affine_weight_gpu</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">init_method</span><span class="p">,</span> <span class="n">partition_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="n">stride</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">bias</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">use_cpu_initialization</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">params_dtype</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span>
+                    <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">output_size</span><span class="p">,</span>
+                        <span class="n">device</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_device</span><span class="p">(),</span>
+                        <span class="n">dtype</span><span class="o">=</span><span class="n">params_dtype</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="c1"># Always initialize bias to zero.</span>
+            <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="s2">&quot;sequence_parallel_enabled&quot;</span><span class="p">,</span> <span class="n">sequence_parallel_enabled</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">register_parameter</span><span class="p">(</span><span class="s2">&quot;bias&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_forward_impl</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">linear_with_grad_accumulation_and_async_allreduce_in16bit</span>
+            <span class="k">if</span> <span class="n">accumulation_in_fp16</span>
+            <span class="k">else</span> <span class="n">linear_with_grad_accumulation_and_async_allreduce</span>
+        <span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;Forward of RowParallelLinear</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            input_: 3D tensor whose order of dimension is [sequence, batch, hidden]</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            - output</span>
+<span class="sd">            - bias</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Set up backprop all-reduce.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_is_parallel</span><span class="p">:</span>
+            <span class="n">input_parallel</span> <span class="o">=</span> <span class="n">input_</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence_parallel_enabled</span>
+            <span class="n">input_parallel</span> <span class="o">=</span> <span class="n">scatter_to_tensor_model_parallel_region</span><span class="p">(</span><span class="n">input_</span><span class="p">)</span>
+        <span class="c1"># Matrix multiply.</span>
+        <span class="n">output_parallel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_impl</span><span class="p">(</span>
+            <span class="nb">input</span><span class="o">=</span><span class="n">input_parallel</span><span class="p">,</span>
+            <span class="n">weight</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span>
+            <span class="n">bias</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">gradient_accumulation_fusion</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gradient_accumulation_fusion</span><span class="p">,</span>
+            <span class="n">async_grad_allreduce</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">sequence_parallel_enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="c1"># All-reduce across all the partitions.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence_parallel_enabled</span><span class="p">:</span>
+            <span class="n">output_</span> <span class="o">=</span> <span class="n">reduce_scatter_to_sequence_parallel_region</span><span class="p">(</span><span class="n">output_parallel</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">output_</span> <span class="o">=</span> <span class="n">reduce_from_tensor_model_parallel_region</span><span class="p">(</span><span class="n">output_parallel</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">skip_bias_add</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">output_</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">output_</span>
+            <span class="n">output_bias</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">output_</span>
+            <span class="n">output_bias</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span>
+        <span class="k">return</span> <span class="n">output</span><span class="p">,</span> <span class="n">output_bias</span></div>
+</pre></div>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Christian Sarofeen, Natalia Gimelshein, Michael Carilli, Raul Puri<br/>
+  
+      &copy; Copyright 2018-.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+ 
+
+  <style>
+  a:link, a:visited {
+    color: #76b900;
+  }
+
+  a:hover {
+    color: #8c0;
+  }
+
+  .rst-content dl:not(.docutils) dt {
+    background: rgba(118, 185, 0, 0.1);
+    color: rgba(59,93,0,1);
+    border-top: solid 3px rgba(59,93,0,1);
+  }
+  </style>
+  
+  </body>
+</html>

@@ -1,0 +1,662 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>apex.transformer.pipeline_parallel.schedules.fwd_bwd_pipelining_without_interleaving.forward_backward_pipelining_without_interleaving &#8212; NVIDIA APEX</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="apex.transformer.tensor_parallel.vocab_parallel_cross_entropy" href="apex.transformer.tensor_parallel.vocab_parallel_cross_entropy.html" />
+    <link rel="prev" title="apex.transformer.pipeline_parallel.schedules.fwd_bwd_pipelining_with_interleaving._forward_backward_pipelining_with_interleaving" href="apex.transformer.pipeline_parallel.schedules.fwd_bwd_pipelining_with_interleaving._forward_backward_pipelining_with_interleaving.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/nv-pytorch2.png" class="logo" alt="logo">
+      
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="optimizers.html">
+   apex.optimizers
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="apex.optimizers.FusedSGD.html">
+     apex.optimizers.FusedSGD
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="apex.optimizers.FusedAdam.html">
+     apex.optimizers.FusedAdam
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="apex.optimizers.FusedLAMB.html">
+     apex.optimizers.FusedLAMB
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="apex.optimizers.FusedMixedPrecisionLamb.html">
+     apex.optimizers.FusedMixedPrecisionLamb
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="apex.optimizers.FusedNovoGrad.html">
+     apex.optimizers.FusedNovoGrad
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="normalization.html">
+   apex.normalization
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="apex.normalization.FusedLayerNorm.html">
+     apex.normalization.FusedLayerNorm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="apex.normalization.FusedRMSNorm.html">
+     apex.normalization.FusedRMSNorm
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="transformer.html">
+   apex.transformer
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="apex.transformer.functional.fused_softmax.FusedScaleMaskSoftmax.html">
+     apex.transformer.functional.fused_softmax.FusedScaleMaskSoftmax
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="apex.transformer.functional.fused_softmax.GenericFusedScaleMaskSoftmax.html">
+     apex.transformer.functional.fused_softmax.GenericFusedScaleMaskSoftmax
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="apex.transformer.parallel_state.initialize_model_parallel.html">
+     apex.transformer.parallel_state.initialize_model_parallel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="apex.transformer.pipeline_parallel.get_forward_backward_func.html">
+     apex.transformer.pipeline_parallel.get_forward_backward_func
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="apex.transformer.pipeline_parallel.schedules.fwd_bwd_no_pipelining.forward_backward_no_pipelining.html">
+     apex.transformer.pipeline_parallel.schedules.fwd_bwd_no_pipelining.forward_backward_no_pipelining
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="apex.transformer.pipeline_parallel.schedules.fwd_bwd_pipelining_with_interleaving._forward_backward_pipelining_with_interleaving.html">
+     apex.transformer.pipeline_parallel.schedules.fwd_bwd_pipelining_with_interleaving._forward_backward_pipelining_with_interleaving
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     apex.transformer.pipeline_parallel.schedules.fwd_bwd_pipelining_without_interleaving.forward_backward_pipelining_without_interleaving
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="apex.transformer.tensor_parallel.vocab_parallel_cross_entropy.html">
+     apex.transformer.tensor_parallel.vocab_parallel_cross_entropy
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="apex.transformer.tensor_parallel.broadcast_data.html">
+     apex.transformer.tensor_parallel.broadcast_data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="apex.transformer.tensor_parallel.ColumnParallelLinear.html">
+     apex.transformer.tensor_parallel.ColumnParallelLinear
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="apex.transformer.tensor_parallel.RowParallelLinear.html">
+     apex.transformer.tensor_parallel.RowParallelLinear
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="apex.transformer.tensor_parallel.VocabParallelEmbedding.html">
+     apex.transformer.tensor_parallel.VocabParallelEmbedding
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="apex.transformer.tensor_parallel.model_parallel_cuda_manual_seed.html">
+     apex.transformer.tensor_parallel.model_parallel_cuda_manual_seed
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="apex.transformer.utils.split_tensor_into_1d_equal_chunks.html">
+     apex.transformer.utils.split_tensor_into_1d_equal_chunks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="apex.transformer.utils.gather_split_1d_tensor.html">
+     apex.transformer.utils.gather_split_1d_tensor
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="contrib.html">
+   apex.contrib
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.bottleneck.Bottleneck.html">
+     apex.contrib.bottleneck.Bottleneck
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.bottleneck.SpatialBottleneck.html">
+     apex.contrib.bottleneck.SpatialBottleneck
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.bottleneck.HaloExchangerNoComm.html">
+     apex.contrib.bottleneck.HaloExchangerNoComm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.bottleneck.HaloExchangerAllGather.html">
+     apex.contrib.bottleneck.HaloExchangerAllGather
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.bottleneck.HaloExchangerSendRecv.html">
+     apex.contrib.bottleneck.HaloExchangerSendRecv
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.bottleneck.HaloExchangerPeer.html">
+     apex.contrib.bottleneck.HaloExchangerPeer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.clip_grad.clip_grad_norm_.html">
+     apex.contrib.clip_grad.clip_grad_norm_
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.conv_bias_relu.ConvBiasReLU.html">
+     apex.contrib.conv_bias_relu.ConvBiasReLU
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.conv_bias_relu.ConvBias.html">
+     apex.contrib.conv_bias_relu.ConvBias
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.conv_bias_relu.ConvBiasMaskReLU.html">
+     apex.contrib.conv_bias_relu.ConvBiasMaskReLU
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.cudnn_gbn.GroupBatchNorm2d.html">
+     apex.contrib.cudnn_gbn.GroupBatchNorm2d
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.fmha.fmha.FMHA.html">
+     apex.contrib.fmha.fmha.FMHA
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.focal_loss.focal_loss.focal_loss.html">
+     apex.contrib.focal_loss.focal_loss.focal_loss
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.groupbn.BatchNorm2d_NHWC.html">
+     apex.contrib.groupbn.BatchNorm2d_NHWC
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.index_mul_2d.index_mul_2d.html">
+     apex.contrib.index_mul_2d.index_mul_2d
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.layer_norm.FastLayerNorm.html">
+     apex.contrib.layer_norm.FastLayerNorm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.multihead_attn.SelfMultiheadAttn.html">
+     apex.contrib.multihead_attn.SelfMultiheadAttn
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.multihead_attn.EncdecMultiheadAttn.html">
+     apex.contrib.multihead_attn.EncdecMultiheadAttn
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.multihead_attn.fast_mask_softmax_dropout_func.html">
+     apex.contrib.multihead_attn.fast_mask_softmax_dropout_func
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam.html">
+     apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB.html">
+     apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.peer_memory.PeerMemoryPool.html">
+     apex.contrib.peer_memory.PeerMemoryPool
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.peer_memory.PeerHaloExchanger1d.html">
+     apex.contrib.peer_memory.PeerHaloExchanger1d
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.sparsity.create_mask.html">
+     apex.contrib.sparsity.create_mask
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.sparsity.ASP.html">
+     apex.contrib.sparsity.ASP
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.transducer.TransducerJoint.html">
+     apex.contrib.transducer.TransducerJoint
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.transducer.TransducerLoss.html">
+     apex.contrib.transducer.TransducerLoss
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="generated/apex.contrib.xentropy.SoftmaxCrossEntropyLoss.html">
+     apex.contrib.xentropy.SoftmaxCrossEntropyLoss
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+<a href="https://github.com/nvidia/apex"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="bottom"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/apex.transformer.pipeline_parallel.schedules.fwd_bwd_pipelining_without_interleaving.forward_backward_pipelining_without_interleaving.rst.txt"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.rst</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>apex.transformer.pipeline_parallel.schedules.fwd_bwd_pipelining_without_interleaving.forward_backward_pipelining_without_interleaving</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="apex-transformer-pipeline-parallel-schedules-fwd-bwd-pipelining-without-interleaving-forward-backward-pipelining-without-interleaving">
+<h1>apex.transformer.pipeline_parallel.schedules.fwd_bwd_pipelining_without_interleaving.forward_backward_pipelining_without_interleaving<a class="headerlink" href="#apex-transformer-pipeline-parallel-schedules-fwd-bwd-pipelining-without-interleaving-forward-backward-pipelining-without-interleaving" title="Permalink to this headline">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="apex.transformer.pipeline_parallel.schedules.fwd_bwd_pipelining_without_interleaving.forward_backward_pipelining_without_interleaving">
+<span class="sig-prename descclassname"><span class="pre">apex.transformer.pipeline_parallel.schedules.fwd_bwd_pipelining_without_interleaving.</span></span><span class="sig-name descname"><span class="pre">forward_backward_pipelining_without_interleaving</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forward_step_func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.11)"><span class="pre">Callable</span></a><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">apex.transformer.pipeline_parallel.p2p_communication.FutureTensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">apex.transformer.pipeline_parallel.p2p_communication.FutureTensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">apex.transformer.pipeline_parallel.p2p_communication.FutureTensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">torch.nn.modules.module.Module</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.11)"><span class="pre">Callable</span></a><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">apex.transformer.pipeline_parallel.p2p_communication.FutureTensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">apex.transformer.pipeline_parallel.p2p_communication.FutureTensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">apex.transformer.pipeline_parallel.p2p_communication.FutureTensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">torch.nn.modules.module.Module</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><span class="pre">torch.nn.modules.module.Module</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forward_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">tensor_shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">torch.Size</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoder_sequence_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><span class="pre">torch.dtype</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_scaler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><span class="pre">torch.cuda.amp.grad_scaler.GradScaler</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disable_autocast</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deallocate_pipeline_outputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">async_comm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sequence_parallel_enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_sync_context_handler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_grad_sync_func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sync_batch_comm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_micro_batches_with_partial_activation_checkpoints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/apex/transformer/pipeline_parallel/schedules/fwd_bwd_pipelining_without_interleaving.html#forward_backward_pipelining_without_interleaving"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apex.transformer.pipeline_parallel.schedules.fwd_bwd_pipelining_without_interleaving.forward_backward_pipelining_without_interleaving" title="Permalink to this definition">#</a></dt>
+<dd><p>Run non-interleaved 1F1B schedule, with communication between pipeline stages.</p>
+<dl class="simple">
+<dt>This pipeline parallel scheduling consists of three steps:</dt><dd><ol class="arabic simple">
+<li><p>warmup</p></li>
+<li><p>1F1B a.k.a. steady state</p></li>
+<li><p>cooldown if not forward_only</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>forward_step_func</strong> – A function which takes a minibatch and model as its arguments and
+returns model’s forward output and the loss function.
+The loss function is supposed to take one <cite>torch.Tensor</cite> and
+return a <cite>torch.Tensor</cite> of loss and a dictionary of <cite>str</cite> and <cite>torch.Tensor</cite>.</p></li>
+<li><p><strong>batch</strong> – A minibatch, i.e., a list of <cite>torch.Tensor</cite>’s.</p></li>
+<li><p><strong>model</strong> – A <cite>torch.nn.Module</cite> or a list of <cite>torch.nn.Module</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Keyword Arguments</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>forward_only</strong> – </p></li>
+<li><p><strong>tensor_shape</strong> – Shape of tensor. The tensor is expected to be 3D and its order of dimension
+is supposed to be <code class="docutils literal notranslate"><span class="pre">(sequence,</span> <span class="pre">batch,</span> <span class="pre">hidden)</span></code>.</p></li>
+<li><p><strong>dtype</strong> – dtype used in p2p communication. If <code class="docutils literal notranslate"><span class="pre">None</span></code> (default value),
+torch.float32 will be used even if <code class="docutils literal notranslate"><span class="pre">autocast</span></code> is enabled.</p></li>
+<li><p><strong>grad_scaler</strong> – </p></li>
+<li><p><strong>disable_autocast</strong> – </p></li>
+<li><p><strong>deallocate_pipeline_outputs</strong> – If <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, free the data of the output tensor of
+each pipeline stage. Experimental.</p></li>
+<li><p><strong>sequence_parallel_enabled</strong> – Set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> for this function to handle sequence length.
+When <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, the sequence length on each tensor model parallel rank is updated
+to <span class="math notranslate nohighlight">\(original\_sequence\_length / tensor\_model\_parallel\_world\_size\)</span>.</p></li>
+<li><p><strong>custom_sync_context_handler</strong> – Does nothing if <code class="docutils literal notranslate"><span class="pre">None</span></code> (default
+value). Otherwise, a function to construct a context
+manager that disable asynchronous gradient reductions.
+Asynchronous gradient reductions are only enabled in the
+first pipeline stage, during the last backward pass.</p></li>
+<li><p><strong>custom_grad_sync_func</strong> – Does nothing if <code class="docutils literal notranslate"><span class="pre">None</span></code> (default
+value). Otherwise, a function to perform gradient
+reductions. This is called in all pipeline stages except
+the first, during the bubble overhead.</p></li>
+<li><p><strong>sync_batch_comm</strong> – If <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>, disable cuda synchronization after the batched communication.
+To disable, <a class="reference external" href="https://github.com/pytorch/pytorch/pull/82450">https://github.com/pytorch/pytorch/pull/82450</a> would be required.</p></li>
+<li><p><strong>num_micro_batches_with_partial_activation_checkpoints</strong> – If <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>, set the number of
+micro-batches checkpointing the activation of partial number of Transformer layers.
+The rest of the micro-batch within the window of maximum outstanding micro-batch
+backpropagations would checkpoint all Transformer layers.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a list of loss <a href="#id1"><span class="problematic" id="id2">`</span></a>torch.Tensor`s if the last stage, empty list otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="apex.transformer.pipeline_parallel.schedules.fwd_bwd_pipelining_with_interleaving._forward_backward_pipelining_with_interleaving.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">apex.transformer.pipeline_parallel.schedules.fwd_bwd_pipelining_with_interleaving._forward_backward_pipelining_with_interleaving</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="apex.transformer.tensor_parallel.vocab_parallel_cross_entropy.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">apex.transformer.tensor_parallel.vocab_parallel_cross_entropy</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Christian Sarofeen, Natalia Gimelshein, Michael Carilli, Raul Puri<br/>
+  
+      &copy; Copyright 2018-.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+ 
+
+  <style>
+  a:link, a:visited {
+    color: #76b900;
+  }
+
+  a:hover {
+    color: #8c0;
+  }
+
+  .rst-content dl:not(.docutils) dt {
+    background: rgba(118, 185, 0, 0.1);
+    color: rgba(59,93,0,1);
+    border-top: solid 3px rgba(59,93,0,1);
+  }
+  </style>
+  
+  </body>
+</html>

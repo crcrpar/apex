@@ -1,0 +1,837 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>apex.transformer.functional.fused_softmax &#8212; NVIDIA APEX</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../../../_static/nv-pytorch2.png" class="logo" alt="logo">
+      
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../../../optimizers.html">
+   apex.optimizers
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.optimizers.FusedSGD.html">
+     apex.optimizers.FusedSGD
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.optimizers.FusedAdam.html">
+     apex.optimizers.FusedAdam
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.optimizers.FusedLAMB.html">
+     apex.optimizers.FusedLAMB
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.optimizers.FusedMixedPrecisionLamb.html">
+     apex.optimizers.FusedMixedPrecisionLamb
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.optimizers.FusedNovoGrad.html">
+     apex.optimizers.FusedNovoGrad
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../../../normalization.html">
+   apex.normalization
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.normalization.FusedLayerNorm.html">
+     apex.normalization.FusedLayerNorm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.normalization.FusedRMSNorm.html">
+     apex.normalization.FusedRMSNorm
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../../../transformer.html">
+   apex.transformer
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.functional.fused_softmax.FusedScaleMaskSoftmax.html">
+     apex.transformer.functional.fused_softmax.FusedScaleMaskSoftmax
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.functional.fused_softmax.GenericFusedScaleMaskSoftmax.html">
+     apex.transformer.functional.fused_softmax.GenericFusedScaleMaskSoftmax
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.parallel_state.initialize_model_parallel.html">
+     apex.transformer.parallel_state.initialize_model_parallel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.pipeline_parallel.get_forward_backward_func.html">
+     apex.transformer.pipeline_parallel.get_forward_backward_func
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.pipeline_parallel.schedules.fwd_bwd_no_pipelining.forward_backward_no_pipelining.html">
+     apex.transformer.pipeline_parallel.schedules.fwd_bwd_no_pipelining.forward_backward_no_pipelining
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.pipeline_parallel.schedules.fwd_bwd_pipelining_with_interleaving._forward_backward_pipelining_with_interleaving.html">
+     apex.transformer.pipeline_parallel.schedules.fwd_bwd_pipelining_with_interleaving._forward_backward_pipelining_with_interleaving
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.pipeline_parallel.schedules.fwd_bwd_pipelining_without_interleaving.forward_backward_pipelining_without_interleaving.html">
+     apex.transformer.pipeline_parallel.schedules.fwd_bwd_pipelining_without_interleaving.forward_backward_pipelining_without_interleaving
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.tensor_parallel.vocab_parallel_cross_entropy.html">
+     apex.transformer.tensor_parallel.vocab_parallel_cross_entropy
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.tensor_parallel.broadcast_data.html">
+     apex.transformer.tensor_parallel.broadcast_data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.tensor_parallel.ColumnParallelLinear.html">
+     apex.transformer.tensor_parallel.ColumnParallelLinear
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.tensor_parallel.RowParallelLinear.html">
+     apex.transformer.tensor_parallel.RowParallelLinear
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.tensor_parallel.VocabParallelEmbedding.html">
+     apex.transformer.tensor_parallel.VocabParallelEmbedding
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.tensor_parallel.model_parallel_cuda_manual_seed.html">
+     apex.transformer.tensor_parallel.model_parallel_cuda_manual_seed
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.utils.split_tensor_into_1d_equal_chunks.html">
+     apex.transformer.utils.split_tensor_into_1d_equal_chunks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../apex.transformer.utils.gather_split_1d_tensor.html">
+     apex.transformer.utils.gather_split_1d_tensor
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../../../contrib.html">
+   apex.contrib
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.Bottleneck.html">
+     apex.contrib.bottleneck.Bottleneck
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.SpatialBottleneck.html">
+     apex.contrib.bottleneck.SpatialBottleneck
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.HaloExchangerNoComm.html">
+     apex.contrib.bottleneck.HaloExchangerNoComm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.HaloExchangerAllGather.html">
+     apex.contrib.bottleneck.HaloExchangerAllGather
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.HaloExchangerSendRecv.html">
+     apex.contrib.bottleneck.HaloExchangerSendRecv
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.HaloExchangerPeer.html">
+     apex.contrib.bottleneck.HaloExchangerPeer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.clip_grad.clip_grad_norm_.html">
+     apex.contrib.clip_grad.clip_grad_norm_
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.conv_bias_relu.ConvBiasReLU.html">
+     apex.contrib.conv_bias_relu.ConvBiasReLU
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.conv_bias_relu.ConvBias.html">
+     apex.contrib.conv_bias_relu.ConvBias
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.conv_bias_relu.ConvBiasMaskReLU.html">
+     apex.contrib.conv_bias_relu.ConvBiasMaskReLU
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.cudnn_gbn.GroupBatchNorm2d.html">
+     apex.contrib.cudnn_gbn.GroupBatchNorm2d
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.fmha.fmha.FMHA.html">
+     apex.contrib.fmha.fmha.FMHA
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.focal_loss.focal_loss.focal_loss.html">
+     apex.contrib.focal_loss.focal_loss.focal_loss
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.groupbn.BatchNorm2d_NHWC.html">
+     apex.contrib.groupbn.BatchNorm2d_NHWC
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.index_mul_2d.index_mul_2d.html">
+     apex.contrib.index_mul_2d.index_mul_2d
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.layer_norm.FastLayerNorm.html">
+     apex.contrib.layer_norm.FastLayerNorm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.multihead_attn.SelfMultiheadAttn.html">
+     apex.contrib.multihead_attn.SelfMultiheadAttn
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.multihead_attn.EncdecMultiheadAttn.html">
+     apex.contrib.multihead_attn.EncdecMultiheadAttn
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.multihead_attn.fast_mask_softmax_dropout_func.html">
+     apex.contrib.multihead_attn.fast_mask_softmax_dropout_func
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam.html">
+     apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB.html">
+     apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.peer_memory.PeerMemoryPool.html">
+     apex.contrib.peer_memory.PeerMemoryPool
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.peer_memory.PeerHaloExchanger1d.html">
+     apex.contrib.peer_memory.PeerHaloExchanger1d
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.sparsity.create_mask.html">
+     apex.contrib.sparsity.create_mask
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.sparsity.ASP.html">
+     apex.contrib.sparsity.ASP
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.transducer.TransducerJoint.html">
+     apex.contrib.transducer.TransducerJoint
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.transducer.TransducerLoss.html">
+     apex.contrib.transducer.TransducerLoss
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../../generated/apex.contrib.xentropy.SoftmaxCrossEntropyLoss.html">
+     apex.contrib.xentropy.SoftmaxCrossEntropyLoss
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+<a href="https://github.com/nvidia/apex"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="bottom"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1></h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <h1>Source code for apex.transformer.functional.fused_softmax</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding=utf-8</span>
+<span class="c1"># Copyright (c) 2021, NVIDIA CORPORATION.  All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="kn">from</span> <span class="nn">apex._autocast_utils</span> <span class="kn">import</span> <span class="n">_cast_if_autocast_enabled</span>
+<span class="kn">from</span> <span class="nn">apex.transformer.enums</span> <span class="kn">import</span> <span class="n">AttnMaskType</span>
+
+
+<span class="k">class</span> <span class="nc">ScaledUpperTriangMaskedSoftmax</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">Function</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fused operation which performs following three operations in sequence</span>
+<span class="sd">    1. Scale the tensor.</span>
+<span class="sd">    2. Apply upper triangular mask (typically used in gpt models).</span>
+<span class="sd">    3. Perform softmax.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">scale</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">scaled_upper_triang_masked_softmax_cuda</span>
+
+        <span class="n">scale_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">scale</span><span class="p">])</span>
+        <span class="n">softmax_results</span> <span class="o">=</span> <span class="n">scaled_upper_triang_masked_softmax_cuda</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span>
+            <span class="n">inputs</span><span class="p">,</span> <span class="n">scale_t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="n">ctx</span><span class="o">.</span><span class="n">save_for_backward</span><span class="p">(</span><span class="n">softmax_results</span><span class="p">,</span> <span class="n">scale_t</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">softmax_results</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">output_grads</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">scaled_upper_triang_masked_softmax_cuda</span>
+
+        <span class="n">softmax_results</span><span class="p">,</span> <span class="n">scale_t</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span>
+        <span class="n">input_grads</span> <span class="o">=</span> <span class="n">scaled_upper_triang_masked_softmax_cuda</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span>
+            <span class="n">output_grads</span><span class="p">,</span> <span class="n">softmax_results</span><span class="p">,</span> <span class="n">scale_t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">input_grads</span><span class="p">,</span> <span class="kc">None</span>
+
+
+<span class="k">def</span> <span class="nf">scaled_upper_triang_masked_softmax</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">scale</span><span class="p">):</span>
+    <span class="n">b</span><span class="p">,</span> <span class="n">np</span><span class="p">,</span> <span class="n">sq</span><span class="p">,</span> <span class="n">sk</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">sq</span> <span class="o">==</span> <span class="n">sk</span><span class="p">,</span> <span class="s2">&quot;causal mask is only for self attention&quot;</span>
+    <span class="c1"># Reshaping input to 3D tensor (attn_batches, sq, sk)</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">sq</span><span class="p">,</span> <span class="n">sk</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">_cast_if_autocast_enabled</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">amp</span><span class="o">.</span><span class="n">autocast</span><span class="p">(</span><span class="n">enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">probs</span> <span class="o">=</span> <span class="n">ScaledUpperTriangMaskedSoftmax</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">probs</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">np</span><span class="p">,</span> <span class="n">sq</span><span class="p">,</span> <span class="n">sk</span><span class="p">)</span>
+
+
+<span class="c1"># NOTE (mkozuki): `ScaledMaskedSoftmax` somehow doesn&#39;t work well with `torch.cuda.amp.custom_fwd`.</span>
+<span class="c1"># Without `cast_inputs` kwarg, somehow inputs are not cast to dtype used in the autocast context.</span>
+<span class="c1"># So I needed to manually write two `torch.autograd.Function` inheritances.</span>
+<span class="c1"># Fused operation which performs following three operations in sequence</span>
+<span class="c1"># 1. Scale the tensor.</span>
+<span class="c1"># 2. Apply the mask.</span>
+<span class="c1"># 3. Perform softmax.</span>
+<span class="k">class</span> <span class="nc">ScaledMaskedSoftmax</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">Function</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">scale</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">scaled_masked_softmax_cuda</span>
+
+        <span class="n">scale_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">scale</span><span class="p">])</span>
+
+        <span class="n">softmax_results</span> <span class="o">=</span> <span class="n">scaled_masked_softmax_cuda</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">scale_t</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">save_for_backward</span><span class="p">(</span><span class="n">softmax_results</span><span class="p">,</span> <span class="n">scale_t</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">softmax_results</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">output_grads</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">scaled_masked_softmax_cuda</span>
+
+        <span class="n">softmax_results</span><span class="p">,</span> <span class="n">scale_t</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span>
+
+        <span class="n">input_grads</span> <span class="o">=</span> <span class="n">scaled_masked_softmax_cuda</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span>
+            <span class="n">output_grads</span><span class="p">,</span> <span class="n">softmax_results</span><span class="p">,</span> <span class="n">scale_t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">input_grads</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+
+<span class="k">def</span> <span class="nf">scaled_masked_softmax</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">scale</span><span class="p">):</span>
+    <span class="c1"># input is 4D tensor (b, np, sq, sk)</span>
+    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">_cast_if_autocast_enabled</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">amp</span><span class="o">.</span><span class="n">autocast</span><span class="p">(</span><span class="n">enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">ScaledMaskedSoftmax</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">_cast_if_autocast_enabled</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">amp</span><span class="o">.</span><span class="n">autocast</span><span class="p">(</span><span class="n">enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">ScaledSoftmax</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">GenericScaledMaskedSoftmax</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">Function</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">scale</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">generic_scaled_masked_softmax_cuda</span>
+
+        <span class="n">scale_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">scale</span><span class="p">])</span>
+        <span class="n">softmax_results</span> <span class="o">=</span> <span class="n">generic_scaled_masked_softmax_cuda</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">scale_t</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">save_for_backward</span><span class="p">(</span><span class="n">softmax_results</span><span class="p">,</span> <span class="n">scale_t</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">softmax_results</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">output_grads</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">generic_scaled_masked_softmax_cuda_new</span>
+
+        <span class="n">softmax_results</span><span class="p">,</span> <span class="n">scale_t</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span>
+
+        <span class="n">input_grads</span> <span class="o">=</span> <span class="n">generic_scaled_masked_softmax_cuda</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">output_grads</span><span class="p">,</span> <span class="n">softmax_results</span><span class="p">,</span> <span class="n">scale_t</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">input_grads</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+
+<span class="k">def</span> <span class="nf">generic_scaled_masked_softmax</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">scale</span><span class="p">):</span>
+    <span class="c1"># input is 4D tensor (b, np, sq, sk)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">_cast_if_autocast_enabled</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">amp</span><span class="o">.</span><span class="n">autocast</span><span class="p">(</span><span class="n">enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">GenericScaledMaskedSoftmax</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">ScaledSoftmax</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">Function</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fused operation which performs following two operations in sequence</span>
+<span class="sd">    1. Scale the tensor.</span>
+<span class="sd">    2. Perform softmax.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">scale</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">scaled_softmax_cuda</span>
+
+        <span class="n">scale_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">scale</span><span class="p">])</span>
+
+        <span class="n">softmax_results</span> <span class="o">=</span> <span class="n">scaled_softmax_cuda</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span>
+            <span class="n">inputs</span><span class="p">,</span> <span class="n">scale_t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">save_for_backward</span><span class="p">(</span><span class="n">softmax_results</span><span class="p">,</span> <span class="n">scale_t</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">softmax_results</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">output_grads</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">scaled_softmax_cuda</span>
+
+        <span class="n">softmax_results</span><span class="p">,</span> <span class="n">scale_t</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span>
+
+        <span class="n">input_grads</span> <span class="o">=</span> <span class="n">scaled_softmax_cuda</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span>
+            <span class="n">output_grads</span><span class="p">,</span> <span class="n">softmax_results</span><span class="p">,</span> <span class="n">scale_t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">input_grads</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+
+<div class="viewcode-block" id="FusedScaleMaskSoftmax"><a class="viewcode-back" href="../../../../apex.transformer.functional.fused_softmax.FusedScaleMaskSoftmax.html#apex.transformer.functional.fused_softmax.FusedScaleMaskSoftmax">[docs]</a><span class="k">class</span> <span class="nc">FusedScaleMaskSoftmax</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    fused operation: scaling + mask + softmax</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        input_in_fp16: flag to indicate if input in fp16 data format.</span>
+<span class="sd">        input_in_bf16: flag to indicate if input in bf16 data format.</span>
+<span class="sd">        attn_mask_type: attention mask type (pad or causal)</span>
+<span class="sd">        scaled_masked_softmax_fusion: flag to indicate user want to use softmax fusion</span>
+<span class="sd">        mask_func: mask function to be applied.</span>
+<span class="sd">        softmax_in_fp32: if true, softmax in performed at fp32 precision.</span>
+<span class="sd">        scale: scaling factor used in input tensor scaling.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="FusedScaleMaskSoftmax.__init__"><a class="viewcode-back" href="../../../../apex.transformer.functional.fused_softmax.FusedScaleMaskSoftmax.html#apex.transformer.functional.fused_softmax.FusedScaleMaskSoftmax.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">input_in_fp16</span><span class="p">,</span>
+        <span class="n">input_in_bf16</span><span class="p">,</span>
+        <span class="n">attn_mask_type</span><span class="p">,</span>
+        <span class="n">scaled_masked_softmax_fusion</span><span class="p">,</span>
+        <span class="n">mask_func</span><span class="p">,</span>
+        <span class="n">softmax_in_fp32</span><span class="p">,</span>
+        <span class="n">scale</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_in_fp16</span> <span class="o">=</span> <span class="n">input_in_fp16</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_in_bf16</span> <span class="o">=</span> <span class="n">input_in_bf16</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_in_fp16</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_in_bf16</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;both fp16 and bf16 flags cannot be active at the same time.&quot;</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_in_float16</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_in_fp16</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_in_bf16</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attn_mask_type</span> <span class="o">=</span> <span class="n">attn_mask_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaled_masked_softmax_fusion</span> <span class="o">=</span> <span class="n">scaled_masked_softmax_fusion</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mask_func</span> <span class="o">=</span> <span class="n">mask_func</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">softmax_in_fp32</span> <span class="o">=</span> <span class="n">softmax_in_fp32</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">softmax_in_fp32</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;softmax should be in fp32 when scaled&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaled_masked_softmax_fusion</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">attn_mask_type</span> <span class="o">==</span> <span class="n">AttnMaskType</span><span class="o">.</span><span class="n">causal</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fused_softmax_func</span> <span class="o">=</span> <span class="n">scaled_upper_triang_masked_softmax</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">attn_mask_type</span> <span class="o">==</span> <span class="n">AttnMaskType</span><span class="o">.</span><span class="n">padding</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fused_softmax_func</span> <span class="o">=</span> <span class="n">scaled_masked_softmax</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid attn_mask_type.&quot;</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+        <span class="c1"># [b, np, sq, sk]</span>
+        <span class="k">assert</span> <span class="nb">input</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">4</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_kernel_available</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="o">*</span><span class="nb">input</span><span class="o">.</span><span class="n">size</span><span class="p">()):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward_fused_softmax</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward_torch_softmax</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">is_kernel_available</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">np</span><span class="p">,</span> <span class="n">sq</span><span class="p">,</span> <span class="n">sk</span><span class="p">):</span>
+        <span class="n">attn_batches</span> <span class="o">=</span> <span class="n">b</span> <span class="o">*</span> <span class="n">np</span>
+
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scaled_masked_softmax_fusion</span>  <span class="c1"># user want to fuse</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_in_float16</span>  <span class="c1"># input must be fp16</span>
+            <span class="ow">and</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">attn_mask_type</span> <span class="o">==</span> <span class="n">AttnMaskType</span><span class="o">.</span><span class="n">causal</span>
+                <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">attn_mask_type</span> <span class="o">==</span> <span class="n">AttnMaskType</span><span class="o">.</span><span class="n">padding</span>
+            <span class="p">)</span>
+            <span class="ow">and</span> <span class="mi">16</span> <span class="o">&lt;</span> <span class="n">sk</span> <span class="o">&lt;=</span> <span class="mi">16384</span>  <span class="c1"># sk must be 16 ~ 16384</span>
+            <span class="ow">and</span> <span class="n">sq</span> <span class="o">%</span> <span class="mi">4</span> <span class="o">==</span> <span class="mi">0</span>  <span class="c1"># sq must be divisor of 4</span>
+            <span class="ow">and</span> <span class="n">sk</span> <span class="o">%</span> <span class="mi">4</span> <span class="o">==</span> <span class="mi">0</span>  <span class="c1"># sk must be divisor of 4</span>
+            <span class="ow">and</span> <span class="n">attn_batches</span> <span class="o">%</span> <span class="mi">4</span> <span class="o">==</span> <span class="mi">0</span>  <span class="c1"># np * b must be divisor of 4</span>
+        <span class="p">):</span>
+            <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">sk</span> <span class="o">&lt;=</span> <span class="mi">16384</span><span class="p">:</span>
+                <span class="n">batch_per_block</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_batch_per_block</span><span class="p">(</span><span class="n">sq</span><span class="p">,</span> <span class="n">sk</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">np</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">attn_mask_type</span> <span class="o">==</span> <span class="n">AttnMaskType</span><span class="o">.</span><span class="n">causal</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">attn_batches</span> <span class="o">%</span> <span class="n">batch_per_block</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="kc">True</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">sq</span> <span class="o">%</span> <span class="n">batch_per_block</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">forward_fused_softmax</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+        <span class="c1"># input.shape = [b, np, sq, sk]</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mf">1.0</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fused_softmax_func</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward_torch_softmax</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_in_float16</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">softmax_in_fp32</span><span class="p">:</span>
+            <span class="nb">input</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">input</span> <span class="o">=</span> <span class="nb">input</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span>
+        <span class="n">mask_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mask_func</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span> <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">input</span>
+        <span class="n">probs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Softmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)(</span><span class="n">mask_output</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_in_float16</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">softmax_in_fp32</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_in_fp16</span><span class="p">:</span>
+                <span class="n">probs</span> <span class="o">=</span> <span class="n">probs</span><span class="o">.</span><span class="n">half</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">probs</span> <span class="o">=</span> <span class="n">probs</span><span class="o">.</span><span class="n">bfloat16</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">probs</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_batch_per_block</span><span class="p">(</span><span class="n">sq</span><span class="p">,</span> <span class="n">sk</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">np</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">scaled_masked_softmax_cuda</span>
+
+        <span class="k">return</span> <span class="n">scaled_masked_softmax_cuda</span><span class="o">.</span><span class="n">get_batch_per_block</span><span class="p">(</span><span class="n">sq</span><span class="p">,</span> <span class="n">sk</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">np</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GenericFusedScaleMaskSoftmax"><a class="viewcode-back" href="../../../../apex.transformer.functional.fused_softmax.GenericFusedScaleMaskSoftmax.html#apex.transformer.functional.fused_softmax.GenericFusedScaleMaskSoftmax">[docs]</a><span class="k">class</span> <span class="nc">GenericFusedScaleMaskSoftmax</span><span class="p">(</span><span class="n">FusedScaleMaskSoftmax</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generic version of FusedSacleMaskSoftmax.</span>
+<span class="sd">    It removes the seq-len limitations and has slight performance degragation compared with FusedScaleMaskSoftmax</span>
+
+<span class="sd">    fused operation: scaling + mask + softmax</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        input_in_fp16: flag to indicate if input in fp16 data format.</span>
+<span class="sd">        input_in_bf16: flag to indicate if input in bf16 data format.</span>
+<span class="sd">        scaled_masked_softmax_fusion: flag to indicate user want to use softmax fusion</span>
+<span class="sd">        mask_func: mask function to be applied.</span>
+<span class="sd">        softmax_in_fp32: if true, softmax in performed at fp32 precision.</span>
+<span class="sd">        scale: scaling factor used in input tensor scaling.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GenericFusedScaleMaskSoftmax.__init__"><a class="viewcode-back" href="../../../../apex.transformer.functional.fused_softmax.GenericFusedScaleMaskSoftmax.html#apex.transformer.functional.fused_softmax.GenericFusedScaleMaskSoftmax.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">input_in_fp16</span><span class="p">,</span> <span class="n">input_in_bf16</span><span class="p">,</span> <span class="n">scaled_masked_softmax_fusion</span><span class="p">,</span> <span class="n">mask_func</span><span class="p">,</span> <span class="n">softmax_in_fp32</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_in_fp16</span><span class="p">,</span> <span class="n">input_in_bf16</span><span class="p">,</span> <span class="n">AttnMaskType</span><span class="o">.</span><span class="n">padding</span><span class="p">,</span> <span class="n">scaled_masked_softmax_fusion</span><span class="p">,</span> <span class="n">mask_func</span><span class="p">,</span> <span class="n">softmax_in_fp32</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaled_masked_softmax_fusion</span> <span class="o">=</span> <span class="n">generic_scaled_masked_softmax</span></div>
+
+    <span class="k">def</span> <span class="nf">is_kernel_available</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">np</span><span class="p">,</span> <span class="n">sq</span><span class="p">,</span> <span class="n">sk</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaled_masked_softmax_fusion</span> <span class="ow">and</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">sk</span><span class="p">:</span>  <span class="c1"># user want to fuse  # sk must be 1 ~</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+</pre></div>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Christian Sarofeen, Natalia Gimelshein, Michael Carilli, Raul Puri<br/>
+  
+      &copy; Copyright 2018-.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+ 
+
+  <style>
+  a:link, a:visited {
+    color: #76b900;
+  }
+
+  a:hover {
+    color: #8c0;
+  }
+
+  .rst-content dl:not(.docutils) dt {
+    background: rgba(118, 185, 0, 0.1);
+    color: rgba(59,93,0,1);
+    border-top: solid 3px rgba(59,93,0,1);
+  }
+  </style>
+  
+  </body>
+</html>
