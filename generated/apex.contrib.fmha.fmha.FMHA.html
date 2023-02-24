@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>apex.contrib.fmha.fmha.FMHA &mdash; Apex 0.1.0 documentation</title>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/pytorch_theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="apex.contrib.focal_loss.focal_loss.focal_loss" href="apex.contrib.focal_loss.focal_loss.focal_loss.html" />
+    <link rel="prev" title="apex.contrib.cudnn_gbn.GroupBatchNorm2d" href="apex.contrib.cudnn_gbn.GroupBatchNorm2d.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" > 
+
+          
+          
+          <a href="../index.html">
+            
+          </a>
+              <div class="version">
+                0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+  <style>
+    /* Sidebar header (and topbar for mobile) */
+    .wy-side-nav-search, .wy-nav-top {
+      background: #76b900;
+    }
+
+    .wy-side-nav-search a:link, .wy-nav-top a:link {
+      color: #fff;
+    }
+    .wy-side-nav-search a:visited, .wy-nav-top a:visited {
+      color: #fff;
+    }
+    .wy-side-nav-search a:hover, .wy-nav-top a:hover {
+      color: #fff;
+    }
+
+    .wy-menu-vertical a:link, .wy-menu-vertical a:visited {
+      color: #d9d9d9
+    }
+
+    .wy-menu-vertical a:active {
+      background-color: #76b900
+    }
+
+    .wy-side-nav-search>div.version {
+      color: rgba(0, 0, 0, 0.3)
+    }
+  </style>
+  
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Fused Optimizers</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../optimizers.html">apex.optimizers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../apex.optimizers.FusedSGD.html">apex.optimizers.FusedSGD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apex.optimizers.FusedAdam.html">apex.optimizers.FusedAdam</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apex.optimizers.FusedLAMB.html">apex.optimizers.FusedLAMB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apex.optimizers.FusedMixedPrecisionLamb.html">apex.optimizers.FusedMixedPrecisionLamb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apex.optimizers.FusedNovoGrad.html">apex.optimizers.FusedNovoGrad</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../normalization.html">apex.normalization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../apex.normalization.FusedLayerNorm.html">apex.normalization.FusedLayerNorm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apex.normalization.FusedRMSNorm.html">apex.normalization.FusedRMSNorm</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../contrib.html">apex.contrib</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#bottleneck">Bottleneck</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.bottleneck.Bottleneck.html">apex.contrib.bottleneck.Bottleneck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.bottleneck.SpatialBottleneck.html">apex.contrib.bottleneck.SpatialBottleneck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.bottleneck.HaloExchangerNoComm.html">apex.contrib.bottleneck.HaloExchangerNoComm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.bottleneck.HaloExchangerAllGather.html">apex.contrib.bottleneck.HaloExchangerAllGather</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.bottleneck.HaloExchangerSendRecv.html">apex.contrib.bottleneck.HaloExchangerSendRecv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.bottleneck.HaloExchangerPeer.html">apex.contrib.bottleneck.HaloExchangerPeer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#clip-grad">Clip Grad</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.clip_grad.clip_grad_norm_.html">apex.contrib.clip_grad.clip_grad_norm_</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#cudnn-frontend-based-conv-bias-relu">cuDNN frontend based Conv-Bias-ReLU</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.conv_bias_relu.ConvBiasReLU.html">apex.contrib.conv_bias_relu.ConvBiasReLU</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.conv_bias_relu.ConvBias.html">apex.contrib.conv_bias_relu.ConvBias</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.conv_bias_relu.ConvBiasMaskReLU.html">apex.contrib.conv_bias_relu.ConvBiasMaskReLU</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#cudnn-based-2d-group-batch-normalization">cuDNN based 2D Group Batch Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.cudnn_gbn.GroupBatchNorm2d.html">apex.contrib.cudnn_gbn.GroupBatchNorm2d</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="../contrib.html#fused-multihead-attention">Fused MultiHead Attention</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">apex.contrib.fmha.fmha.FMHA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#focal-loss">Focal Loss</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.focal_loss.focal_loss.focal_loss.html">apex.contrib.focal_loss.focal_loss.focal_loss</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#group-batch-normalization">Group Batch Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.groupbn.BatchNorm2d_NHWC.html">apex.contrib.groupbn.BatchNorm2d_NHWC</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#d-index-multiply">2D Index Multiply</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.index_mul_2d.index_mul_2d.html">apex.contrib.index_mul_2d.index_mul_2d</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#layer-normalization">Layer Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.layer_norm.FastLayerNorm.html">apex.contrib.layer_norm.FastLayerNorm</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#multihead-attention">MultiHead Attention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.multihead_attn.SelfMultiheadAttn.html">apex.contrib.multihead_attn.SelfMultiheadAttn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.multihead_attn.EncdecMultiheadAttn.html">apex.contrib.multihead_attn.EncdecMultiheadAttn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.multihead_attn.fast_mask_softmax_dropout_func.html">apex.contrib.multihead_attn.fast_mask_softmax_dropout_func</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#optimizers">Optimizers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam.html">apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB.html">apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#peer-memory">Peer Memory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.peer_memory.PeerMemoryPool.html">apex.contrib.peer_memory.PeerMemoryPool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.peer_memory.PeerHaloExchanger1d.html">apex.contrib.peer_memory.PeerHaloExchanger1d</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#sparsity">Sparsity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.sparsity.create_mask.html">apex.contrib.sparsity.create_mask</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.sparsity.ASP.html">apex.contrib.sparsity.ASP</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#transducer">Transducer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.transducer.TransducerJoint.html">apex.contrib.transducer.TransducerJoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.transducer.TransducerLoss.html">apex.contrib.transducer.TransducerLoss</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#cross-entropy">Cross Entropy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.xentropy.SoftmaxCrossEntropyLoss.html">apex.contrib.xentropy.SoftmaxCrossEntropyLoss</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Apex</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../contrib.html">apex.contrib</a></li>
+      <li class="breadcrumb-item active">apex.contrib.fmha.fmha.FMHA</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/generated/apex.contrib.fmha.fmha.FMHA.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="apex-contrib-fmha-fmha-fmha">
+<h1>apex.contrib.fmha.fmha.FMHA<a class="headerlink" href="#apex-contrib-fmha-fmha-fmha" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="apex.contrib.fmha.fmha.FMHA">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apex.contrib.fmha.fmha.</span></span><span class="sig-name descname"><span class="pre">FMHA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/apex/contrib/fmha/fmha.html#FMHA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apex.contrib.fmha.fmha.FMHA" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="apex.contrib.fmha.fmha.FMHA.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/apex/contrib/fmha/fmha.html#FMHA.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apex.contrib.fmha.fmha.FMHA.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apex.contrib.fmha.fmha.FMHA.__init__" title="apex.contrib.fmha.fmha.FMHA.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(config)</p></td>
+<td><p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_module</span></code>(name, module)</p></td>
+<td><p>Adds a child module to the current module.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply</span></code>(fn)</p></td>
+<td><p>Applies <code class="docutils literal notranslate"><span class="pre">fn</span></code> recursively to every submodule (as returned by <code class="docutils literal notranslate"><span class="pre">.children()</span></code>) as well as self.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">bfloat16</span></code>()</p></td>
+<td><p>Casts all floating point parameters and buffers to <code class="docutils literal notranslate"><span class="pre">bfloat16</span></code> datatype.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">buffers</span></code>([recurse])</p></td>
+<td><p>Returns an iterator over module buffers.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">children</span></code>()</p></td>
+<td><p>Returns an iterator over immediate children modules.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">cpu</span></code>()</p></td>
+<td><p>Moves all model parameters and buffers to the CPU.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">cuda</span></code>([device])</p></td>
+<td><p>Moves all model parameters and buffers to the GPU.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">double</span></code>()</p></td>
+<td><p>Casts all floating point parameters and buffers to <code class="docutils literal notranslate"><span class="pre">double</span></code> datatype.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">eval</span></code>()</p></td>
+<td><p>Sets the module in evaluation mode.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">extra_repr</span></code>()</p></td>
+<td><p>Set the extra representation of the module</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>()</p></td>
+<td><p>Casts all floating point parameters and buffers to <code class="docutils literal notranslate"><span class="pre">float</span></code> datatype.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">forward</span></code>(qkv, cu_seqlens, max_s[, ...])</p></td>
+<td><p>Defines the computation performed at every call.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_buffer</span></code>(target)</p></td>
+<td><p>Returns the buffer given by <code class="docutils literal notranslate"><span class="pre">target</span></code> if it exists, otherwise throws an error.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_extra_state</span></code>()</p></td>
+<td><p>Returns any extra state to include in the module's state_dict.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_parameter</span></code>(target)</p></td>
+<td><p>Returns the parameter given by <code class="docutils literal notranslate"><span class="pre">target</span></code> if it exists, otherwise throws an error.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_submodule</span></code>(target)</p></td>
+<td><p>Returns the submodule given by <code class="docutils literal notranslate"><span class="pre">target</span></code> if it exists, otherwise throws an error.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">half</span></code>()</p></td>
+<td><p>Casts all floating point parameters and buffers to <code class="docutils literal notranslate"><span class="pre">half</span></code> datatype.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ipu</span></code>([device])</p></td>
+<td><p>Moves all model parameters and buffers to the IPU.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_state_dict</span></code>(state_dict[, strict])</p></td>
+<td><p>Copies parameters and buffers from <code class="xref py py-attr docutils literal notranslate"><span class="pre">state_dict</span></code> into this module and its descendants.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">modules</span></code>()</p></td>
+<td><p>Returns an iterator over all modules in the network.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">named_buffers</span></code>([prefix, recurse, ...])</p></td>
+<td><p>Returns an iterator over module buffers, yielding both the name of the buffer as well as the buffer itself.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">named_children</span></code>()</p></td>
+<td><p>Returns an iterator over immediate children modules, yielding both the name of the module as well as the module itself.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">named_modules</span></code>([memo, prefix, remove_duplicate])</p></td>
+<td><p>Returns an iterator over all modules in the network, yielding both the name of the module as well as the module itself.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">named_parameters</span></code>([prefix, recurse, ...])</p></td>
+<td><p>Returns an iterator over module parameters, yielding both the name of the parameter as well as the parameter itself.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">parameters</span></code>([recurse])</p></td>
+<td><p>Returns an iterator over module parameters.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_backward_hook</span></code>(hook)</p></td>
+<td><p>Registers a backward hook on the module.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_buffer</span></code>(name, tensor[, persistent])</p></td>
+<td><p>Adds a buffer to the module.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_forward_hook</span></code>(hook, *[, prepend, ...])</p></td>
+<td><p>Registers a forward hook on the module.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_forward_pre_hook</span></code>(hook, *[, ...])</p></td>
+<td><p>Registers a forward pre-hook on the module.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_full_backward_hook</span></code>(hook[, prepend])</p></td>
+<td><p>Registers a backward hook on the module.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_full_backward_pre_hook</span></code>(hook[, prepend])</p></td>
+<td><p>Registers a backward pre-hook on the module.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_load_state_dict_post_hook</span></code>(hook)</p></td>
+<td><p>Registers a post hook to be run after module's <code class="docutils literal notranslate"><span class="pre">load_state_dict</span></code> is called.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_module</span></code>(name, module)</p></td>
+<td><p>Alias for <code class="xref py py-func docutils literal notranslate"><span class="pre">add_module()</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_parameter</span></code>(name, param)</p></td>
+<td><p>Adds a parameter to the module.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_state_dict_pre_hook</span></code>(hook)</p></td>
+<td><p>These hooks will be called with arguments: <code class="docutils literal notranslate"><span class="pre">self</span></code>, <code class="docutils literal notranslate"><span class="pre">prefix</span></code>, and <code class="docutils literal notranslate"><span class="pre">keep_vars</span></code> before calling <code class="docutils literal notranslate"><span class="pre">state_dict</span></code> on <code class="docutils literal notranslate"><span class="pre">self</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">requires_grad_</span></code>([requires_grad])</p></td>
+<td><p>Change if autograd should record operations on parameters in this module.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_extra_state</span></code>(state)</p></td>
+<td><p>This function is called from <code class="xref py py-func docutils literal notranslate"><span class="pre">load_state_dict()</span></code> to handle any extra state found within the <cite>state_dict</cite>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">share_memory</span></code>()</p></td>
+<td><p>See <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.Tensor.share_memory_()</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">state_dict</span></code>(*args[, destination, prefix, ...])</p></td>
+<td><p>Returns a dictionary containing references to the whole state of the module.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">to</span></code>(*args, **kwargs)</p></td>
+<td><p>Moves and/or casts the parameters and buffers.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_empty</span></code>(*, device)</p></td>
+<td><p>Moves the parameters and buffers to the specified device without copying storage.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">train</span></code>([mode])</p></td>
+<td><p>Sets the module in training mode.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">type</span></code>(dst_type)</p></td>
+<td><p>Casts all parameters and buffers to <code class="xref py py-attr docutils literal notranslate"><span class="pre">dst_type</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">xpu</span></code>([device])</p></td>
+<td><p>Moves all model parameters and buffers to the XPU.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">zero_grad</span></code>([set_to_none])</p></td>
+<td><p>Sets gradients of all model parameters to zero.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">T_destination</span></code></p></td>
+<td><p>alias of TypeVar('T_destination', bound=<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code></a>])</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">call_super_init</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dump_patches</span></code></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="apex.contrib.cudnn_gbn.GroupBatchNorm2d.html" class="btn btn-neutral float-left" title="apex.contrib.cudnn_gbn.GroupBatchNorm2d" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="apex.contrib.focal_loss.focal_loss.focal_loss.html" class="btn btn-neutral float-right" title="apex.contrib.focal_loss.focal_loss.focal_loss" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018-.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>  
+
+  <style>
+  a:link, a:visited {
+    color: #76b900;
+  }
+
+  a:hover {
+    color: #8c0;
+  }
+
+  .rst-content dl:not(.docutils) dt {
+    background: rgba(118, 185, 0, 0.1);
+    color: rgba(59,93,0,1);
+    border-top: solid 3px rgba(59,93,0,1);
+  }
+  </style>
+  
+
+</body>
+</html>

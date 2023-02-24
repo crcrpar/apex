@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>apex.contrib.bottleneck.HaloExchangerSendRecv &mdash; Apex 0.1.0 documentation</title>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/pytorch_theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="apex.contrib.bottleneck.HaloExchangerPeer" href="apex.contrib.bottleneck.HaloExchangerPeer.html" />
+    <link rel="prev" title="apex.contrib.bottleneck.HaloExchangerAllGather" href="apex.contrib.bottleneck.HaloExchangerAllGather.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" > 
+
+          
+          
+          <a href="../index.html">
+            
+          </a>
+              <div class="version">
+                0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+  <style>
+    /* Sidebar header (and topbar for mobile) */
+    .wy-side-nav-search, .wy-nav-top {
+      background: #76b900;
+    }
+
+    .wy-side-nav-search a:link, .wy-nav-top a:link {
+      color: #fff;
+    }
+    .wy-side-nav-search a:visited, .wy-nav-top a:visited {
+      color: #fff;
+    }
+    .wy-side-nav-search a:hover, .wy-nav-top a:hover {
+      color: #fff;
+    }
+
+    .wy-menu-vertical a:link, .wy-menu-vertical a:visited {
+      color: #d9d9d9
+    }
+
+    .wy-menu-vertical a:active {
+      background-color: #76b900
+    }
+
+    .wy-side-nav-search>div.version {
+      color: rgba(0, 0, 0, 0.3)
+    }
+  </style>
+  
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Fused Optimizers</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../optimizers.html">apex.optimizers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../apex.optimizers.FusedSGD.html">apex.optimizers.FusedSGD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apex.optimizers.FusedAdam.html">apex.optimizers.FusedAdam</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apex.optimizers.FusedLAMB.html">apex.optimizers.FusedLAMB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apex.optimizers.FusedMixedPrecisionLamb.html">apex.optimizers.FusedMixedPrecisionLamb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apex.optimizers.FusedNovoGrad.html">apex.optimizers.FusedNovoGrad</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../normalization.html">apex.normalization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../apex.normalization.FusedLayerNorm.html">apex.normalization.FusedLayerNorm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apex.normalization.FusedRMSNorm.html">apex.normalization.FusedRMSNorm</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../contrib.html">apex.contrib</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../contrib.html#bottleneck">Bottleneck</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.bottleneck.Bottleneck.html">apex.contrib.bottleneck.Bottleneck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.bottleneck.SpatialBottleneck.html">apex.contrib.bottleneck.SpatialBottleneck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.bottleneck.HaloExchangerNoComm.html">apex.contrib.bottleneck.HaloExchangerNoComm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.bottleneck.HaloExchangerAllGather.html">apex.contrib.bottleneck.HaloExchangerAllGather</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">apex.contrib.bottleneck.HaloExchangerSendRecv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.bottleneck.HaloExchangerPeer.html">apex.contrib.bottleneck.HaloExchangerPeer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#clip-grad">Clip Grad</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.clip_grad.clip_grad_norm_.html">apex.contrib.clip_grad.clip_grad_norm_</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#cudnn-frontend-based-conv-bias-relu">cuDNN frontend based Conv-Bias-ReLU</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.conv_bias_relu.ConvBiasReLU.html">apex.contrib.conv_bias_relu.ConvBiasReLU</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.conv_bias_relu.ConvBias.html">apex.contrib.conv_bias_relu.ConvBias</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.conv_bias_relu.ConvBiasMaskReLU.html">apex.contrib.conv_bias_relu.ConvBiasMaskReLU</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#cudnn-based-2d-group-batch-normalization">cuDNN based 2D Group Batch Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.cudnn_gbn.GroupBatchNorm2d.html">apex.contrib.cudnn_gbn.GroupBatchNorm2d</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#fused-multihead-attention">Fused MultiHead Attention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.fmha.fmha.FMHA.html">apex.contrib.fmha.fmha.FMHA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#focal-loss">Focal Loss</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.focal_loss.focal_loss.focal_loss.html">apex.contrib.focal_loss.focal_loss.focal_loss</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#group-batch-normalization">Group Batch Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.groupbn.BatchNorm2d_NHWC.html">apex.contrib.groupbn.BatchNorm2d_NHWC</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#d-index-multiply">2D Index Multiply</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.index_mul_2d.index_mul_2d.html">apex.contrib.index_mul_2d.index_mul_2d</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#layer-normalization">Layer Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.layer_norm.FastLayerNorm.html">apex.contrib.layer_norm.FastLayerNorm</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#multihead-attention">MultiHead Attention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.multihead_attn.SelfMultiheadAttn.html">apex.contrib.multihead_attn.SelfMultiheadAttn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.multihead_attn.EncdecMultiheadAttn.html">apex.contrib.multihead_attn.EncdecMultiheadAttn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.multihead_attn.fast_mask_softmax_dropout_func.html">apex.contrib.multihead_attn.fast_mask_softmax_dropout_func</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#optimizers">Optimizers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam.html">apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB.html">apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#peer-memory">Peer Memory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.peer_memory.PeerMemoryPool.html">apex.contrib.peer_memory.PeerMemoryPool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.peer_memory.PeerHaloExchanger1d.html">apex.contrib.peer_memory.PeerHaloExchanger1d</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#sparsity">Sparsity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.sparsity.create_mask.html">apex.contrib.sparsity.create_mask</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.sparsity.ASP.html">apex.contrib.sparsity.ASP</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#transducer">Transducer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.transducer.TransducerJoint.html">apex.contrib.transducer.TransducerJoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.transducer.TransducerLoss.html">apex.contrib.transducer.TransducerLoss</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib.html#cross-entropy">Cross Entropy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apex.contrib.xentropy.SoftmaxCrossEntropyLoss.html">apex.contrib.xentropy.SoftmaxCrossEntropyLoss</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Apex</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../contrib.html">apex.contrib</a></li>
+      <li class="breadcrumb-item active">apex.contrib.bottleneck.HaloExchangerSendRecv</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/generated/apex.contrib.bottleneck.HaloExchangerSendRecv.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="apex-contrib-bottleneck-haloexchangersendrecv">
+<h1>apex.contrib.bottleneck.HaloExchangerSendRecv<a class="headerlink" href="#apex-contrib-bottleneck-haloexchangersendrecv" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="apex.contrib.bottleneck.HaloExchangerSendRecv">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apex.contrib.bottleneck.</span></span><span class="sig-name descname"><span class="pre">HaloExchangerSendRecv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ranks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank_in_group</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/apex/contrib/bottleneck/halo_exchangers.html#HaloExchangerSendRecv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apex.contrib.bottleneck.HaloExchangerSendRecv" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="apex.contrib.bottleneck.HaloExchangerSendRecv.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ranks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank_in_group</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/apex/contrib/bottleneck/halo_exchangers.html#HaloExchangerSendRecv.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apex.contrib.bottleneck.HaloExchangerSendRecv.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#apex.contrib.bottleneck.HaloExchangerSendRecv.__init__" title="apex.contrib.bottleneck.HaloExchangerSendRecv.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(ranks, rank_in_group)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">left_right_halo_exchange</span></code>(left_output_halo, ...)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="apex.contrib.bottleneck.HaloExchangerAllGather.html" class="btn btn-neutral float-left" title="apex.contrib.bottleneck.HaloExchangerAllGather" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="apex.contrib.bottleneck.HaloExchangerPeer.html" class="btn btn-neutral float-right" title="apex.contrib.bottleneck.HaloExchangerPeer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018-.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>  
+
+  <style>
+  a:link, a:visited {
+    color: #76b900;
+  }
+
+  a:hover {
+    color: #8c0;
+  }
+
+  .rst-content dl:not(.docutils) dt {
+    background: rgba(118, 185, 0, 0.1);
+    color: rgba(59,93,0,1);
+    border-top: solid 3px rgba(59,93,0,1);
+  }
+  </style>
+  
+
+</body>
+</html>

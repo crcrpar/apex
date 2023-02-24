@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>apex.optimizers.fused_mixed_precision_lamb &mdash; Apex 0.1.0 documentation</title>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/pytorch_theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" > 
+
+          
+          
+          <a href="../../../index.html">
+            
+          </a>
+              <div class="version">
+                0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+  <style>
+    /* Sidebar header (and topbar for mobile) */
+    .wy-side-nav-search, .wy-nav-top {
+      background: #76b900;
+    }
+
+    .wy-side-nav-search a:link, .wy-nav-top a:link {
+      color: #fff;
+    }
+    .wy-side-nav-search a:visited, .wy-nav-top a:visited {
+      color: #fff;
+    }
+    .wy-side-nav-search a:hover, .wy-nav-top a:hover {
+      color: #fff;
+    }
+
+    .wy-menu-vertical a:link, .wy-menu-vertical a:visited {
+      color: #d9d9d9
+    }
+
+    .wy-menu-vertical a:active {
+      background-color: #76b900
+    }
+
+    .wy-side-nav-search>div.version {
+      color: rgba(0, 0, 0, 0.3)
+    }
+  </style>
+  
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Fused Optimizers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../optimizers.html">apex.optimizers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../apex.optimizers.FusedSGD.html">apex.optimizers.FusedSGD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../apex.optimizers.FusedAdam.html">apex.optimizers.FusedAdam</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../apex.optimizers.FusedLAMB.html">apex.optimizers.FusedLAMB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../apex.optimizers.FusedMixedPrecisionLamb.html">apex.optimizers.FusedMixedPrecisionLamb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../apex.optimizers.FusedNovoGrad.html">apex.optimizers.FusedNovoGrad</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../normalization.html">apex.normalization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../apex.normalization.FusedLayerNorm.html">apex.normalization.FusedLayerNorm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../apex.normalization.FusedRMSNorm.html">apex.normalization.FusedRMSNorm</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib.html">apex.contrib</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#bottleneck">Bottleneck</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.bottleneck.Bottleneck.html">apex.contrib.bottleneck.Bottleneck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.bottleneck.SpatialBottleneck.html">apex.contrib.bottleneck.SpatialBottleneck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.bottleneck.HaloExchangerNoComm.html">apex.contrib.bottleneck.HaloExchangerNoComm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.bottleneck.HaloExchangerAllGather.html">apex.contrib.bottleneck.HaloExchangerAllGather</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.bottleneck.HaloExchangerSendRecv.html">apex.contrib.bottleneck.HaloExchangerSendRecv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.bottleneck.HaloExchangerPeer.html">apex.contrib.bottleneck.HaloExchangerPeer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#clip-grad">Clip Grad</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.clip_grad.clip_grad_norm_.html">apex.contrib.clip_grad.clip_grad_norm_</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#cudnn-frontend-based-conv-bias-relu">cuDNN frontend based Conv-Bias-ReLU</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.conv_bias_relu.ConvBiasReLU.html">apex.contrib.conv_bias_relu.ConvBiasReLU</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.conv_bias_relu.ConvBias.html">apex.contrib.conv_bias_relu.ConvBias</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.conv_bias_relu.ConvBiasMaskReLU.html">apex.contrib.conv_bias_relu.ConvBiasMaskReLU</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#cudnn-based-2d-group-batch-normalization">cuDNN based 2D Group Batch Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.cudnn_gbn.GroupBatchNorm2d.html">apex.contrib.cudnn_gbn.GroupBatchNorm2d</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#fused-multihead-attention">Fused MultiHead Attention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.fmha.fmha.FMHA.html">apex.contrib.fmha.fmha.FMHA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#focal-loss">Focal Loss</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.focal_loss.focal_loss.focal_loss.html">apex.contrib.focal_loss.focal_loss.focal_loss</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#group-batch-normalization">Group Batch Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.groupbn.BatchNorm2d_NHWC.html">apex.contrib.groupbn.BatchNorm2d_NHWC</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#d-index-multiply">2D Index Multiply</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.index_mul_2d.index_mul_2d.html">apex.contrib.index_mul_2d.index_mul_2d</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#layer-normalization">Layer Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.layer_norm.FastLayerNorm.html">apex.contrib.layer_norm.FastLayerNorm</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#multihead-attention">MultiHead Attention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.multihead_attn.SelfMultiheadAttn.html">apex.contrib.multihead_attn.SelfMultiheadAttn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.multihead_attn.EncdecMultiheadAttn.html">apex.contrib.multihead_attn.EncdecMultiheadAttn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.multihead_attn.fast_mask_softmax_dropout_func.html">apex.contrib.multihead_attn.fast_mask_softmax_dropout_func</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#optimizers">Optimizers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam.html">apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB.html">apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#peer-memory">Peer Memory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.peer_memory.PeerMemoryPool.html">apex.contrib.peer_memory.PeerMemoryPool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.peer_memory.PeerHaloExchanger1d.html">apex.contrib.peer_memory.PeerHaloExchanger1d</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#sparsity">Sparsity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.sparsity.create_mask.html">apex.contrib.sparsity.create_mask</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.sparsity.ASP.html">apex.contrib.sparsity.ASP</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#transducer">Transducer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.transducer.TransducerJoint.html">apex.contrib.transducer.TransducerJoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.transducer.TransducerLoss.html">apex.contrib.transducer.TransducerLoss</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#cross-entropy">Cross Entropy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.xentropy.SoftmaxCrossEntropyLoss.html">apex.contrib.xentropy.SoftmaxCrossEntropyLoss</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Apex</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">apex.optimizers.fused_mixed_precision_lamb</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for apex.optimizers.fused_mixed_precision_lamb</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span><span class="p">,</span> <span class="n">abc</span> <span class="k">as</span> <span class="n">container_abcs</span>
+
+<span class="kn">from</span> <span class="nn">apex.multi_tensor_apply</span> <span class="kn">import</span> <span class="n">multi_tensor_applier</span>
+
+<div class="viewcode-block" id="FusedMixedPrecisionLamb"><a class="viewcode-back" href="../../../apex.optimizers.FusedMixedPrecisionLamb.html#apex.optimizers.FusedMixedPrecisionLamb">[docs]</a><span class="k">class</span> <span class="nc">FusedMixedPrecisionLamb</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Optimizer</span><span class="p">):</span>
+
+<div class="viewcode-block" id="FusedMixedPrecisionLamb.__init__"><a class="viewcode-back" href="../../../apex.optimizers.FusedMixedPrecisionLamb.html#apex.optimizers.FusedMixedPrecisionLamb.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bias_correction</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">betas</span><span class="o">=</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.999</span><span class="p">),</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+                 <span class="n">amsgrad</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">adam_w_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">grad_averaging</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_grad_norm</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">use_nvlamb</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">reduced_precision_dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">amsgrad</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;FusedLAMB does not support the AMSGrad variant.&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># The learning rate (lr) and optimizer step (step) should be located on device</span>
+        <span class="c1"># in order to faciliated device sync free execution</span>
+        <span class="n">defaults</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">lr</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+                        <span class="n">step</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">step</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">int</span><span class="p">),</span>
+                        <span class="n">bias_correction</span><span class="o">=</span><span class="n">bias_correction</span><span class="p">,</span>
+                        <span class="n">betas</span><span class="o">=</span><span class="n">betas</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">eps</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="n">weight_decay</span><span class="p">,</span>
+                        <span class="n">grad_averaging</span><span class="o">=</span><span class="n">grad_averaging</span><span class="p">,</span>
+                        <span class="n">max_grad_norm</span><span class="o">=</span><span class="n">max_grad_norm</span><span class="p">)</span>
+        <span class="n">tensor_state</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;lr&#39;</span><span class="p">,</span> <span class="s1">&#39;step&#39;</span><span class="p">]</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FusedMixedPrecisionLamb</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">defaults</span><span class="p">)</span>
+
+        <span class="n">device</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;params&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">device</span>
+
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span><span class="n">group</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_groups</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">tensor_state</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">param_groups</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="n">item</span><span class="p">]</span> <span class="o">=</span> <span class="n">group</span><span class="p">[</span><span class="n">item</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">multi_tensor_applier</span><span class="o">.</span><span class="n">available</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">amp_C</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">multi_tensor_l2norm</span><span class="o">=</span><span class="n">amp_C</span><span class="o">.</span><span class="n">multi_tensor_l2norm_mp</span>
+            <span class="c1"># Skip buffer</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_dummy_overflow_buf</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">int</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">multi_tensor_lamb</span> <span class="o">=</span> <span class="n">amp_C</span><span class="o">.</span><span class="n">multi_tensor_lamb_mp</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;apex.optimizers.FusedLAMB requires cuda extensions&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Mixed Precision support</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reduced_precision_dtype</span> <span class="o">=</span> <span class="n">reduced_precision_dtype</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">param_groups_full_precision</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_step_supports_amp_scaling</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">adam_w_mode</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">adam_w_mode</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_nvlamb</span> <span class="o">=</span> <span class="n">use_nvlamb</span></div>
+
+    <span class="c1"># This method is overridden from the parent class because there is not a way to override</span>
+    <span class="c1"># the nested function cast() that copies a saved piece of state to the device without</span>
+    <span class="c1"># redundantly doing the copy.</span>
+    <span class="k">def</span> <span class="nf">load_state_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state_dict</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Loads the optimizer state.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            state_dict (dict): optimizer state. Should be an object returned</span>
+<span class="sd">                from a call to :meth:`state_dict`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># deepcopy, to be consistent with module API</span>
+        <span class="n">state_dict</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">state_dict</span><span class="p">)</span>
+        <span class="c1"># Validate the state_dict</span>
+        <span class="n">groups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_groups</span>
+        <span class="n">saved_groups</span> <span class="o">=</span> <span class="n">state_dict</span><span class="p">[</span><span class="s1">&#39;param_groups&#39;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">saved_groups</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;loaded state dict has a different number of &quot;</span>
+                             <span class="s2">&quot;parameter groups&quot;</span><span class="p">)</span>
+        <span class="n">param_lens</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">)</span>
+        <span class="n">saved_lens</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">saved_groups</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">p_len</span> <span class="o">!=</span> <span class="n">s_len</span> <span class="k">for</span> <span class="n">p_len</span><span class="p">,</span> <span class="n">s_len</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">param_lens</span><span class="p">,</span> <span class="n">saved_lens</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;loaded state dict contains a parameter group &quot;</span>
+                             <span class="s2">&quot;that doesn&#39;t match the size of optimizer&#39;s group&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Update the state</span>
+        <span class="n">id_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">old_id</span><span class="p">:</span> <span class="n">p</span> <span class="k">for</span> <span class="n">old_id</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span>
+                  <span class="nb">zip</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">((</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">saved_groups</span><span class="p">)),</span>
+                      <span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">((</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">)))}</span>
+
+        <span class="k">def</span> <span class="nf">cast</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+            <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Make a deep copy of value, casting all tensors to device of param.&quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+                <span class="c1"># The original version casted the saved value to the params dtype</span>
+                <span class="c1"># This doesn&#39;t work for mixed precision Lamb where the momentum and</span>
+                <span class="c1"># velocity are expected to be in full precision while the params are</span>
+                <span class="c1"># in reduced precision</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">value</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">cast</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">container_abcs</span><span class="o">.</span><span class="n">Iterable</span><span class="p">):</span>
+                <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)(</span><span class="n">cast</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">value</span>
+
+        <span class="c1"># Copy state assigned to params (and cast tensors to appropriate types).</span>
+        <span class="c1"># State that is not assigned to params is copied as is (needed for</span>
+        <span class="c1"># backward compatibility).</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">state_dict</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">id_map</span><span class="p">:</span>
+                <span class="n">param</span> <span class="o">=</span> <span class="n">id_map</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+                <span class="n">state</span><span class="p">[</span><span class="n">param</span><span class="p">]</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">state</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+
+        <span class="c1"># Update parameter groups, setting their &#39;params&#39; value</span>
+        <span class="k">def</span> <span class="nf">update_group</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">new_group</span><span class="p">):</span>
+            <span class="n">new_group</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">new_group</span>
+        <span class="n">param_groups</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">update_group</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">ng</span><span class="p">)</span> <span class="k">for</span> <span class="n">g</span><span class="p">,</span> <span class="n">ng</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span> <span class="n">saved_groups</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__setstate__</span><span class="p">({</span><span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="n">state</span><span class="p">,</span> <span class="s1">&#39;param_groups&#39;</span><span class="p">:</span> <span class="n">param_groups</span><span class="p">})</span>
+
+    <span class="k">def</span> <span class="nf">_setup_full_precision_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">pg</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_groups</span><span class="p">):</span>
+            <span class="n">param_list</span> <span class="o">=</span> <span class="n">pg</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">param_groups_full_precision</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;params&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="n">p</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reduced_precision_dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduced_precision_dtype</span><span class="p">)</span>
+                    <span class="k">else</span> <span class="kc">None</span>
+                    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">param_list</span>
+                <span class="p">],</span>
+            <span class="p">})</span>
+   
+    <span class="c1"># add_param_groups() is overridden because default items can be tensors. The</span>
+    <span class="c1"># parent version does not clone the default item, so two param groups can </span>
+    <span class="c1"># accidentally point to the same default item value where they can differ</span>
+    <span class="c1"># given they are in separate groups.</span>
+    <span class="k">def</span> <span class="nf">add_param_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_group</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">add_param_group</span><span class="p">(</span><span class="n">param_group</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">default</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">defaults</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">param_groups</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_groups</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">default</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+
+    <span class="nd">@torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">closure</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">grad_scaler</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">closure</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">closure</span><span class="p">()</span>
+
+        <span class="c1"># The full precision params are set up in the first step of the optimizer</span>
+        <span class="c1"># instead of in the constructor because the full precision params will get out</span>
+        <span class="c1"># out of sync with the model params if DDP syncs the model params across devices</span>
+        <span class="c1"># after the optimizer is constructed.</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_groups_full_precision</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_setup_full_precision_params</span><span class="p">()</span>
+
+        <span class="c1"># create separate grad lists for params</span>
+        <span class="n">grad_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">gid</span><span class="p">,</span><span class="n">group</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_groups</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">pid</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">group</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]):</span>
+                <span class="k">assert</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">p</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> \
+                    <span class="s2">&quot;Error: Parameters are not of the identical type: </span><span class="si">{}</span><span class="s2"> != </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">group</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">grad</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">grad_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span>
+       
+        <span class="c1"># Overflow check of gradients</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">device</span>
+        <span class="n">found_inf</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">grad_scaler</span><span class="o">.</span><span class="n">_check_inf_per_device</span><span class="p">(</span><span class="bp">self</span><span class="p">)[</span><span class="n">device</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">grad_scaler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dummy_overflow_buf</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">found_inf</span><span class="p">)</span>
+
+        <span class="c1"># Get unscale scale factor</span>
+        <span class="n">scale</span><span class="p">,</span> <span class="n">inv_scale</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">grad_scaler</span><span class="p">:</span>
+            <span class="n">scale</span> <span class="o">=</span> <span class="n">grad_scaler</span><span class="o">.</span><span class="n">_get_scale_async</span><span class="p">()</span>
+            <span class="n">inv_scale</span> <span class="o">=</span> <span class="n">scale</span><span class="o">.</span><span class="n">double</span><span class="p">()</span><span class="o">.</span><span class="n">reciprocal</span><span class="p">()</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">scale</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">1</span><span class="p">,),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">inv_scale</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">1</span><span class="p">,),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+        
+        <span class="c1"># grad_norm is of scaled gradients.</span>
+        <span class="c1"># So, multiply `max_grad_norm` by scale.</span>
+        <span class="n">max_grad_norm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">defaults</span><span class="p">[</span><span class="s1">&#39;max_grad_norm&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">scale</span>
+        <span class="n">grad_norm</span> <span class="o">=</span> <span class="n">multi_tensor_applier</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">multi_tensor_l2norm</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_dummy_overflow_buf</span><span class="p">,</span>
+            <span class="p">[</span><span class="n">grad_list</span><span class="p">],</span>
+            <span class="kc">False</span><span class="p">,</span>
+        <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># Run LAMB optimization math</span>
+        <span class="k">for</span> <span class="n">gid</span><span class="p">,</span> <span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">group_full</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_groups</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_groups_full_precision</span><span class="p">)):</span>
+            <span class="n">bias_correction</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;bias_correction&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span>
+            <span class="n">beta1</span><span class="p">,</span> <span class="n">beta2</span> <span class="o">=</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;betas&#39;</span><span class="p">]</span>
+            <span class="n">grad_averaging</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;grad_averaging&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span>
+
+            <span class="c1"># assume same step across group now to simplify things</span>
+            <span class="c1"># per parameter step can be easily support by making it tensor, or pass list into kernel</span>
+            <span class="n">group</span><span class="p">[</span><span class="s1">&#39;step&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dummy_overflow_buf</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+
+            <span class="n">state_lists</span> <span class="o">=</span> <span class="p">[</span> <span class="p">[],</span> <span class="c1"># (0) grads</span>
+                            <span class="p">[],</span> <span class="c1"># (1) params</span>
+                            <span class="p">[],</span> <span class="c1"># (2) momentum state</span>
+                            <span class="p">[],</span> <span class="c1"># (3) velocity state</span>
+                          <span class="p">]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduced_precision_dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">state_lists</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span> <span class="c1"># (4) params reduced_dtype</span>
+
+
+            <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">p_full</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">group</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">],</span> <span class="n">group_full</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]):</span>
+                <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">grad</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">assert</span> <span class="ow">not</span> <span class="n">p</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">is_sparse</span>
+
+                <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">p</span><span class="p">]</span>
+                <span class="c1"># State initialization</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">dtype</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">dtype</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduced_precision_dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">p</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduced_precision_dtype</span> <span class="p">:</span>
+                        <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float32</span>
+                    <span class="c1"># Exponential moving average of gradient values</span>
+                    <span class="n">state</span><span class="p">[</span><span class="s1">&#39;exp_avg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+                    <span class="c1"># Exponential moving average of gradient values</span>
+                    <span class="n">state</span><span class="p">[</span><span class="s1">&#39;exp_avg_sq&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduced_precision_dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="p">:</span>
+                    <span class="n">state_lists</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+                    <span class="n">state_lists</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p_full</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+                    <span class="n">state_lists</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;exp_avg&#39;</span><span class="p">])</span>
+                    <span class="n">state_lists</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;exp_avg_sq&#39;</span><span class="p">])</span>
+                    <span class="n">state_lists</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+                <span class="k">else</span> <span class="p">:</span>
+                    <span class="n">state_lists</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+                    <span class="n">state_lists</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+                    <span class="n">state_lists</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;exp_avg&#39;</span><span class="p">])</span>
+                    <span class="n">state_lists</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;exp_avg_sq&#39;</span><span class="p">])</span>
+
+            <span class="n">multi_tensor_applier</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">multi_tensor_lamb</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dummy_overflow_buf</span><span class="p">,</span>
+                <span class="n">state_lists</span><span class="p">,</span>
+                <span class="n">group</span><span class="p">[</span><span class="s1">&#39;lr&#39;</span><span class="p">],</span>
+                <span class="n">beta1</span><span class="p">,</span>
+                <span class="n">beta2</span><span class="p">,</span>
+                <span class="n">group</span><span class="p">[</span><span class="s1">&#39;eps&#39;</span><span class="p">],</span>
+                <span class="n">group</span><span class="p">[</span><span class="s1">&#39;step&#39;</span><span class="p">],</span>
+                <span class="n">bias_correction</span><span class="p">,</span>
+                <span class="n">group</span><span class="p">[</span><span class="s1">&#39;weight_decay&#39;</span><span class="p">],</span>
+                <span class="n">grad_averaging</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">adam_w_mode</span><span class="p">,</span>
+                <span class="n">grad_norm</span><span class="p">,</span>
+                <span class="n">max_grad_norm</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">use_nvlamb</span><span class="p">,</span>
+                <span class="n">found_inf</span><span class="p">,</span>
+                <span class="n">inv_scale</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">loss</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018-.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>  
+
+  <style>
+  a:link, a:visited {
+    color: #76b900;
+  }
+
+  a:hover {
+    color: #8c0;
+  }
+
+  .rst-content dl:not(.docutils) dt {
+    background: rgba(118, 185, 0, 0.1);
+    color: rgba(59,93,0,1);
+    border-top: solid 3px rgba(59,93,0,1);
+  }
+  </style>
+  
+
+</body>
+</html>

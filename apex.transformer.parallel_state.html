@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>apex.transformer.parallel_state &mdash; Apex 0.1.0 documentation</title>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato" type="text/css" />
+      <link rel="stylesheet" href="_static/css/pytorch_theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" > 
+
+          
+          
+          <a href="index.html">
+            
+          </a>
+              <div class="version">
+                0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+  <style>
+    /* Sidebar header (and topbar for mobile) */
+    .wy-side-nav-search, .wy-nav-top {
+      background: #76b900;
+    }
+
+    .wy-side-nav-search a:link, .wy-nav-top a:link {
+      color: #fff;
+    }
+    .wy-side-nav-search a:visited, .wy-nav-top a:visited {
+      color: #fff;
+    }
+    .wy-side-nav-search a:hover, .wy-nav-top a:hover {
+      color: #fff;
+    }
+
+    .wy-menu-vertical a:link, .wy-menu-vertical a:visited {
+      color: #d9d9d9
+    }
+
+    .wy-menu-vertical a:active {
+      background-color: #76b900
+    }
+
+    .wy-side-nav-search>div.version {
+      color: rgba(0, 0, 0, 0.3)
+    }
+  </style>
+  
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Fused Optimizers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="optimizers.html">apex.optimizers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="apex.optimizers.FusedSGD.html">apex.optimizers.FusedSGD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apex.optimizers.FusedAdam.html">apex.optimizers.FusedAdam</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apex.optimizers.FusedLAMB.html">apex.optimizers.FusedLAMB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apex.optimizers.FusedMixedPrecisionLamb.html">apex.optimizers.FusedMixedPrecisionLamb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apex.optimizers.FusedNovoGrad.html">apex.optimizers.FusedNovoGrad</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="normalization.html">apex.normalization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="apex.normalization.FusedLayerNorm.html">apex.normalization.FusedLayerNorm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apex.normalization.FusedRMSNorm.html">apex.normalization.FusedRMSNorm</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contrib.html">apex.contrib</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contrib.html#bottleneck">Bottleneck</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.bottleneck.Bottleneck.html">apex.contrib.bottleneck.Bottleneck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.bottleneck.SpatialBottleneck.html">apex.contrib.bottleneck.SpatialBottleneck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.bottleneck.HaloExchangerNoComm.html">apex.contrib.bottleneck.HaloExchangerNoComm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.bottleneck.HaloExchangerAllGather.html">apex.contrib.bottleneck.HaloExchangerAllGather</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.bottleneck.HaloExchangerSendRecv.html">apex.contrib.bottleneck.HaloExchangerSendRecv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.bottleneck.HaloExchangerPeer.html">apex.contrib.bottleneck.HaloExchangerPeer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="contrib.html#clip-grad">Clip Grad</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.clip_grad.clip_grad_norm_.html">apex.contrib.clip_grad.clip_grad_norm_</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="contrib.html#cudnn-frontend-based-conv-bias-relu">cuDNN frontend based Conv-Bias-ReLU</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.conv_bias_relu.ConvBiasReLU.html">apex.contrib.conv_bias_relu.ConvBiasReLU</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.conv_bias_relu.ConvBias.html">apex.contrib.conv_bias_relu.ConvBias</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.conv_bias_relu.ConvBiasMaskReLU.html">apex.contrib.conv_bias_relu.ConvBiasMaskReLU</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="contrib.html#cudnn-based-2d-group-batch-normalization">cuDNN based 2D Group Batch Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.cudnn_gbn.GroupBatchNorm2d.html">apex.contrib.cudnn_gbn.GroupBatchNorm2d</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="contrib.html#fused-multihead-attention">Fused MultiHead Attention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.fmha.fmha.FMHA.html">apex.contrib.fmha.fmha.FMHA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="contrib.html#focal-loss">Focal Loss</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.focal_loss.focal_loss.focal_loss.html">apex.contrib.focal_loss.focal_loss.focal_loss</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="contrib.html#group-batch-normalization">Group Batch Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.groupbn.BatchNorm2d_NHWC.html">apex.contrib.groupbn.BatchNorm2d_NHWC</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="contrib.html#d-index-multiply">2D Index Multiply</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.index_mul_2d.index_mul_2d.html">apex.contrib.index_mul_2d.index_mul_2d</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="contrib.html#layer-normalization">Layer Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.layer_norm.FastLayerNorm.html">apex.contrib.layer_norm.FastLayerNorm</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="contrib.html#multihead-attention">MultiHead Attention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.multihead_attn.SelfMultiheadAttn.html">apex.contrib.multihead_attn.SelfMultiheadAttn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.multihead_attn.EncdecMultiheadAttn.html">apex.contrib.multihead_attn.EncdecMultiheadAttn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.multihead_attn.fast_mask_softmax_dropout_func.html">apex.contrib.multihead_attn.fast_mask_softmax_dropout_func</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="contrib.html#optimizers">Optimizers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam.html">apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB.html">apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="contrib.html#peer-memory">Peer Memory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.peer_memory.PeerMemoryPool.html">apex.contrib.peer_memory.PeerMemoryPool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.peer_memory.PeerHaloExchanger1d.html">apex.contrib.peer_memory.PeerHaloExchanger1d</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="contrib.html#sparsity">Sparsity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.sparsity.create_mask.html">apex.contrib.sparsity.create_mask</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.sparsity.ASP.html">apex.contrib.sparsity.ASP</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="contrib.html#transducer">Transducer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.transducer.TransducerJoint.html">apex.contrib.transducer.TransducerJoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.transducer.TransducerLoss.html">apex.contrib.transducer.TransducerLoss</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="contrib.html#cross-entropy">Cross Entropy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.xentropy.SoftmaxCrossEntropyLoss.html">apex.contrib.xentropy.SoftmaxCrossEntropyLoss</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Apex</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">apex.transformer.parallel_state</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/apex.transformer.parallel_state.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-apex.transformer.parallel_state">
+<span id="apex-transformer-parallel-state"></span><h1>apex.transformer.parallel_state<a class="headerlink" href="#module-apex.transformer.parallel_state" title="Permalink to this heading">¶</a></h1>
+<p>Model and data parallel groups.</p>
+<p class="rubric">Functions</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">destroy_model_parallel</span></code>()</p></td>
+<td><p>Set the groups to none.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_data_parallel_amax_reduction_group</span></code>()</p></td>
+<td><p>Get the amax reduction group the caller rank belongs to.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_data_parallel_group</span></code>()</p></td>
+<td><p>Get the data parallel group the caller rank belongs to.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_data_parallel_rank</span></code>()</p></td>
+<td><p>Return my rank for the data parallel group.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_data_parallel_src_rank</span></code>()</p></td>
+<td><p>Calculate the global rank corresponding to the first local rank in the data parallel group.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_data_parallel_world_size</span></code>()</p></td>
+<td><p>Return world size for the data parallel group.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_decoder_relative_position_embedding_group</span></code>()</p></td>
+<td><p>Get the decoder relative position embedding group the caller rank belongs to.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_embedding_group</span></code>()</p></td>
+<td><p>Get the embedding group the caller rank belongs to.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_encoder_relative_position_embedding_group</span></code>()</p></td>
+<td><p>Get the encoder relative position embedding group the caller rank belongs to.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_model_parallel_group</span></code>()</p></td>
+<td><p>Get the model parallel group the caller rank belongs to.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_pipeline_model_parallel_first_rank</span></code>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_pipeline_model_parallel_group</span></code>()</p></td>
+<td><p>Get the pipeline model parallel group the caller rank belongs to.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_pipeline_model_parallel_last_rank</span></code>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_pipeline_model_parallel_next_rank</span></code>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_pipeline_model_parallel_prev_rank</span></code>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_pipeline_model_parallel_rank</span></code>()</p></td>
+<td><p>Return my rank for the pipeline model parallel group.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_pipeline_model_parallel_split_rank</span></code>()</p></td>
+<td><p>Return my rank for the pipeline model parallel split rank.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_pipeline_model_parallel_world_size</span></code>()</p></td>
+<td><p>Return world size for the pipeline model parallel group.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_position_embedding_group</span></code>()</p></td>
+<td><p>Get the position embedding group the caller rank belongs to.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_rank_info</span></code>()</p></td>
+<td><p>Returns a tuple of (data, tensor, pipeline, virtual pipeline)-parallel-rank for logger.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_tensor_model_parallel_group</span></code>()</p></td>
+<td><p>Get the tensor model parallel group the caller rank belongs to.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_tensor_model_parallel_rank</span></code>()</p></td>
+<td><p>Return my rank for the tensor model parallel group.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_tensor_model_parallel_src_rank</span></code>()</p></td>
+<td><p>Calculate the global rank corresponding to the first local rank in the tensor model parallel group.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_tensor_model_parallel_world_size</span></code>()</p></td>
+<td><p>Return world size for the tensor model parallel group.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_virtual_pipeline_model_parallel_rank</span></code>()</p></td>
+<td><p>Return the virtual pipeline-parallel rank.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_virtual_pipeline_model_parallel_world_size</span></code>()</p></td>
+<td><p>Return the virtual pipeline-parallel world size.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_model_parallel</span></code>([...])</p></td>
+<td><p>Initialize model data parallel groups.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_pipeline_first_stage</span></code>([ignore_virtual])</p></td>
+<td><p>Return True if in the first pipeline model-parallel stage, False otherwise.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_pipeline_last_stage</span></code>([ignore_virtual])</p></td>
+<td><p>Return True if in the last pipeline model-parallel stage, False otherwise.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_pipeline_stage_after_split</span></code>([rank])</p></td>
+<td><p>Return True if pipeline stage executes decoder block for a model with both encoder and decoder.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_pipeline_stage_at_split</span></code>()</p></td>
+<td><p>Return true if pipeline stage executes decoder block and next stage executes encoder block for a model with both encoder and decoder.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_pipeline_stage_before_split</span></code>([rank])</p></td>
+<td><p>Return True if pipeline stage executes encoder block for a model with both encoder and decoder.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_rank_in_decoder_relative_position_embedding_group</span></code>()</p></td>
+<td><p>Return true if current rank is in decoder relative position embedding group, False otherwise.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_rank_in_embedding_group</span></code>([ignore_virtual])</p></td>
+<td><p>Return true if current rank is in embedding group, False otherwise.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_rank_in_encoder_relative_position_embedding_group</span></code>()</p></td>
+<td><p>Return true if current rank is in encoder relative position embedding group, False otherwise.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_rank_in_position_embedding_group</span></code>()</p></td>
+<td><p>Return whether the current rank is in position embedding group.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_unitialized</span></code>()</p></td>
+<td><p>Useful for code segments that may be accessed with or without mpu initialization</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_parallel_is_initialized</span></code>()</p></td>
+<td><p>Check if model and data parallel groups are initialized.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_pipeline_model_parallel_rank</span></code>(rank)</p></td>
+<td><p>Set pipeline model parallel rank.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_pipeline_model_parallel_split_rank</span></code>(...)</p></td>
+<td><p>Set my rank for the pipeline model parallel split rank.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_pipeline_model_parallel_world_size</span></code>(...)</p></td>
+<td><p>Set the pipeline model parallel size</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_tensor_model_parallel_rank</span></code>(rank)</p></td>
+<td><p>Set tensor model parallel rank.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_tensor_model_parallel_world_size</span></code>(world_size)</p></td>
+<td><p>Set the tensor model parallel size</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_virtual_pipeline_model_parallel_rank</span></code>(rank)</p></td>
+<td><p>Set the virtual pipeline-parallel rank.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_virtual_pipeline_model_parallel_world_size</span></code>(size)</p></td>
+<td><p>Return the virtual pipeline-parallel world size.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Exceptions</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExperimentalWarning</span></code></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018-.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>  
+
+  <style>
+  a:link, a:visited {
+    color: #76b900;
+  }
+
+  a:hover {
+    color: #8c0;
+  }
+
+  .rst-content dl:not(.docutils) dt {
+    background: rgba(118, 185, 0, 0.1);
+    color: rgba(59,93,0,1);
+    border-top: solid 3px rgba(59,93,0,1);
+  }
+  </style>
+  
+
+</body>
+</html>

@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>apex.normalization.fused_layer_norm &mdash; Apex 0.1.0 documentation</title>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/pytorch_theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" > 
+
+          
+          
+          <a href="../../../index.html">
+            
+          </a>
+              <div class="version">
+                0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+  <style>
+    /* Sidebar header (and topbar for mobile) */
+    .wy-side-nav-search, .wy-nav-top {
+      background: #76b900;
+    }
+
+    .wy-side-nav-search a:link, .wy-nav-top a:link {
+      color: #fff;
+    }
+    .wy-side-nav-search a:visited, .wy-nav-top a:visited {
+      color: #fff;
+    }
+    .wy-side-nav-search a:hover, .wy-nav-top a:hover {
+      color: #fff;
+    }
+
+    .wy-menu-vertical a:link, .wy-menu-vertical a:visited {
+      color: #d9d9d9
+    }
+
+    .wy-menu-vertical a:active {
+      background-color: #76b900
+    }
+
+    .wy-side-nav-search>div.version {
+      color: rgba(0, 0, 0, 0.3)
+    }
+  </style>
+  
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Fused Optimizers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../optimizers.html">apex.optimizers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../apex.optimizers.FusedSGD.html">apex.optimizers.FusedSGD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../apex.optimizers.FusedAdam.html">apex.optimizers.FusedAdam</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../apex.optimizers.FusedLAMB.html">apex.optimizers.FusedLAMB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../apex.optimizers.FusedMixedPrecisionLamb.html">apex.optimizers.FusedMixedPrecisionLamb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../apex.optimizers.FusedNovoGrad.html">apex.optimizers.FusedNovoGrad</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../normalization.html">apex.normalization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../apex.normalization.FusedLayerNorm.html">apex.normalization.FusedLayerNorm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../apex.normalization.FusedRMSNorm.html">apex.normalization.FusedRMSNorm</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contrib.html">apex.contrib</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#bottleneck">Bottleneck</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.bottleneck.Bottleneck.html">apex.contrib.bottleneck.Bottleneck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.bottleneck.SpatialBottleneck.html">apex.contrib.bottleneck.SpatialBottleneck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.bottleneck.HaloExchangerNoComm.html">apex.contrib.bottleneck.HaloExchangerNoComm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.bottleneck.HaloExchangerAllGather.html">apex.contrib.bottleneck.HaloExchangerAllGather</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.bottleneck.HaloExchangerSendRecv.html">apex.contrib.bottleneck.HaloExchangerSendRecv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.bottleneck.HaloExchangerPeer.html">apex.contrib.bottleneck.HaloExchangerPeer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#clip-grad">Clip Grad</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.clip_grad.clip_grad_norm_.html">apex.contrib.clip_grad.clip_grad_norm_</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#cudnn-frontend-based-conv-bias-relu">cuDNN frontend based Conv-Bias-ReLU</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.conv_bias_relu.ConvBiasReLU.html">apex.contrib.conv_bias_relu.ConvBiasReLU</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.conv_bias_relu.ConvBias.html">apex.contrib.conv_bias_relu.ConvBias</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.conv_bias_relu.ConvBiasMaskReLU.html">apex.contrib.conv_bias_relu.ConvBiasMaskReLU</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#cudnn-based-2d-group-batch-normalization">cuDNN based 2D Group Batch Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.cudnn_gbn.GroupBatchNorm2d.html">apex.contrib.cudnn_gbn.GroupBatchNorm2d</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#fused-multihead-attention">Fused MultiHead Attention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.fmha.fmha.FMHA.html">apex.contrib.fmha.fmha.FMHA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#focal-loss">Focal Loss</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.focal_loss.focal_loss.focal_loss.html">apex.contrib.focal_loss.focal_loss.focal_loss</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#group-batch-normalization">Group Batch Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.groupbn.BatchNorm2d_NHWC.html">apex.contrib.groupbn.BatchNorm2d_NHWC</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#d-index-multiply">2D Index Multiply</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.index_mul_2d.index_mul_2d.html">apex.contrib.index_mul_2d.index_mul_2d</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#layer-normalization">Layer Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.layer_norm.FastLayerNorm.html">apex.contrib.layer_norm.FastLayerNorm</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#multihead-attention">MultiHead Attention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.multihead_attn.SelfMultiheadAttn.html">apex.contrib.multihead_attn.SelfMultiheadAttn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.multihead_attn.EncdecMultiheadAttn.html">apex.contrib.multihead_attn.EncdecMultiheadAttn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.multihead_attn.fast_mask_softmax_dropout_func.html">apex.contrib.multihead_attn.fast_mask_softmax_dropout_func</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#optimizers">Optimizers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam.html">apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB.html">apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#peer-memory">Peer Memory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.peer_memory.PeerMemoryPool.html">apex.contrib.peer_memory.PeerMemoryPool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.peer_memory.PeerHaloExchanger1d.html">apex.contrib.peer_memory.PeerHaloExchanger1d</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#sparsity">Sparsity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.sparsity.create_mask.html">apex.contrib.sparsity.create_mask</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.sparsity.ASP.html">apex.contrib.sparsity.ASP</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#transducer">Transducer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.transducer.TransducerJoint.html">apex.contrib.transducer.TransducerJoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.transducer.TransducerLoss.html">apex.contrib.transducer.TransducerLoss</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contrib.html#cross-entropy">Cross Entropy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../generated/apex.contrib.xentropy.SoftmaxCrossEntropyLoss.html">apex.contrib.xentropy.SoftmaxCrossEntropyLoss</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Apex</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">apex.normalization.fused_layer_norm</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for apex.normalization.fused_layer_norm</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">importlib</span>
+<span class="kn">import</span> <span class="nn">numbers</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch.nn.parameter</span> <span class="kn">import</span> <span class="n">Parameter</span>
+<span class="kn">from</span> <span class="nn">torch.nn</span> <span class="kn">import</span> <span class="n">init</span>
+<span class="kn">from</span> <span class="nn">torch.nn</span> <span class="kn">import</span> <span class="n">functional</span> <span class="k">as</span> <span class="n">F</span>
+
+<span class="kn">from</span> <span class="nn">apex._autocast_utils</span> <span class="kn">import</span> <span class="n">_cast_if_autocast_enabled</span>
+
+<span class="k">global</span> <span class="n">fused_layer_norm_cuda</span>
+<span class="n">fused_layer_norm_cuda</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="c1"># Reference implementation from Huggingface</span>
+<span class="k">def</span> <span class="nf">manual_rms_norm</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">normalized_shape</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
+    <span class="c1"># layer norm should always be calculated in float32</span>
+    <span class="n">dims</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">normalized_shape</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">variance</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dims</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nb">input</span> <span class="o">=</span> <span class="nb">input</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">rsqrt</span><span class="p">(</span><span class="n">variance</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">weight</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">input</span>
+
+    <span class="c1"># convert into half-precision if necessary</span>
+    <span class="k">if</span> <span class="n">weight</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">in</span> <span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">float16</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">bfloat16</span><span class="p">]:</span>
+        <span class="nb">input</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">weight</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">weight</span> <span class="o">*</span> <span class="nb">input</span>
+
+
+<span class="k">class</span> <span class="nc">FusedLayerNormAffineFunction</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">Function</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">bias</span><span class="p">,</span> <span class="n">normalized_shape</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
+        <span class="k">global</span> <span class="n">fused_layer_norm_cuda</span>
+        <span class="k">if</span> <span class="n">fused_layer_norm_cuda</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fused_layer_norm_cuda</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;fused_layer_norm_cuda&quot;</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">normalized_shape</span> <span class="o">=</span> <span class="n">normalized_shape</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="n">eps</span>
+        <span class="n">input_</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+        <span class="n">weight_</span> <span class="o">=</span> <span class="n">weight</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+        <span class="n">bias_</span> <span class="o">=</span> <span class="n">bias</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+        <span class="n">output</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">invvar</span> <span class="o">=</span> <span class="n">fused_layer_norm_cuda</span><span class="o">.</span><span class="n">forward_affine</span><span class="p">(</span>
+            <span class="n">input_</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">normalized_shape</span><span class="p">,</span> <span class="n">weight_</span><span class="p">,</span> <span class="n">bias_</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">eps</span>
+        <span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">save_for_backward</span><span class="p">(</span><span class="n">input_</span><span class="p">,</span> <span class="n">weight_</span><span class="p">,</span> <span class="n">bias_</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">invvar</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">grad_output</span><span class="p">):</span>
+        <span class="n">input_</span><span class="p">,</span> <span class="n">weight_</span><span class="p">,</span> <span class="n">bias_</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">invvar</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span>
+        <span class="n">grad_input</span> <span class="o">=</span> <span class="n">grad_weight</span> <span class="o">=</span> <span class="n">grad_bias</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">grad_input</span><span class="p">,</span> <span class="n">grad_weight</span><span class="p">,</span> <span class="n">grad_bias</span> <span class="o">=</span> <span class="n">fused_layer_norm_cuda</span><span class="o">.</span><span class="n">backward_affine</span><span class="p">(</span>
+            <span class="n">grad_output</span><span class="o">.</span><span class="n">contiguous</span><span class="p">(),</span> <span class="n">mean</span><span class="p">,</span> <span class="n">invvar</span><span class="p">,</span> <span class="n">input_</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">normalized_shape</span><span class="p">,</span> <span class="n">weight_</span><span class="p">,</span> <span class="n">bias_</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">eps</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">grad_input</span><span class="p">,</span> <span class="n">grad_weight</span><span class="p">,</span> <span class="n">grad_bias</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+
+<span class="k">class</span> <span class="nc">FusedRMSNormAffineFunction</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">Function</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">normalized_shape</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
+        <span class="k">global</span> <span class="n">fused_layer_norm_cuda</span>
+        <span class="k">if</span> <span class="n">fused_layer_norm_cuda</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fused_layer_norm_cuda</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;fused_layer_norm_cuda&quot;</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">normalized_shape</span> <span class="o">=</span> <span class="n">normalized_shape</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="n">eps</span>
+        <span class="n">input_</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+        <span class="n">weight_</span> <span class="o">=</span> <span class="n">weight</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+        <span class="n">output</span><span class="p">,</span> <span class="n">invvar</span> <span class="o">=</span> <span class="n">fused_layer_norm_cuda</span><span class="o">.</span><span class="n">rms_forward_affine</span><span class="p">(</span>
+            <span class="n">input_</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">normalized_shape</span><span class="p">,</span> <span class="n">weight_</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">save_for_backward</span><span class="p">(</span><span class="n">input_</span><span class="p">,</span> <span class="n">weight_</span><span class="p">,</span> <span class="n">invvar</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">grad_output</span><span class="p">):</span>
+        <span class="n">input_</span><span class="p">,</span> <span class="n">weight_</span><span class="p">,</span> <span class="n">invvar</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span>
+        <span class="n">grad_input</span> <span class="o">=</span> <span class="n">grad_weight</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">grad_input</span><span class="p">,</span> <span class="n">grad_weight</span> <span class="o">=</span> <span class="n">fused_layer_norm_cuda</span><span class="o">.</span><span class="n">rms_backward_affine</span><span class="p">(</span>
+           <span class="n">grad_output</span><span class="o">.</span><span class="n">contiguous</span><span class="p">(),</span> <span class="n">invvar</span><span class="p">,</span> <span class="n">input_</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">normalized_shape</span><span class="p">,</span> <span class="n">weight_</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">eps</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">grad_input</span><span class="p">,</span> <span class="n">grad_weight</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+
+<span class="k">class</span> <span class="nc">FusedLayerNormAffineMixedDtypesFunction</span><span class="p">(</span><span class="n">FusedLayerNormAffineFunction</span><span class="p">):</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">bias</span><span class="p">,</span> <span class="n">normalized_shape</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
+        <span class="k">global</span> <span class="n">fused_layer_norm_cuda</span>
+        <span class="k">if</span> <span class="n">fused_layer_norm_cuda</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fused_layer_norm_cuda</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;fused_layer_norm_cuda&quot;</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">normalized_shape</span> <span class="o">=</span> <span class="n">normalized_shape</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="n">eps</span>
+        <span class="n">input_</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+        <span class="n">weight_</span> <span class="o">=</span> <span class="n">weight</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+        <span class="n">bias_</span> <span class="o">=</span> <span class="n">bias</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+        <span class="n">output</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">invvar</span> <span class="o">=</span> <span class="n">fused_layer_norm_cuda</span><span class="o">.</span><span class="n">forward_affine_mixed_dtypes</span><span class="p">(</span>
+            <span class="n">input_</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">normalized_shape</span><span class="p">,</span> <span class="n">weight_</span><span class="p">,</span> <span class="n">bias_</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">eps</span>
+        <span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">save_for_backward</span><span class="p">(</span><span class="n">input_</span><span class="p">,</span> <span class="n">weight_</span><span class="p">,</span> <span class="n">bias_</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">invvar</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span>
+
+
+<span class="k">class</span> <span class="nc">FusedRMSNormAffineMixedDtypesFunction</span><span class="p">(</span><span class="n">FusedRMSNormAffineFunction</span><span class="p">):</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">normalized_shape</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
+        <span class="k">global</span> <span class="n">fused_layer_norm_cuda</span>
+        <span class="k">if</span> <span class="n">fused_layer_norm_cuda</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fused_layer_norm_cuda</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;fused_layer_norm_cuda&quot;</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">normalized_shape</span> <span class="o">=</span> <span class="n">normalized_shape</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="n">eps</span>
+        <span class="n">input_</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+        <span class="n">weight_</span> <span class="o">=</span> <span class="n">weight</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+        <span class="n">output</span><span class="p">,</span> <span class="n">invvar</span> <span class="o">=</span> <span class="n">fused_layer_norm_cuda</span><span class="o">.</span><span class="n">rms_forward_affine_mixed_dtypes</span><span class="p">(</span>
+            <span class="n">input_</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">normalized_shape</span><span class="p">,</span> <span class="n">weight_</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">eps</span>
+        <span class="p">)</span>
+
+        <span class="n">ctx</span><span class="o">.</span><span class="n">save_for_backward</span><span class="p">(</span><span class="n">input_</span><span class="p">,</span> <span class="n">weight_</span><span class="p">,</span> <span class="n">invvar</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span>
+
+
+<span class="k">class</span> <span class="nc">FusedLayerNormFunction</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">Function</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">normalized_shape</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
+        <span class="k">global</span> <span class="n">fused_layer_norm_cuda</span>
+        <span class="k">if</span> <span class="n">fused_layer_norm_cuda</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fused_layer_norm_cuda</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;fused_layer_norm_cuda&quot;</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">normalized_shape</span> <span class="o">=</span> <span class="n">normalized_shape</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="n">eps</span>
+        <span class="n">input_</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+        <span class="n">output</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">invvar</span> <span class="o">=</span> <span class="n">fused_layer_norm_cuda</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">input_</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">normalized_shape</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">save_for_backward</span><span class="p">(</span><span class="n">input_</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">invvar</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">grad_output</span><span class="p">):</span>
+        <span class="n">input_</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">invvar</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span>
+        <span class="n">grad_input</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">grad_input</span> <span class="o">=</span> <span class="n">fused_layer_norm_cuda</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span>
+            <span class="n">grad_output</span><span class="o">.</span><span class="n">contiguous</span><span class="p">(),</span> <span class="n">mean</span><span class="p">,</span> <span class="n">invvar</span><span class="p">,</span> <span class="n">input_</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">normalized_shape</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">eps</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">grad_input</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+
+<span class="k">class</span> <span class="nc">FusedRMSNormFunction</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">Function</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">normalized_shape</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
+        <span class="k">global</span> <span class="n">fused_layer_norm_cuda</span>
+        <span class="k">if</span> <span class="n">fused_layer_norm_cuda</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fused_layer_norm_cuda</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;fused_layer_norm_cuda&quot;</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">normalized_shape</span> <span class="o">=</span> <span class="n">normalized_shape</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="n">eps</span>
+        <span class="n">input_</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+        <span class="n">output</span><span class="p">,</span> <span class="n">invvar</span> <span class="o">=</span> <span class="n">fused_layer_norm_cuda</span><span class="o">.</span><span class="n">rms_forward</span><span class="p">(</span><span class="n">input_</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">normalized_shape</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">save_for_backward</span><span class="p">(</span><span class="n">input_</span><span class="p">,</span> <span class="n">invvar</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">grad_output</span><span class="p">):</span>
+        <span class="n">input_</span><span class="p">,</span> <span class="n">invvar</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span>
+        <span class="n">grad_input</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">grad_input</span> <span class="o">=</span> <span class="n">fused_layer_norm_cuda</span><span class="o">.</span><span class="n">rms_backward</span><span class="p">(</span>
+            <span class="n">grad_output</span><span class="o">.</span><span class="n">contiguous</span><span class="p">(),</span> <span class="n">invvar</span><span class="p">,</span> <span class="n">input_</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">normalized_shape</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">eps</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">grad_input</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+
+<span class="k">def</span> <span class="nf">fused_layer_norm_affine</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">bias</span><span class="p">,</span> <span class="n">normalized_shape</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">_cast_if_autocast_enabled</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">bias</span><span class="p">,</span> <span class="n">normalized_shape</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">amp</span><span class="o">.</span><span class="n">autocast</span><span class="p">(</span><span class="n">enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">FusedLayerNormAffineFunction</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">fused_layer_norm</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">normalized_shape</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">_cast_if_autocast_enabled</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">normalized_shape</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">amp</span><span class="o">.</span><span class="n">autocast</span><span class="p">(</span><span class="n">enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">FusedLayerNormFunction</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">mixed_dtype_fused_layer_norm_affine</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">bias</span><span class="p">,</span> <span class="n">normalized_shape</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">_cast_if_autocast_enabled</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">bias</span><span class="p">,</span> <span class="n">normalized_shape</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">amp</span><span class="o">.</span><span class="n">autocast</span><span class="p">(</span><span class="n">enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">FusedLayerNormAffineMixedDtypesFunction</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">fused_rms_norm_affine</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">normalized_shape</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">_cast_if_autocast_enabled</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">normalized_shape</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">amp</span><span class="o">.</span><span class="n">autocast</span><span class="p">(</span><span class="n">enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">FusedRMSNormAffineFunction</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">fused_rms_norm</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">normalized_shape</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">_cast_if_autocast_enabled</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">normalized_shape</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">amp</span><span class="o">.</span><span class="n">autocast</span><span class="p">(</span><span class="n">enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">FusedRMSNormFunction</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">mixed_dtype_fused_rms_norm_affine</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">normalized_shape</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">_cast_if_autocast_enabled</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">normalized_shape</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">amp</span><span class="o">.</span><span class="n">autocast</span><span class="p">(</span><span class="n">enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">FusedRMSNormAffineMixedDtypesFunction</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="FusedLayerNorm"><a class="viewcode-back" href="../../../apex.normalization.FusedLayerNorm.html#apex.normalization.FusedLayerNorm">[docs]</a><span class="k">class</span> <span class="nc">FusedLayerNorm</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Applies Layer Normalization over a mini-batch of inputs as described in</span>
+<span class="sd">    the paper `Layer Normalization`_ .</span>
+
+<span class="sd">    Currently only runs on cuda() tensors.</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        y = \frac{x - \mathrm{E}[x]}{ \sqrt{\mathrm{Var}[x] + \epsilon}} * \gamma + \beta</span>
+
+<span class="sd">    The mean and standard-deviation are calculated separately over the last</span>
+<span class="sd">    certain number dimensions which have to be of the shape specified by</span>
+<span class="sd">    :attr:`normalized_shape`.</span>
+<span class="sd">    :math:`\gamma` and :math:`\beta` are learnable affine transform parameters of</span>
+<span class="sd">    :attr:`normalized_shape` if :attr:`elementwise_affine` is ``True``.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        Unlike Batch Normalization and Instance Normalization, which applies</span>
+<span class="sd">        scalar scale and bias for each entire channel/plane with the</span>
+<span class="sd">        :attr:`affine` option, Layer Normalization applies per-element scale and</span>
+<span class="sd">        bias with :attr:`elementwise_affine`.</span>
+
+<span class="sd">    This layer uses statistics computed from input data in both training and</span>
+<span class="sd">    evaluation modes.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        normalized_shape (int or list or torch.Size): input shape from an expected input</span>
+<span class="sd">            of size</span>
+
+<span class="sd">            .. math::</span>
+<span class="sd">                [* \times \text{normalized}\_\text{shape}[0] \times \text{normalized}\_\text{shape}[1]</span>
+<span class="sd">                    \times \ldots \times \text{normalized}\_\text{shape}[-1]]</span>
+
+<span class="sd">            If a single integer is used, it is treated as a singleton list, and this module will</span>
+<span class="sd">            normalize over the last dimension which is expected to be of that specific size.</span>
+<span class="sd">        eps: a value added to the denominator for numerical stability. Default: 1e-5</span>
+<span class="sd">        elementwise_affine: a boolean value that when set to ``True``, this module</span>
+<span class="sd">            has learnable per-element affine parameters initialized to ones (for weights)</span>
+<span class="sd">            and zeros (for biases). Default: ``True``.</span>
+
+<span class="sd">    Shape:</span>
+<span class="sd">        - Input: :math:`(N, *)`</span>
+<span class="sd">        - Output: :math:`(N, *)` (same shape as input)</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; input = torch.randn(20, 5, 10, 10)</span>
+<span class="sd">        &gt;&gt;&gt; # With Learnable Parameters</span>
+<span class="sd">        &gt;&gt;&gt; m = apex.normalization.FusedLayerNorm(input.size()[1:])</span>
+<span class="sd">        &gt;&gt;&gt; # Without Learnable Parameters</span>
+<span class="sd">        &gt;&gt;&gt; m = apex.normalization.FusedLayerNorm(input.size()[1:], elementwise_affine=False)</span>
+<span class="sd">        &gt;&gt;&gt; # Normalize over last two dimensions</span>
+<span class="sd">        &gt;&gt;&gt; m = apex.normalization.FusedLayerNorm([10, 10])</span>
+<span class="sd">        &gt;&gt;&gt; # Normalize over last dimension of size 10</span>
+<span class="sd">        &gt;&gt;&gt; m = apex.normalization.FusedLayerNorm(10)</span>
+<span class="sd">        &gt;&gt;&gt; # Activating the module</span>
+<span class="sd">        &gt;&gt;&gt; output = m(input)</span>
+
+<span class="sd">    .. _`Layer Normalization`: https://arxiv.org/abs/1607.06450</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="FusedLayerNorm.__init__"><a class="viewcode-back" href="../../../apex.normalization.FusedLayerNorm.html#apex.normalization.FusedLayerNorm.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">normalized_shape</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">elementwise_affine</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="k">global</span> <span class="n">fused_layer_norm_cuda</span>
+        <span class="n">fused_layer_norm_cuda</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;fused_layer_norm_cuda&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">normalized_shape</span><span class="p">,</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Integral</span><span class="p">):</span>
+            <span class="n">normalized_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">normalized_shape</span><span class="p">,)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalized_shape</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">(</span><span class="n">normalized_shape</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="n">eps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">elementwise_affine</span> <span class="o">=</span> <span class="n">elementwise_affine</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">elementwise_affine</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="o">*</span><span class="n">normalized_shape</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="o">*</span><span class="n">normalized_shape</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">register_parameter</span><span class="p">(</span><span class="s2">&quot;weight&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">register_parameter</span><span class="p">(</span><span class="s2">&quot;bias&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">reset_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">elementwise_affine</span><span class="p">:</span>
+            <span class="n">init</span><span class="o">.</span><span class="n">ones_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">)</span>
+            <span class="n">init</span><span class="o">.</span><span class="n">zeros_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">input</span><span class="o">.</span><span class="n">is_cuda</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">layer_norm</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized_shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">elementwise_affine</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">fused_layer_norm_affine</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized_shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">fused_layer_norm</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized_shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">extra_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{normalized_shape}</span><span class="s2">, eps=</span><span class="si">{eps}</span><span class="s2">, &quot;</span> <span class="s2">&quot;elementwise_affine=</span><span class="si">{elementwise_affine}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FusedRMSNorm"><a class="viewcode-back" href="../../../apex.normalization.FusedRMSNorm.html#apex.normalization.FusedRMSNorm">[docs]</a><span class="k">class</span> <span class="nc">FusedRMSNorm</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Applies RMS Normalization over a mini-batch of inputs</span>
+
+<span class="sd">    Currently only runs on cuda() tensors.</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        y = \frac{x}{\mathrm{RMS}[x]} * \gamma</span>
+
+<span class="sd">    The root-mean-square is calculated separately over the last</span>
+<span class="sd">    certain number dimensions which have to be of the shape specified by</span>
+<span class="sd">    :attr:`normalized_shape`.</span>
+<span class="sd">    :math:`\gamma` is a learnable affine transform parameter of</span>
+<span class="sd">    :attr:`normalized_shape` if :attr:`elementwise_affine` is ``True``.</span>
+<span class="sd">    `epsilon` is added to the mean-square, then the root of the sum is taken.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        Unlike Batch Normalization and Instance Normalization, which applies</span>
+<span class="sd">        scalar scale and bias for each entire channel/plane with the</span>
+<span class="sd">        :attr:`affine` option, RMS Normalization applies per-element scale</span>
+<span class="sd">        with :attr:`elementwise_affine`.</span>
+
+<span class="sd">    This layer uses statistics computed from input data in both training and</span>
+<span class="sd">    evaluation modes.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        normalized_shape (int or list or torch.Size): input shape from an expected input</span>
+<span class="sd">            of size</span>
+
+<span class="sd">            .. math::</span>
+<span class="sd">                [* \times \text{normalized}\_\text{shape}[0] \times \text{normalized}\_\text{shape}[1]</span>
+<span class="sd">                    \times \ldots \times \text{normalized}\_\text{shape}[-1]]</span>
+
+<span class="sd">            If a single integer is used, it is treated as a singleton list, and this module will</span>
+<span class="sd">            normalize over the last dimension which is expected to be of that specific size.</span>
+<span class="sd">        eps: a value added to the denominator for numerical stability. Default: 1e-5</span>
+<span class="sd">        elementwise_affine: a boolean value that when set to ``True``, this module</span>
+<span class="sd">            has learnable per-element affine parameters initialized to ones (for weights)</span>
+<span class="sd">            and zeros (for biases). Default: ``True``.</span>
+
+<span class="sd">    Shape:</span>
+<span class="sd">        - Input: :math:`(N, *)`</span>
+<span class="sd">        - Output: :math:`(N, *)` (same shape as input)</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; input = torch.randn(20, 5, 10, 10)</span>
+<span class="sd">        &gt;&gt;&gt; # With Learnable Parameters</span>
+<span class="sd">        &gt;&gt;&gt; m = apex.normalization.FusedRMSNorm(input.size()[1:])</span>
+<span class="sd">        &gt;&gt;&gt; # Without Learnable Parameters</span>
+<span class="sd">        &gt;&gt;&gt; m = apex.normalization.FusedRMSNorm(input.size()[1:], elementwise_affine=False)</span>
+<span class="sd">        &gt;&gt;&gt; # Normalize over last two dimensions</span>
+<span class="sd">        &gt;&gt;&gt; m = apex.normalization.FusedRMSNorm([10, 10])</span>
+<span class="sd">        &gt;&gt;&gt; # Normalize over last dimension of size 10</span>
+<span class="sd">        &gt;&gt;&gt; m = apex.normalization.FusedRMSNorm(10)</span>
+<span class="sd">        &gt;&gt;&gt; # Activating the module</span>
+<span class="sd">        &gt;&gt;&gt; output = m(input)</span>
+
+<span class="sd">    .. _`Root Mean Square Layer Normalization`: https://arxiv.org/pdf/1910.07467.pdf</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="FusedRMSNorm.__init__"><a class="viewcode-back" href="../../../apex.normalization.FusedRMSNorm.html#apex.normalization.FusedRMSNorm.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">normalized_shape</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">elementwise_affine</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="k">global</span> <span class="n">fused_layer_norm_cuda</span>
+        <span class="n">fused_layer_norm_cuda</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;fused_layer_norm_cuda&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">normalized_shape</span><span class="p">,</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Integral</span><span class="p">):</span>
+            <span class="n">normalized_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">normalized_shape</span><span class="p">,)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalized_shape</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">(</span><span class="n">normalized_shape</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="n">eps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">elementwise_affine</span> <span class="o">=</span> <span class="n">elementwise_affine</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">elementwise_affine</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="o">*</span><span class="n">normalized_shape</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">register_parameter</span><span class="p">(</span><span class="s2">&quot;weight&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">reset_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">elementwise_affine</span><span class="p">:</span>
+            <span class="n">init</span><span class="o">.</span><span class="n">ones_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">input</span><span class="o">.</span><span class="n">is_cuda</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">manual_rms_norm</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized_shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">elementwise_affine</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">fused_rms_norm_affine</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized_shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">fused_rms_norm</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized_shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">extra_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{normalized_shape}</span><span class="s2">, eps=</span><span class="si">{eps}</span><span class="s2">, &quot;</span> <span class="s2">&quot;elementwise_affine=</span><span class="si">{elementwise_affine}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span></div>
+
+
+<span class="c1"># NOTE (mkozuki): Why &quot;mixed&quot;?</span>
+<span class="c1"># MixedFusedLayerNorm differs from FusedLayerNorm in that this layer norm uses parameter&#39;s dtype</span>
+<span class="c1"># as output tensor&#39;s dtype while FusedLayerNorm uses input tensor&#39;s dtype for output tensor&#39;s dtype.</span>
+<span class="c1"># See: `layer_norm_affine` and `layer_norm_affine_mixed_dtypes` in &quot;csrc/layer_norm_cuda.cpp&quot;</span>
+<span class="k">class</span> <span class="nc">MixedFusedLayerNorm</span><span class="p">(</span><span class="n">FusedLayerNorm</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">normalized_shape</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">&quot;elementwise_affine&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">warnings</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;MixedFusedLayerNorm does not support `elementwise_affine` argument&quot;</span><span class="p">)</span>
+            <span class="n">elementwise_affine</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;elementwise_affine&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">elementwise_affine</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;MixedFusedLayerNorm does not support `elementwise_affine = False`&quot;</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">normalized_shape</span><span class="o">=</span><span class="n">normalized_shape</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">eps</span><span class="p">,</span> <span class="n">elementwise_affine</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+        <span class="c1"># NOTE (mkozuki): CPU path is here mainly for unittest sake.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">input</span><span class="o">.</span><span class="n">is_cuda</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">layer_norm</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized_shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mixed_dtype_fused_layer_norm_affine</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized_shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
+
+
+<span class="c1"># MixedFusedLayerNorm differs from FusedLayerNorm in that this layer norm uses parameter&#39;s dtype</span>
+<span class="c1"># as output tensor&#39;s dtype while FusedLayerNorm uses input tensor&#39;s dtype for output tensor&#39;s dtype.</span>
+<span class="c1"># See: `layer_norm_affine` and `layer_norm_affine_mixed_dtypes` in &quot;csrc/layer_norm_cuda.cpp&quot;</span>
+<span class="k">class</span> <span class="nc">MixedFusedRMSNorm</span><span class="p">(</span><span class="n">FusedRMSNorm</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">normalized_shape</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">&quot;elementwise_affine&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">warnings</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;MixedFusedRMSNorm does not support `elementwise_affine` argument&quot;</span><span class="p">)</span>
+            <span class="n">elementwise_affine</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;elementwise_affine&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">elementwise_affine</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;MixedFusedRMSNorm does not support `elementwise_affine = False`&quot;</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">normalized_shape</span><span class="o">=</span><span class="n">normalized_shape</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">eps</span><span class="p">,</span> <span class="n">elementwise_affine</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+        <span class="c1"># NOTE (mkozuki): CPU path is here mainly for unittest sake.</span>
+        <span class="c1"># TODO Manual RMS Norm Implementation Here</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">input</span><span class="o">.</span><span class="n">is_cuda</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">manual_rms_norm</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized_shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mixed_dtype_fused_rms_norm_affine</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized_shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018-.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>  
+
+  <style>
+  a:link, a:visited {
+    color: #76b900;
+  }
+
+  a:hover {
+    color: #8c0;
+  }
+
+  .rst-content dl:not(.docutils) dt {
+    background: rgba(118, 185, 0, 0.1);
+    color: rgba(59,93,0,1);
+    border-top: solid 3px rgba(59,93,0,1);
+  }
+  </style>
+  
+
+</body>
+</html>

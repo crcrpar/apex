@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>apex.contrib.bottleneck.bottleneck &mdash; Apex 0.1.0 documentation</title>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/pytorch_theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" > 
+
+          
+          
+          <a href="../../../../index.html">
+            
+          </a>
+              <div class="version">
+                0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+  <style>
+    /* Sidebar header (and topbar for mobile) */
+    .wy-side-nav-search, .wy-nav-top {
+      background: #76b900;
+    }
+
+    .wy-side-nav-search a:link, .wy-nav-top a:link {
+      color: #fff;
+    }
+    .wy-side-nav-search a:visited, .wy-nav-top a:visited {
+      color: #fff;
+    }
+    .wy-side-nav-search a:hover, .wy-nav-top a:hover {
+      color: #fff;
+    }
+
+    .wy-menu-vertical a:link, .wy-menu-vertical a:visited {
+      color: #d9d9d9
+    }
+
+    .wy-menu-vertical a:active {
+      background-color: #76b900
+    }
+
+    .wy-side-nav-search>div.version {
+      color: rgba(0, 0, 0, 0.3)
+    }
+  </style>
+  
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Fused Optimizers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../optimizers.html">apex.optimizers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../apex.optimizers.FusedSGD.html">apex.optimizers.FusedSGD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../apex.optimizers.FusedAdam.html">apex.optimizers.FusedAdam</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../apex.optimizers.FusedLAMB.html">apex.optimizers.FusedLAMB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../apex.optimizers.FusedMixedPrecisionLamb.html">apex.optimizers.FusedMixedPrecisionLamb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../apex.optimizers.FusedNovoGrad.html">apex.optimizers.FusedNovoGrad</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../normalization.html">apex.normalization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../apex.normalization.FusedLayerNorm.html">apex.normalization.FusedLayerNorm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../apex.normalization.FusedRMSNorm.html">apex.normalization.FusedRMSNorm</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contrib.html">apex.contrib</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#bottleneck">Bottleneck</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.Bottleneck.html">apex.contrib.bottleneck.Bottleneck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.SpatialBottleneck.html">apex.contrib.bottleneck.SpatialBottleneck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.HaloExchangerNoComm.html">apex.contrib.bottleneck.HaloExchangerNoComm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.HaloExchangerAllGather.html">apex.contrib.bottleneck.HaloExchangerAllGather</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.HaloExchangerSendRecv.html">apex.contrib.bottleneck.HaloExchangerSendRecv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.HaloExchangerPeer.html">apex.contrib.bottleneck.HaloExchangerPeer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#clip-grad">Clip Grad</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.clip_grad.clip_grad_norm_.html">apex.contrib.clip_grad.clip_grad_norm_</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#cudnn-frontend-based-conv-bias-relu">cuDNN frontend based Conv-Bias-ReLU</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.conv_bias_relu.ConvBiasReLU.html">apex.contrib.conv_bias_relu.ConvBiasReLU</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.conv_bias_relu.ConvBias.html">apex.contrib.conv_bias_relu.ConvBias</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.conv_bias_relu.ConvBiasMaskReLU.html">apex.contrib.conv_bias_relu.ConvBiasMaskReLU</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#cudnn-based-2d-group-batch-normalization">cuDNN based 2D Group Batch Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.cudnn_gbn.GroupBatchNorm2d.html">apex.contrib.cudnn_gbn.GroupBatchNorm2d</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#fused-multihead-attention">Fused MultiHead Attention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.fmha.fmha.FMHA.html">apex.contrib.fmha.fmha.FMHA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#focal-loss">Focal Loss</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.focal_loss.focal_loss.focal_loss.html">apex.contrib.focal_loss.focal_loss.focal_loss</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#group-batch-normalization">Group Batch Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.groupbn.BatchNorm2d_NHWC.html">apex.contrib.groupbn.BatchNorm2d_NHWC</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#d-index-multiply">2D Index Multiply</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.index_mul_2d.index_mul_2d.html">apex.contrib.index_mul_2d.index_mul_2d</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#layer-normalization">Layer Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.layer_norm.FastLayerNorm.html">apex.contrib.layer_norm.FastLayerNorm</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#multihead-attention">MultiHead Attention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.multihead_attn.SelfMultiheadAttn.html">apex.contrib.multihead_attn.SelfMultiheadAttn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.multihead_attn.EncdecMultiheadAttn.html">apex.contrib.multihead_attn.EncdecMultiheadAttn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.multihead_attn.fast_mask_softmax_dropout_func.html">apex.contrib.multihead_attn.fast_mask_softmax_dropout_func</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#optimizers">Optimizers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam.html">apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB.html">apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#peer-memory">Peer Memory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.peer_memory.PeerMemoryPool.html">apex.contrib.peer_memory.PeerMemoryPool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.peer_memory.PeerHaloExchanger1d.html">apex.contrib.peer_memory.PeerHaloExchanger1d</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#sparsity">Sparsity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.sparsity.create_mask.html">apex.contrib.sparsity.create_mask</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.sparsity.ASP.html">apex.contrib.sparsity.ASP</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#transducer">Transducer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.transducer.TransducerJoint.html">apex.contrib.transducer.TransducerJoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.transducer.TransducerLoss.html">apex.contrib.transducer.TransducerLoss</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#cross-entropy">Cross Entropy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.xentropy.SoftmaxCrossEntropyLoss.html">apex.contrib.xentropy.SoftmaxCrossEntropyLoss</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Apex</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">apex.contrib.bottleneck.bottleneck</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for apex.contrib.bottleneck.bottleneck</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">functools</span> <span class="k">as</span> <span class="nn">func</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.distributed</span> <span class="k">as</span> <span class="nn">dist</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+
+<span class="kn">from</span> <span class="nn">apex</span> <span class="kn">import</span> <span class="n">check_cudnn_version_and_warn</span>
+<span class="kn">import</span> <span class="nn">fast_bottleneck</span>
+<span class="kn">import</span> <span class="nn">nccl_p2p_cuda</span> <span class="k">as</span> <span class="nn">inc</span>
+
+
+<span class="k">assert</span> <span class="n">check_cudnn_version_and_warn</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="mi">8400</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">kaiming_uniform_</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;fan_in&#39;</span><span class="p">,</span> <span class="n">nonlinearity</span><span class="o">=</span><span class="s1">&#39;leaky_relu&#39;</span><span class="p">):</span>
+    <span class="n">weight_tensor_nchw</span> <span class="o">=</span> <span class="n">tensor</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">kaiming_uniform_</span><span class="p">(</span><span class="n">weight_tensor_nchw</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span> <span class="n">nonlinearity</span><span class="o">=</span><span class="n">nonlinearity</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">compute_scale_bias_one</span><span class="p">(</span><span class="n">nhwc</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">bias</span><span class="p">,</span> <span class="n">running_mean</span><span class="p">,</span> <span class="n">running_var</span><span class="p">,</span> <span class="n">w_scale</span><span class="p">,</span> <span class="n">w_bias</span><span class="p">):</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="n">weight</span> <span class="o">*</span> <span class="n">running_var</span><span class="o">.</span><span class="n">rsqrt</span><span class="p">()</span>
+    <span class="n">bias</span> <span class="o">=</span> <span class="n">bias</span> <span class="o">-</span> <span class="n">running_mean</span> <span class="o">*</span> <span class="n">scale</span>
+    <span class="n">w_scale</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">scale</span><span class="p">)</span>
+    <span class="n">w_bias</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">bias</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">compute_scale_bias_method</span><span class="p">(</span><span class="n">nhwc</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+        <span class="c1"># arg is tuple of (weight, bias, running_mean, running_var, w_scale, w_bias)</span>
+        <span class="n">compute_scale_bias_one</span><span class="p">(</span><span class="n">nhwc</span><span class="p">,</span> <span class="o">*</span><span class="n">arg</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">FrozenBatchNorm2d</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">ScriptModule</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    BatchNorm2d where the batch statistics and the affine parameters are fixed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FrozenBatchNorm2d</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">register_buffer</span><span class="p">(</span><span class="s2">&quot;weight&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">register_buffer</span><span class="p">(</span><span class="s2">&quot;bias&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">register_buffer</span><span class="p">(</span><span class="s2">&quot;running_mean&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">register_buffer</span><span class="p">(</span><span class="s2">&quot;running_var&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+
+    <span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">script_method</span>
+    <span class="k">def</span> <span class="nf">get_scale_bias</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nhwc</span><span class="p">):</span>
+        <span class="c1"># type: (bool) -&gt; List[torch.Tensor]</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">running_var</span><span class="o">.</span><span class="n">rsqrt</span><span class="p">()</span>
+        <span class="n">bias</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">running_mean</span> <span class="o">*</span> <span class="n">scale</span>
+        <span class="k">if</span> <span class="n">nhwc</span><span class="p">:</span>
+            <span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">bias</span> <span class="o">=</span> <span class="n">bias</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">bias</span> <span class="o">=</span> <span class="n">bias</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">scale</span><span class="p">,</span> <span class="n">bias</span>
+
+    <span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">script_method</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">scale</span><span class="p">,</span> <span class="n">bias</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_scale_bias</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">scale</span> <span class="o">+</span> <span class="n">bias</span>
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">script</span>
+<span class="k">def</span> <span class="nf">drelu_dscale1</span><span class="p">(</span><span class="n">grad_o</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">scale1</span><span class="p">):</span>
+    <span class="n">relu_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">output</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">dx_relu</span> <span class="o">=</span> <span class="n">relu_mask</span> <span class="o">*</span> <span class="n">grad_o</span>
+    <span class="n">g1</span> <span class="o">=</span> <span class="n">dx_relu</span> <span class="o">*</span> <span class="n">scale1</span>
+    <span class="k">return</span> <span class="n">g1</span><span class="p">,</span> <span class="n">dx_relu</span>
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">script</span>
+<span class="k">def</span> <span class="nf">drelu_dscale2</span><span class="p">(</span><span class="n">grad_o</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">scale1</span><span class="p">,</span> <span class="n">scale2</span><span class="p">):</span>
+    <span class="n">relu_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">output</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">dx_relu</span> <span class="o">=</span> <span class="n">relu_mask</span> <span class="o">*</span> <span class="n">grad_o</span>
+    <span class="n">g1</span> <span class="o">=</span> <span class="n">dx_relu</span> <span class="o">*</span> <span class="n">scale1</span>
+    <span class="n">g2</span> <span class="o">=</span> <span class="n">dx_relu</span> <span class="o">*</span> <span class="n">scale2</span>
+    <span class="k">return</span> <span class="n">g1</span><span class="p">,</span> <span class="n">g2</span>
+
+<span class="k">class</span> <span class="nc">BottleneckFunction</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">Function</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">nhwc</span><span class="p">,</span> <span class="n">stride_1x1</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">bias</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">conv</span><span class="p">):</span>
+        <span class="c1"># TODO: clean up order of tensors</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">conv</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="o">*</span><span class="n">scale</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="o">*</span><span class="n">bias</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]]</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">downsample</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">conv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span>
+        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">downsample</span><span class="p">:</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">conv</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scale</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bias</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+
+        <span class="c1"># weight buffers are always in nhwc while shape can be nhwc or channels_last</span>
+        <span class="c1"># here we pass in flag and let c++ handle it</span>
+        <span class="c1"># alternatively, we can put all sizes into a fixed format and pass it in</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">fast_bottleneck</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">nhwc</span><span class="p">,</span> <span class="n">stride_1x1</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">save_for_backward</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">args</span><span class="o">+</span><span class="n">outputs</span><span class="p">))</span>
+        <span class="c1"># save relu outputs for drelu</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">nhwc</span> <span class="o">=</span> <span class="n">nhwc</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">stride_1x1</span> <span class="o">=</span> <span class="n">stride_1x1</span>
+        <span class="k">return</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="c1"># backward relu is not exposed, MUL with mask used now</span>
+    <span class="c1"># only support dgrad</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">grad_o</span><span class="p">):</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:]</span>
+
+        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">downsample</span><span class="p">:</span>
+            <span class="n">grad_conv3</span><span class="p">,</span> <span class="n">grad_conv4</span> <span class="o">=</span> <span class="n">drelu_dscale2</span><span class="p">(</span><span class="n">grad_o</span><span class="p">,</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span><span class="p">[</span><span class="mi">11</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">grad_conv3</span><span class="p">,</span> <span class="n">grad_conv4</span> <span class="o">=</span> <span class="n">drelu_dscale1</span><span class="p">(</span><span class="n">grad_o</span><span class="p">,</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span>
+
+        <span class="c1"># create input vector for backward</span>
+        <span class="n">t_list</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]]</span>
+        <span class="n">t_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grad_conv3</span><span class="p">)</span>
+        <span class="n">t_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grad_conv4</span><span class="p">)</span>
+
+        <span class="c1"># outputs used for wgrad and generating drelu mask</span>
+        <span class="n">t_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">t_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="c1"># in case there is downsample</span>
+        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">downsample</span><span class="p">:</span>
+            <span class="n">t_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span><span class="p">[</span><span class="mi">10</span><span class="p">])</span>
+
+        <span class="n">grads</span> <span class="o">=</span> <span class="n">fast_bottleneck</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">nhwc</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">stride_1x1</span><span class="p">,</span> <span class="n">t_list</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">grads</span><span class="p">)</span>
+
+<span class="n">bottleneck_function</span> <span class="o">=</span> <span class="n">BottleneckFunction</span><span class="o">.</span><span class="n">apply</span>
+
+<span class="k">def</span> <span class="nf">conv3x3</span><span class="p">(</span><span class="n">in_planes</span><span class="p">,</span> <span class="n">out_planes</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dilation</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;3x3 convolution with padding&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_planes</span><span class="p">,</span> <span class="n">out_planes</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span>
+                     <span class="n">padding</span><span class="o">=</span><span class="n">dilation</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dilation</span><span class="o">=</span><span class="n">dilation</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">conv1x1</span><span class="p">(</span><span class="n">in_planes</span><span class="p">,</span> <span class="n">out_planes</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;1x1 convolution&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_planes</span><span class="p">,</span> <span class="n">out_planes</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Bottleneck"><a class="viewcode-back" href="../../../../generated/apex.contrib.bottleneck.Bottleneck.html#apex.contrib.bottleneck.Bottleneck">[docs]</a><span class="k">class</span> <span class="nc">Bottleneck</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="c1"># Bottleneck in torchvision places the stride for downsampling at 3x3 convolution(self.conv2)</span>
+    <span class="c1"># while original implementation places the stride at the first 1x1 convolution(self.conv1)</span>
+    <span class="c1"># according to &quot;Deep residual learning for image recognition&quot;https://arxiv.org/abs/1512.03385.</span>
+    <span class="c1"># This variant is also known as ResNet V1.5 and improves accuracy according to</span>
+    <span class="c1"># https://ngc.nvidia.com/catalog/model-scripts/nvidia:resnet_50_v1_5_for_pytorch.</span>
+    <span class="c1"># here we put it at 1x1</span>
+
+<div class="viewcode-block" id="Bottleneck.__init__"><a class="viewcode-back" href="../../../../generated/apex.contrib.bottleneck.Bottleneck.html#apex.contrib.bottleneck.Bottleneck.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="n">bottleneck_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">dilation</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">norm_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">use_cudnn</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">explicit_nhwc</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Bottleneck</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">groups</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Only support groups == 1&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dilation</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Only support dilation == 1&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">norm_func</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">norm_func</span> <span class="o">=</span> <span class="n">FrozenBatchNorm2d</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Only support frozen BN now.&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">stride</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">in_channels</span> <span class="o">!=</span> <span class="n">out_channels</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+                <span class="n">conv1x1</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">stride</span><span class="p">),</span>
+                <span class="n">norm_func</span><span class="p">(</span><span class="n">out_channels</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Both self.conv2 and self.downsample layers downsample the input when stride != 1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">conv1x1</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">bottleneck_channels</span><span class="p">,</span> <span class="n">stride</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">conv3x3</span><span class="p">(</span><span class="n">bottleneck_channels</span><span class="p">,</span> <span class="n">bottleneck_channels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv3</span> <span class="o">=</span> <span class="n">conv1x1</span><span class="p">(</span><span class="n">bottleneck_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relu</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stride</span> <span class="o">=</span> <span class="n">stride</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">bn1</span> <span class="o">=</span> <span class="n">norm_func</span><span class="p">(</span><span class="n">bottleneck_channels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bn2</span> <span class="o">=</span> <span class="n">norm_func</span><span class="p">(</span><span class="n">bottleneck_channels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bn3</span> <span class="o">=</span> <span class="n">norm_func</span><span class="p">(</span><span class="n">out_channels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w_scale</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_cudnn</span> <span class="o">=</span> <span class="n">use_cudnn</span>
+
+        <span class="c1"># setup conv weights</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w_conv</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv3</span><span class="o">.</span><span class="n">weight</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">w_conv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">downsample</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">weight</span><span class="p">)</span>
+
+        <span class="c1"># init weight in nchw format before possible transpose</span>
+        <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">w_conv</span><span class="p">:</span>
+            <span class="n">kaiming_uniform_</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># TODO: prevent unsupported case usage</span>
+        <span class="c1"># support cases</span>
+        <span class="c1">#                 native      cudnn</span>
+        <span class="c1"># normal             yes         no</span>
+        <span class="c1"># channel_last       yes        yes</span>
+        <span class="c1"># explicit_nhwc       no        yes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">explicit_nhwc</span> <span class="o">=</span> <span class="n">explicit_nhwc</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
+                <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+                    <span class="n">p</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+
+        <span class="k">return</span></div>
+
+    <span class="c1"># Returns single callable that recomputes scale and bias for all frozen batch-norms.</span>
+    <span class="c1"># This method must be called before cuda graphing.</span>
+    <span class="c1"># The callable it returns can be called anytime.</span>
+    <span class="c1"># Calling this method will prevent these from being computed every forward call.</span>
+    <span class="k">def</span> <span class="nf">get_scale_bias_callable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w_scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">w_bias</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+        <span class="n">batch_norms</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">bn1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn3</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">batch_norms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">downsample</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">bn</span> <span class="ow">in</span> <span class="n">batch_norms</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">bn</span><span class="o">.</span><span class="n">weight</span><span class="p">)</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="n">bn</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">bn</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="n">bn</span><span class="o">.</span><span class="n">running_mean</span><span class="p">,</span> <span class="n">bn</span><span class="o">.</span><span class="n">running_var</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">w_scale</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">s</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">w_bias</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">b</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">w_scale</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">s</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">w_bias</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">b</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="p">)</span>
+        <span class="k">return</span> <span class="n">func</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">compute_scale_bias_method</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_cudnn</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">w_scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># calculate scale/bias from registered buffers</span>
+                <span class="c1"># TODO: make this better</span>
+                <span class="n">s1</span><span class="p">,</span> <span class="n">b1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn1</span><span class="o">.</span><span class="n">get_scale_bias</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">)</span>
+                <span class="n">s2</span><span class="p">,</span> <span class="n">b2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn2</span><span class="o">.</span><span class="n">get_scale_bias</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">)</span>
+                <span class="n">s3</span><span class="p">,</span> <span class="n">b3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn3</span><span class="o">.</span><span class="n">get_scale_bias</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">)</span>
+                <span class="n">w_scale</span> <span class="o">=</span> <span class="p">[</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">,</span> <span class="n">s3</span><span class="p">]</span>
+                <span class="n">w_bias</span> <span class="o">=</span> <span class="p">[</span><span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">b3</span><span class="p">]</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">s4</span><span class="p">,</span> <span class="n">b4</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_scale_bias</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">)</span>
+                    <span class="n">w_scale</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s4</span><span class="p">)</span>
+                    <span class="n">w_bias</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b4</span><span class="p">)</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="n">bottleneck_function</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stride</span><span class="p">,</span> <span class="n">w_scale</span><span class="p">,</span> <span class="n">w_bias</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">w_conv</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="n">bottleneck_function</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stride</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">w_scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">w_bias</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">w_conv</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">out</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;explicit nhwc with native ops is not supported.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># fallback to native ops</span>
+        <span class="n">identity</span> <span class="o">=</span> <span class="n">x</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn1</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn2</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv3</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn3</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">identity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="n">out</span> <span class="o">+=</span> <span class="n">identity</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">out</span></div>
+
+
+<span class="k">class</span> <span class="nc">SpatialBottleneckFunction</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">Function</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">spatial_group_size</span><span class="p">,</span> <span class="n">spatial_group_rank</span><span class="p">,</span> <span class="n">spatial_communicator</span><span class="p">,</span> <span class="n">spatial_halo_exchanger</span><span class="p">,</span> <span class="n">spatial_method</span><span class="p">,</span> <span class="n">use_delay_kernel</span><span class="p">,</span> <span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">stride_1x1</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">bias</span><span class="p">,</span> <span class="n">thresholdTop</span><span class="p">,</span> <span class="n">thresholdBottom</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">conv</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">spatial_group_size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">stream1</span> <span class="o">=</span> <span class="n">spatial_halo_exchanger</span><span class="o">.</span><span class="n">stream1</span>
+            <span class="n">stream2</span> <span class="o">=</span> <span class="n">spatial_halo_exchanger</span><span class="o">.</span><span class="n">stream2</span>
+            <span class="n">stream3</span> <span class="o">=</span> <span class="n">spatial_halo_exchanger</span><span class="o">.</span><span class="n">stream3</span>
+
+        <span class="c1"># TODO: clean up order of tensors</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">conv</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="o">*</span><span class="n">scale</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="o">*</span><span class="n">bias</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]]</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">downsample</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">conv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span>
+        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">downsample</span><span class="p">:</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">conv</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scale</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bias</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+
+        <span class="c1"># weight buffers are always in explicit_nhwc while shape can be explicit_nhwc or channels_last</span>
+        <span class="c1"># here we pass in flag and let c++ handle it</span>
+        <span class="c1"># alternatively, we can put all sizes into a fixed format and pass it in</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">fast_bottleneck</span><span class="o">.</span><span class="n">forward_init</span><span class="p">(</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">stride_1x1</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+        <span class="n">fast_bottleneck</span><span class="o">.</span><span class="n">forward_out1</span><span class="p">(</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">stride_1x1</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">spatial_group_size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">out1</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">explicit_nhwc</span><span class="p">:</span>
+                <span class="n">N</span><span class="p">,</span><span class="n">Hs</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">C</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">out1</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+                <span class="n">memory_format</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">contiguous_format</span>
+                <span class="n">out1_pad</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">([</span><span class="n">N</span><span class="p">,</span><span class="n">Hs</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">C</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">out1</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">N</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">Hs</span><span class="p">,</span><span class="n">W</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">out1</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+                <span class="n">memory_format</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">channels_last</span> <span class="k">if</span> <span class="n">out1</span><span class="o">.</span><span class="n">is_contiguous</span><span class="p">(</span><span class="n">memory_format</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">channels_last</span><span class="p">)</span> <span class="k">else</span> <span class="n">torch</span><span class="o">.</span><span class="n">contiguous_format</span>
+                <span class="n">out1_pad</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">([</span><span class="n">N</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">Hs</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span><span class="n">W</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">out1</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">,</span> <span class="n">memory_format</span><span class="o">=</span><span class="n">memory_format</span><span class="p">)</span>
+            <span class="n">stream1</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_stream</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">spatial_method</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span> <span class="n">stream3</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_stream</span><span class="p">())</span>
+            <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">stream1</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">explicit_nhwc</span><span class="p">:</span>
+                    <span class="n">top_out1_halo</span> <span class="o">=</span> <span class="n">out1_pad</span><span class="p">[:,:</span><span class="mi">1</span><span class="p">,:,:]</span>
+                    <span class="n">btm_out1_halo</span> <span class="o">=</span> <span class="n">out1_pad</span><span class="p">[:,</span><span class="n">Hs</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">Hs</span><span class="o">+</span><span class="mi">2</span><span class="p">,:,:]</span>
+                    <span class="n">spatial_halo_exchanger</span><span class="o">.</span><span class="n">left_right_halo_exchange</span><span class="p">(</span><span class="n">out1</span><span class="p">[:,:</span><span class="mi">1</span><span class="p">,:,:],</span> <span class="n">out1</span><span class="p">[:,</span><span class="n">Hs</span><span class="o">-</span><span class="mi">1</span><span class="p">:,:,:],</span> <span class="n">top_out1_halo</span><span class="p">,</span> <span class="n">btm_out1_halo</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">top_out1_halo</span> <span class="o">=</span> <span class="n">out1_pad</span><span class="p">[:,:,:</span><span class="mi">1</span><span class="p">,:]</span>
+                    <span class="n">btm_out1_halo</span> <span class="o">=</span> <span class="n">out1_pad</span><span class="p">[:,:,</span><span class="n">Hs</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">Hs</span><span class="o">+</span><span class="mi">2</span><span class="p">,:]</span>
+                    <span class="n">spatial_halo_exchanger</span><span class="o">.</span><span class="n">left_right_halo_exchange</span><span class="p">(</span><span class="n">out1</span><span class="p">[:,:,:</span><span class="mi">1</span><span class="p">,:],</span> <span class="n">out1</span><span class="p">[:,:,</span><span class="n">Hs</span><span class="o">-</span><span class="mi">1</span><span class="p">:,:],</span> <span class="n">top_out1_halo</span><span class="p">,</span> <span class="n">btm_out1_halo</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">spatial_method</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># overlap mid convolution with halo transfer</span>
+                <span class="k">if</span> <span class="n">spatial_group_rank</span> <span class="o">&lt;</span> <span class="n">spatial_group_size</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">stream2</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">stream1</span><span class="p">)</span>
+                    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">stream2</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">explicit_nhwc</span><span class="p">:</span>
+                            <span class="n">btm_fat_halo</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">N</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">C</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">out1</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span><span class="n">device</span><span class="o">=</span><span class="n">out1</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+                            <span class="n">btm_fat_halo</span><span class="p">[:,</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">,:,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">out1</span><span class="p">[:,</span><span class="n">Hs</span><span class="o">-</span><span class="mi">2</span><span class="p">:,:,:])</span>
+                            <span class="n">btm_fat_halo</span><span class="p">[:,</span><span class="mi">2</span><span class="p">:,:,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">btm_out1_halo</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">btm_fat_halo</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">N</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">W</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">out1</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span><span class="n">device</span><span class="o">=</span><span class="n">out1</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+                            <span class="n">btm_fat_halo</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">out1</span><span class="p">[:,:,</span><span class="n">Hs</span><span class="o">-</span><span class="mi">2</span><span class="p">:,:])</span>
+                            <span class="n">btm_fat_halo</span><span class="p">[:,:,</span><span class="mi">2</span><span class="p">:,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">btm_out1_halo</span><span class="p">)</span>
+                        <span class="n">btm_out2</span> <span class="o">=</span> <span class="n">fast_bottleneck</span><span class="o">.</span><span class="n">forward_out2_halo</span><span class="p">(</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">btm_fat_halo</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">spatial_group_rank</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">stream1</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">explicit_nhwc</span><span class="p">:</span>
+                            <span class="n">top_fat_halo</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">N</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">C</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">out1</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span><span class="n">device</span><span class="o">=</span><span class="n">out1</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+                            <span class="n">top_fat_halo</span><span class="p">[:,:</span><span class="mi">1</span><span class="p">,:,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">top_out1_halo</span><span class="p">)</span>
+                            <span class="n">top_fat_halo</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,:,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">out1</span><span class="p">[:,:</span><span class="mi">2</span><span class="p">,:,:])</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">top_fat_halo</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">N</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">W</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">out1</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span><span class="n">device</span><span class="o">=</span><span class="n">out1</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+                            <span class="n">top_fat_halo</span><span class="p">[:,:,:</span><span class="mi">1</span><span class="p">,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">top_out1_halo</span><span class="p">)</span>
+                            <span class="n">top_fat_halo</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">out1</span><span class="p">[:,:,:</span><span class="mi">2</span><span class="p">,:])</span>
+                        <span class="n">top_out2</span> <span class="o">=</span> <span class="n">fast_bottleneck</span><span class="o">.</span><span class="n">forward_out2_halo</span><span class="p">(</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">top_fat_halo</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">use_delay_kernel</span><span class="p">:</span> <span class="n">inc</span><span class="o">.</span><span class="n">add_delay</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">spatial_method</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">spatial_method</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="k">assert</span><span class="p">(</span><span class="kc">False</span><span class="p">),</span> <span class="s2">&quot;spatial_method must be 1, 2 or 3&quot;</span>
+
+        <span class="k">if</span> <span class="n">spatial_group_size</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">fast_bottleneck</span><span class="o">.</span><span class="n">forward_out2</span><span class="p">(</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">stride_1x1</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">spatial_method</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">fast_bottleneck</span><span class="o">.</span><span class="n">forward_out2</span><span class="p">(</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">stride_1x1</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">stream3</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">explicit_nhwc</span><span class="p">:</span>
+                    <span class="n">out1_pad</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:</span><span class="n">Hs</span><span class="o">+</span><span class="mi">1</span><span class="p">,:,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">out1</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">out1_pad</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">:</span><span class="n">Hs</span><span class="o">+</span><span class="mi">1</span><span class="p">,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">out1</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">spatial_method</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="c1"># wait for halo transfer to finish before doing a full convolution of padded x</span>
+            <span class="k">if</span> <span class="n">explicit_nhwc</span><span class="p">:</span>
+                <span class="n">out1_pad</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:</span><span class="n">Hs</span><span class="o">+</span><span class="mi">1</span><span class="p">,:,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">out1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">out1_pad</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">:</span><span class="n">Hs</span><span class="o">+</span><span class="mi">1</span><span class="p">,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">out1</span><span class="p">)</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_stream</span><span class="p">()</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">stream1</span><span class="p">)</span>
+            <span class="n">fast_bottleneck</span><span class="o">.</span><span class="n">forward_out2_pad</span><span class="p">(</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">stride_1x1</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">out1_pad</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">spatial_method</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">fast_bottleneck</span><span class="o">.</span><span class="n">forward_out2_mask</span><span class="p">(</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">stride_1x1</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">thresholdTop</span><span class="p">,</span> <span class="n">thresholdBottom</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">stream3</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">explicit_nhwc</span><span class="p">:</span>
+                    <span class="n">out1_pad</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:</span><span class="n">Hs</span><span class="o">+</span><span class="mi">1</span><span class="p">,:,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">out1</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">out1_pad</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">:</span><span class="n">Hs</span><span class="o">+</span><span class="mi">1</span><span class="p">,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">out1</span><span class="p">)</span>
+
+        <span class="c1"># compute halo cells for outputs[1] (out2)</span>
+        <span class="k">if</span> <span class="n">spatial_group_size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">out2</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">explicit_nhwc</span><span class="p">:</span>
+                <span class="n">top_out2_halo</span> <span class="o">=</span> <span class="n">out2</span><span class="p">[:,:</span><span class="mi">1</span><span class="p">,:,:]</span>
+                <span class="n">btm_out2_halo</span> <span class="o">=</span> <span class="n">out2</span><span class="p">[:,</span><span class="n">Hs</span><span class="o">-</span><span class="mi">1</span><span class="p">:,:,:]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">top_out2_halo</span> <span class="o">=</span> <span class="n">out2</span><span class="p">[:,:,:</span><span class="mi">1</span><span class="p">,:]</span>
+                <span class="n">btm_out2_halo</span> <span class="o">=</span> <span class="n">out2</span><span class="p">[:,:,</span><span class="n">Hs</span><span class="o">-</span><span class="mi">1</span><span class="p">:,:]</span>
+            <span class="k">if</span> <span class="n">spatial_method</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">spatial_group_rank</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_stream</span><span class="p">()</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">stream1</span><span class="p">)</span>
+                    <span class="n">top_out2_halo</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">top_out2</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">spatial_group_rank</span> <span class="o">&lt;</span> <span class="n">spatial_group_size</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_stream</span><span class="p">()</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">stream2</span><span class="p">)</span>
+                    <span class="n">btm_out2_halo</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">btm_out2</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">spatial_method</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="c1"># Note</span>
+                <span class="c1"># out2 halo correction cannot overlap with anything since it has</span>
+                <span class="c1"># to wait for out2_mask to finish, but itself has to finish before</span>
+                <span class="c1"># the first kernel of _forward_rest can launch.</span>
+                <span class="c1"># At least we can overlap the two halo correction kernels.</span>
+                <span class="k">if</span> <span class="n">spatial_group_rank</span> <span class="o">&lt;</span> <span class="n">spatial_group_size</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">stream2</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">stream1</span><span class="p">)</span> <span class="c1"># wait for halo transfers to finish</span>
+                    <span class="n">stream2</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_stream</span><span class="p">())</span> <span class="c1"># wait for *_out2_mask to finish</span>
+                    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">stream2</span><span class="p">):</span>
+                        <span class="n">w1by3</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">][:,</span><span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">,:,:]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+                        <span class="n">btm_out1_halo</span> <span class="o">=</span> <span class="n">btm_out1_halo</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+                        <span class="n">btm_out2</span> <span class="o">=</span> <span class="n">fast_bottleneck</span><span class="o">.</span><span class="n">forward_out2_halo_corr</span><span class="p">(</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">btm_out1_halo</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">w1by3</span><span class="p">,</span> <span class="n">btm_out2_halo</span><span class="o">.</span><span class="n">clone</span><span class="p">())</span>
+                        <span class="n">btm_out2_halo</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">btm_out2</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">spatial_group_rank</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">stream1</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_stream</span><span class="p">())</span> <span class="c1"># wait for *_out2_mask to finish</span>
+                    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">stream1</span><span class="p">):</span>
+                        <span class="n">w1by3</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">][:,:</span><span class="mi">1</span><span class="p">,:,:]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+                        <span class="n">top_out1_halo</span> <span class="o">=</span> <span class="n">top_out1_halo</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+                        <span class="n">top_out2</span> <span class="o">=</span> <span class="n">fast_bottleneck</span><span class="o">.</span><span class="n">forward_out2_halo_corr</span><span class="p">(</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">top_out1_halo</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">w1by3</span><span class="p">,</span> <span class="n">top_out2_halo</span><span class="o">.</span><span class="n">clone</span><span class="p">())</span>
+                        <span class="n">top_out2_halo</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">top_out2</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">spatial_group_rank</span> <span class="o">&lt;</span> <span class="n">spatial_group_size</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_stream</span><span class="p">()</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">stream2</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">spatial_group_rank</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_stream</span><span class="p">()</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">stream1</span><span class="p">)</span>
+            
+        <span class="n">fast_bottleneck</span><span class="o">.</span><span class="n">forward_rest</span><span class="p">(</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">stride_1x1</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
+        <span class="c1"># save halos for backward pass</span>
+        <span class="k">if</span> <span class="n">spatial_group_size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">spatial_method</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="c1"># make sure copy of mid-section of out1 into out1_pad is done before exiting</span>
+                <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_stream</span><span class="p">()</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">stream3</span><span class="p">)</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">save_for_backward</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">args</span><span class="o">+</span><span class="n">outputs</span><span class="o">+</span><span class="p">[</span><span class="n">out1_pad</span><span class="p">,]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">save_for_backward</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">args</span><span class="o">+</span><span class="n">outputs</span><span class="p">))</span>
+        <span class="c1"># save relu outputs for drelu</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">explicit_nhwc</span> <span class="o">=</span> <span class="n">explicit_nhwc</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">stride_1x1</span> <span class="o">=</span> <span class="n">stride_1x1</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_group_size</span> <span class="o">=</span> <span class="n">spatial_group_size</span>
+        <span class="k">if</span> <span class="n">spatial_group_size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_group_rank</span> <span class="o">=</span> <span class="n">spatial_group_rank</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_halo_exchanger</span> <span class="o">=</span> <span class="n">spatial_halo_exchanger</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_method</span> <span class="o">=</span> <span class="n">spatial_method</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">use_delay_kernel</span> <span class="o">=</span> <span class="n">use_delay_kernel</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">thresholdTop</span> <span class="o">=</span> <span class="n">thresholdTop</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">thresholdBottom</span> <span class="o">=</span> <span class="n">thresholdBottom</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">stream1</span> <span class="o">=</span> <span class="n">stream1</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">stream2</span> <span class="o">=</span> <span class="n">stream2</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">stream3</span> <span class="o">=</span> <span class="n">stream3</span>
+        <span class="k">return</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="c1"># backward relu is not exposed, MUL with mask used now</span>
+    <span class="c1"># only support dgrad</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">grad_o</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_group_size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">out1_pad</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:]</span>
+
+        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">downsample</span><span class="p">:</span>
+            <span class="n">grad_conv3</span><span class="p">,</span> <span class="n">grad_conv4</span> <span class="o">=</span> <span class="n">drelu_dscale2</span><span class="p">(</span><span class="n">grad_o</span><span class="p">,</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span><span class="p">[</span><span class="mi">11</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">grad_conv3</span><span class="p">,</span> <span class="n">grad_conv4</span> <span class="o">=</span> <span class="n">drelu_dscale1</span><span class="p">(</span><span class="n">grad_o</span><span class="p">,</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span>
+
+        <span class="c1"># create input vector for backward</span>
+        <span class="n">t_list</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]]</span>
+        <span class="n">t_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grad_conv3</span><span class="p">)</span>
+        <span class="n">t_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grad_conv4</span><span class="p">)</span>
+
+        <span class="c1"># outputs used for wgrad and generating drelu mask</span>
+        <span class="n">t_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">t_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="c1"># in case there is downsample</span>
+        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">downsample</span><span class="p">:</span>
+            <span class="n">t_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span><span class="p">[</span><span class="mi">10</span><span class="p">])</span>
+
+        <span class="n">grads</span> <span class="o">=</span> <span class="n">fast_bottleneck</span><span class="o">.</span><span class="n">backward_init</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">stride_1x1</span><span class="p">,</span> <span class="n">t_list</span><span class="p">)</span>
+        <span class="n">wgrad3_stream</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">Stream</span><span class="p">()</span>
+        <span class="n">wgrad3_stream</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_stream</span><span class="p">())</span>
+        <span class="n">grad_out2</span> <span class="o">=</span> <span class="n">fast_bottleneck</span><span class="o">.</span><span class="n">backward_grad_out2</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">stride_1x1</span><span class="p">,</span> <span class="n">t_list</span><span class="p">,</span> <span class="n">grads</span><span class="p">)</span>
+        <span class="n">wgrad2_stream</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">Stream</span><span class="p">()</span>
+        <span class="n">wgrad2_stream</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_stream</span><span class="p">())</span>
+        <span class="c1"># do halo exchange of grad_out2 here</span>
+        <span class="c1"># compute halo cells for grad_out1</span>
+        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_group_size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">:</span>
+                <span class="n">N</span><span class="p">,</span><span class="n">Hs</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">C</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">grad_out2</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">N</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">Hs</span><span class="p">,</span><span class="n">W</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">grad_out2</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+            <span class="n">relu1</span> <span class="o">=</span> <span class="n">t_list</span><span class="p">[</span><span class="mi">12</span><span class="p">]</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">stream1</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_stream</span><span class="p">())</span>
+            <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">stream1</span><span class="p">):</span>
+                <span class="n">top_halo</span><span class="p">,</span> <span class="n">btm_halo</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_halo_exchanger</span><span class="o">.</span><span class="n">left_right_halo_exchange</span><span class="p">(</span><span class="n">grad_out2</span><span class="p">[:,:</span><span class="mi">1</span><span class="p">,:,:],</span> <span class="n">grad_out2</span><span class="p">[:,</span><span class="n">Hs</span><span class="o">-</span><span class="mi">1</span><span class="p">:,:,:])</span>
+                <span class="c1"># copy halos to send buffer</span>
+            <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_method</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_method</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="c1"># 1 -&gt; halo recompute approach</span>
+                <span class="c1"># 2 -&gt; wait for concatenated halos, then do single conv on full input (not implemented yet for bprop)</span>
+                <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_group_rank</span> <span class="o">&lt;</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_group_size</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">ctx</span><span class="o">.</span><span class="n">stream2</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">stream1</span><span class="p">)</span>
+                    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">stream2</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">:</span>
+                            <span class="n">btm_fat_halo</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">N</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">C</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">grad_out2</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span><span class="n">device</span><span class="o">=</span><span class="n">grad_out2</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+                            <span class="n">btm_fat_halo</span><span class="p">[:,:</span><span class="mi">2</span><span class="p">,:,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">grad_out2</span><span class="p">[:,</span><span class="n">Hs</span><span class="o">-</span><span class="mi">2</span><span class="p">:,:,:])</span>
+                            <span class="n">btm_fat_halo</span><span class="p">[:,</span><span class="mi">2</span><span class="p">:,:,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">btm_halo</span><span class="p">)</span>
+                            <span class="n">btm_fat_relu_halo</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">N</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">C</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">grad_out2</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span><span class="n">device</span><span class="o">=</span><span class="n">grad_out2</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+                            <span class="n">btm_fat_relu_halo</span><span class="p">[:,:</span><span class="mi">2</span><span class="p">,:,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">relu1</span><span class="p">[:,</span><span class="n">Hs</span><span class="o">-</span><span class="mi">2</span><span class="p">:,:,:])</span>
+                            <span class="n">btm_fat_relu_halo</span><span class="p">[:,</span><span class="mi">2</span><span class="p">:,:,:]</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">btm_fat_halo</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">N</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">W</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">grad_out2</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span><span class="n">device</span><span class="o">=</span><span class="n">grad_out2</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+                            <span class="n">btm_fat_halo</span><span class="p">[:,:,:</span><span class="mi">2</span><span class="p">,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">grad_out2</span><span class="p">[:,:,</span><span class="n">Hs</span><span class="o">-</span><span class="mi">2</span><span class="p">:,:])</span>
+                            <span class="n">btm_fat_halo</span><span class="p">[:,:,</span><span class="mi">2</span><span class="p">:,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">btm_halo</span><span class="p">)</span>
+                            <span class="n">btm_fat_relu_halo</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">N</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">W</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">grad_out2</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span><span class="n">device</span><span class="o">=</span><span class="n">grad_out2</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+                            <span class="n">btm_fat_relu_halo</span><span class="p">[:,:,:</span><span class="mi">2</span><span class="p">,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">relu1</span><span class="p">[:,:,</span><span class="n">Hs</span><span class="o">-</span><span class="mi">2</span><span class="p">:,:])</span>
+                            <span class="n">btm_fat_relu_halo</span><span class="p">[:,:,</span><span class="mi">2</span><span class="p">:,:]</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
+                        <span class="n">btm_grad_out1_halo</span> <span class="o">=</span> <span class="n">fast_bottleneck</span><span class="o">.</span><span class="n">backward_grad_out1_halo</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">stride_1x1</span><span class="p">,</span> <span class="n">t_list</span><span class="p">,</span> <span class="n">grads</span><span class="p">,</span> <span class="n">btm_fat_halo</span><span class="p">,</span> <span class="n">btm_fat_relu_halo</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">:</span>
+                            <span class="n">btm_grad_out1_halo</span> <span class="o">=</span> <span class="n">btm_grad_out1_halo</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,:,:]</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">btm_grad_out1_halo</span> <span class="o">=</span> <span class="n">btm_grad_out1_halo</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,:]</span>
+                <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_group_rank</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">stream1</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">:</span>
+                            <span class="n">top_fat_halo</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">N</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">C</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">grad_out2</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span><span class="n">device</span><span class="o">=</span><span class="n">grad_out2</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+                            <span class="n">top_fat_halo</span><span class="p">[:,:</span><span class="mi">1</span><span class="p">,:,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">top_halo</span><span class="p">)</span>
+                            <span class="n">top_fat_halo</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:,:,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">grad_out2</span><span class="p">[:,:</span><span class="mi">2</span><span class="p">,:,:])</span>
+                            <span class="n">top_fat_relu_halo</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">N</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">C</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">grad_out2</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span><span class="n">device</span><span class="o">=</span><span class="n">grad_out2</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+                            <span class="n">top_fat_relu_halo</span><span class="p">[:,:</span><span class="mi">1</span><span class="p">,:,:]</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
+                            <span class="n">top_fat_relu_halo</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:,:,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">relu1</span><span class="p">[:,:</span><span class="mi">2</span><span class="p">,:,:])</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">top_fat_halo</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">N</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">W</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">grad_out2</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span><span class="n">device</span><span class="o">=</span><span class="n">grad_out2</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+                            <span class="n">top_fat_halo</span><span class="p">[:,:,:</span><span class="mi">1</span><span class="p">,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">top_halo</span><span class="p">)</span>
+                            <span class="n">top_fat_halo</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">:,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">grad_out2</span><span class="p">[:,:,:</span><span class="mi">2</span><span class="p">,:])</span>
+                            <span class="n">top_fat_relu_halo</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">N</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">W</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">grad_out2</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span><span class="n">device</span><span class="o">=</span><span class="n">grad_out2</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+                            <span class="n">top_fat_relu_halo</span><span class="p">[:,:,:</span><span class="mi">1</span><span class="p">,:]</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
+                            <span class="n">top_fat_relu_halo</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">:,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">relu1</span><span class="p">[:,:,:</span><span class="mi">2</span><span class="p">,:])</span>
+                        <span class="n">top_grad_out1_halo</span> <span class="o">=</span> <span class="n">fast_bottleneck</span><span class="o">.</span><span class="n">backward_grad_out1_halo</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">stride_1x1</span><span class="p">,</span> <span class="n">t_list</span><span class="p">,</span> <span class="n">grads</span><span class="p">,</span> <span class="n">top_fat_halo</span><span class="p">,</span> <span class="n">top_fat_relu_halo</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">:</span>
+                            <span class="n">top_grad_out1_halo</span> <span class="o">=</span> <span class="n">top_grad_out1_halo</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,:,:]</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">top_grad_out1_halo</span> <span class="o">=</span> <span class="n">top_grad_out1_halo</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,:]</span>
+                <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">use_delay_kernel</span><span class="p">:</span> <span class="n">inc</span><span class="o">.</span><span class="n">add_delay</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_method</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="k">assert</span><span class="p">(</span><span class="kc">False</span><span class="p">),</span> <span class="s2">&quot;spatial_method must be 1, 2 or 3&quot;</span>
+
+        <span class="c1"># compute grad_out1 for internal cells</span>
+        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_group_size</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_method</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_method</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">grad_out1</span> <span class="o">=</span> <span class="n">fast_bottleneck</span><span class="o">.</span><span class="n">backward_grad_out1</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">stride_1x1</span><span class="p">,</span> <span class="n">t_list</span><span class="p">,</span> <span class="n">grads</span><span class="p">,</span> <span class="n">grad_out2</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_group_size</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_method</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">grad_out1</span> <span class="o">=</span> <span class="n">fast_bottleneck</span><span class="o">.</span><span class="n">backward_grad_out1_mask</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">stride_1x1</span><span class="p">,</span> <span class="n">t_list</span><span class="p">,</span> <span class="n">grads</span><span class="p">,</span> <span class="n">grad_out2</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">thresholdTop</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">thresholdBottom</span><span class="p">)</span>
+
+        <span class="c1"># apply halo cells to grad_out1</span>
+        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_group_size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="n">t_list</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="n">t_list</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+            <span class="n">relu1</span> <span class="o">=</span> <span class="n">t_list</span><span class="p">[</span><span class="mi">12</span><span class="p">]</span>
+            <span class="c1">#print(&quot;w.shape = %s, z.shape = %s, relu1.shape = %s&quot; % (str(list(w.shape)), str(list(z.shape)), str(list(relu1.shape))))</span>
+            <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_method</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_method</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_group_rank</span> <span class="o">&lt;</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_group_size</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_stream</span><span class="p">()</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">stream2</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">:</span>
+                        <span class="n">grad_out1</span><span class="p">[:,</span><span class="n">Hs</span><span class="o">-</span><span class="mi">1</span><span class="p">:,:,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">btm_grad_out1_halo</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">grad_out1</span><span class="p">[:,:,</span><span class="n">Hs</span><span class="o">-</span><span class="mi">1</span><span class="p">:,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">btm_grad_out1_halo</span><span class="p">)</span>
+                    <span class="c1">#print(&quot;ctx.spatial_group_rank = %d, apply grad_out1 btm halo (grad_out1.shape = %s)&quot; % (ctx.spatial_group_rank, str(list(grad_out1.shape))))</span>
+                <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_group_rank</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_stream</span><span class="p">()</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">stream1</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">:</span>
+                        <span class="n">grad_out1</span><span class="p">[:,:</span><span class="mi">1</span><span class="p">,:,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">top_grad_out1_halo</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">grad_out1</span><span class="p">[:,:,:</span><span class="mi">1</span><span class="p">,:]</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">top_grad_out1_halo</span><span class="p">)</span>
+                    <span class="c1">#print(&quot;ctx.spatial_group_rank = %d, apply grad_out1 top halo (grad_out1.shape = %s)&quot; % (ctx.spatial_group_rank, str(list(grad_out1.shape))))</span>
+            <span class="k">elif</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_method</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_group_rank</span> <span class="o">&lt;</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_group_size</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">:</span>
+                        <span class="n">btm_relu_halo</span> <span class="o">=</span> <span class="n">relu1</span><span class="p">[:,</span><span class="n">Hs</span><span class="o">-</span><span class="mi">1</span><span class="p">:,:,:]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+                        <span class="n">btm_grad_out1</span> <span class="o">=</span> <span class="n">grad_out1</span><span class="p">[:,</span><span class="n">Hs</span><span class="o">-</span><span class="mi">1</span><span class="p">:,:,:]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">btm_relu_halo</span> <span class="o">=</span> <span class="n">relu1</span><span class="p">[:,:,</span><span class="n">Hs</span><span class="o">-</span><span class="mi">1</span><span class="p">:,:]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+                        <span class="n">btm_grad_out1</span> <span class="o">=</span> <span class="n">grad_out1</span><span class="p">[:,:,</span><span class="n">Hs</span><span class="o">-</span><span class="mi">1</span><span class="p">:,:]</span>
+                    <span class="n">w1by3</span> <span class="o">=</span> <span class="n">w</span><span class="p">[:,:</span><span class="mi">1</span><span class="p">,:,:]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+                    <span class="n">ctx</span><span class="o">.</span><span class="n">stream2</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">stream1</span><span class="p">)</span> <span class="c1"># wait for halo transfers to finish</span>
+                    <span class="n">ctx</span><span class="o">.</span><span class="n">stream2</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_stream</span><span class="p">())</span> <span class="c1"># wait for backward_grad_out1_mask to finish before launching halo correction kernel</span>
+                    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">stream2</span><span class="p">):</span>
+                        <span class="n">btm_grad_out1_halo</span> <span class="o">=</span> <span class="n">fast_bottleneck</span><span class="o">.</span><span class="n">backward_grad_out1_halo_corr</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">stride_1x1</span><span class="p">,</span> <span class="n">t_list</span><span class="p">,</span> <span class="n">w1by3</span><span class="p">,</span> <span class="n">grads</span><span class="p">,</span> <span class="n">btm_halo</span><span class="p">,</span> <span class="n">btm_relu_halo</span><span class="p">,</span> <span class="n">btm_grad_out1</span><span class="o">.</span><span class="n">clone</span><span class="p">())</span>
+                        <span class="n">btm_grad_out1</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">btm_grad_out1_halo</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_group_rank</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">:</span>
+                        <span class="n">top_relu_halo</span> <span class="o">=</span> <span class="n">relu1</span><span class="p">[:,:</span><span class="mi">1</span><span class="p">,:,:]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+                        <span class="n">top_grad_out1</span> <span class="o">=</span> <span class="n">grad_out1</span><span class="p">[:,:</span><span class="mi">1</span><span class="p">,:,:]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">top_relu_halo</span> <span class="o">=</span> <span class="n">relu1</span><span class="p">[:,:,:</span><span class="mi">1</span><span class="p">,:]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+                        <span class="n">top_grad_out1</span> <span class="o">=</span> <span class="n">grad_out1</span><span class="p">[:,:,:</span><span class="mi">1</span><span class="p">,:]</span>
+                    <span class="n">w1by3</span> <span class="o">=</span> <span class="n">w</span><span class="p">[:,</span><span class="mi">2</span><span class="p">:,:,:]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+                    <span class="n">ctx</span><span class="o">.</span><span class="n">stream1</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_stream</span><span class="p">())</span> <span class="c1"># wait for backward_grad_out1_mask to finish before launching halo correction kernel</span>
+                    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">stream1</span><span class="p">):</span>
+                        <span class="n">top_grad_out1_halo</span> <span class="o">=</span> <span class="n">fast_bottleneck</span><span class="o">.</span><span class="n">backward_grad_out1_halo_corr</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">stride_1x1</span><span class="p">,</span> <span class="n">t_list</span><span class="p">,</span> <span class="n">w1by3</span><span class="p">,</span> <span class="n">grads</span><span class="p">,</span> <span class="n">top_halo</span><span class="p">,</span> <span class="n">top_relu_halo</span><span class="p">,</span> <span class="n">top_grad_out1</span><span class="o">.</span><span class="n">clone</span><span class="p">())</span>
+                        <span class="n">top_grad_out1</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">top_grad_out1_halo</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_group_rank</span> <span class="o">&lt;</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_group_size</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_stream</span><span class="p">()</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">stream2</span><span class="p">)</span> <span class="c1"># wait for halo correction to finish</span>
+                <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_group_rank</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_stream</span><span class="p">()</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">stream1</span><span class="p">)</span>
+
+        <span class="n">wgrad1_stream</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">Stream</span><span class="p">()</span>
+        <span class="n">wgrad1_stream</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_stream</span><span class="p">())</span>
+        <span class="n">fast_bottleneck</span><span class="o">.</span><span class="n">backward_rest</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">stride_1x1</span><span class="p">,</span> <span class="n">t_list</span><span class="p">,</span> <span class="n">grads</span><span class="p">,</span> <span class="n">grad_out2</span><span class="p">,</span> <span class="n">grad_out1</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">wgrad3_stream</span><span class="p">):</span>
+            <span class="n">fast_bottleneck</span><span class="o">.</span><span class="n">backward_wgrad3</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">stride_1x1</span><span class="p">,</span> <span class="n">t_list</span><span class="p">,</span> <span class="n">grads</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">wgrad2_stream</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">spatial_group_size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">fast_bottleneck</span><span class="o">.</span><span class="n">backward_wgrad2_pad</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">stride_1x1</span><span class="p">,</span> <span class="n">t_list</span><span class="p">,</span> <span class="n">grads</span><span class="p">,</span> <span class="n">out1_pad</span><span class="p">,</span> <span class="n">grad_out2</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fast_bottleneck</span><span class="o">.</span><span class="n">backward_wgrad2</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">stride_1x1</span><span class="p">,</span> <span class="n">t_list</span><span class="p">,</span> <span class="n">grads</span><span class="p">,</span> <span class="n">grad_out2</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">wgrad1_stream</span><span class="p">):</span>
+            <span class="n">fast_bottleneck</span><span class="o">.</span><span class="n">backward_wgrad1</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">stride_1x1</span><span class="p">,</span> <span class="n">t_list</span><span class="p">,</span> <span class="n">grads</span><span class="p">,</span> <span class="n">grad_out1</span><span class="p">)</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_stream</span><span class="p">()</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">wgrad3_stream</span><span class="p">)</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_stream</span><span class="p">()</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">wgrad2_stream</span><span class="p">)</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">current_stream</span><span class="p">()</span><span class="o">.</span><span class="n">wait_stream</span><span class="p">(</span><span class="n">wgrad1_stream</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">grads</span><span class="p">)</span>
+
+<span class="n">spatial_bottleneck_function</span> <span class="o">=</span> <span class="n">SpatialBottleneckFunction</span><span class="o">.</span><span class="n">apply</span>
+
+<div class="viewcode-block" id="SpatialBottleneck"><a class="viewcode-back" href="../../../../generated/apex.contrib.bottleneck.SpatialBottleneck.html#apex.contrib.bottleneck.SpatialBottleneck">[docs]</a><span class="k">class</span> <span class="nc">SpatialBottleneck</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="c1"># Bottleneck in torchvision places the stride for downsampling at 3x3 convolution(self.conv2)</span>
+    <span class="c1"># while original implementation places the stride at the first 1x1 convolution(self.conv1)</span>
+    <span class="c1"># according to &quot;Deep residual learning for image recognition&quot;https://arxiv.org/abs/1512.03385.</span>
+    <span class="c1"># This variant is also known as ResNet V1.5 and improves accuracy according to</span>
+    <span class="c1"># https://ngc.nvidia.com/catalog/model-scripts/nvidia:resnet_50_v1_5_for_pytorch.</span>
+    <span class="c1"># here we put it at 1x1</span>
+
+<div class="viewcode-block" id="SpatialBottleneck.__init__"><a class="viewcode-back" href="../../../../generated/apex.contrib.bottleneck.SpatialBottleneck.html#apex.contrib.bottleneck.SpatialBottleneck.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="n">bottleneck_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">dilation</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">norm_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">use_cudnn</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">explicit_nhwc</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+                 <span class="n">spatial_parallel_args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SpatialBottleneck</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">groups</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Only support groups == 1&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dilation</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Only support dilation == 1&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">norm_func</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">norm_func</span> <span class="o">=</span> <span class="n">FrozenBatchNorm2d</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Only support frozen BN now.&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">stride</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">in_channels</span> <span class="o">!=</span> <span class="n">out_channels</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+                <span class="n">conv1x1</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">stride</span><span class="p">),</span>
+                <span class="n">norm_func</span><span class="p">(</span><span class="n">out_channels</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Both self.conv2 and self.downsample layers downsample the input when stride != 1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">conv1x1</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">bottleneck_channels</span><span class="p">,</span> <span class="n">stride</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">conv3x3</span><span class="p">(</span><span class="n">bottleneck_channels</span><span class="p">,</span> <span class="n">bottleneck_channels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv3</span> <span class="o">=</span> <span class="n">conv1x1</span><span class="p">(</span><span class="n">bottleneck_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relu</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stride</span> <span class="o">=</span> <span class="n">stride</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">bn1</span> <span class="o">=</span> <span class="n">norm_func</span><span class="p">(</span><span class="n">bottleneck_channels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bn2</span> <span class="o">=</span> <span class="n">norm_func</span><span class="p">(</span><span class="n">bottleneck_channels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bn3</span> <span class="o">=</span> <span class="n">norm_func</span><span class="p">(</span><span class="n">out_channels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w_scale</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_cudnn</span> <span class="o">=</span> <span class="n">use_cudnn</span>
+
+        <span class="c1"># setup conv weights</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w_conv</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv3</span><span class="o">.</span><span class="n">weight</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">w_conv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">downsample</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">weight</span><span class="p">)</span>
+
+        <span class="c1"># init weight in nchw format before possible transpose</span>
+        <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">w_conv</span><span class="p">:</span>
+            <span class="n">kaiming_uniform_</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">thresholdTop</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">thresholdBottom</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+        <span class="c1"># TODO: prevent unsupported case usage</span>
+        <span class="c1"># support cases</span>
+        <span class="c1">#                 native      cudnn</span>
+        <span class="c1"># normal             yes         no</span>
+        <span class="c1"># channel_last       yes        yes</span>
+        <span class="c1"># explicit_nhwc       no        yes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">explicit_nhwc</span> <span class="o">=</span> <span class="n">explicit_nhwc</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
+                <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+                    <span class="n">p</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+
+        <span class="c1"># spatial communicator</span>
+        <span class="k">if</span> <span class="n">spatial_parallel_args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">spatial_parallel_args</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">spatial_parallel_args</span> <span class="o">=</span> <span class="n">spatial_parallel_args</span>
+        <span class="k">return</span></div>
+
+    <span class="c1"># Returns single callable that recomputes scale and bias for all frozen batch-norms.</span>
+    <span class="c1"># This method must be called before cuda graphing.</span>
+    <span class="c1"># The callable it returns can be called anytime.</span>
+    <span class="c1"># Calling this method will prevent these from being computed every forward call.</span>
+    <span class="k">def</span> <span class="nf">get_scale_bias_callable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w_scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">w_bias</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+        <span class="n">batch_norms</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">bn1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn3</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">batch_norms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">downsample</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">bn</span> <span class="ow">in</span> <span class="n">batch_norms</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">bn</span><span class="o">.</span><span class="n">weight</span><span class="p">)</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="n">bn</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">bn</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="n">bn</span><span class="o">.</span><span class="n">running_mean</span><span class="p">,</span> <span class="n">bn</span><span class="o">.</span><span class="n">running_var</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">w_scale</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">s</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">w_bias</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">b</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">w_scale</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">s</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">w_bias</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">b</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="p">)</span>
+        <span class="k">return</span> <span class="n">func</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">compute_scale_bias_method</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_cudnn</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">thresholdTop</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">spatial_group_size</span><span class="p">,</span> <span class="n">spatial_group_rank</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spatial_parallel_args</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">:</span>
+                    <span class="n">N</span><span class="p">,</span><span class="n">H</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">C</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">N</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">H</span><span class="p">,</span><span class="n">W</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">thresholdTop</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span> <span class="k">if</span> <span class="n">spatial_group_rank</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">thresholdBottom</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">H</span><span class="o">-</span><span class="mi">2</span> <span class="k">if</span> <span class="n">spatial_group_rank</span> <span class="o">&lt;</span> <span class="n">spatial_group_size</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">H</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">w_scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># calculate scale/bias from registered buffers</span>
+                <span class="c1"># TODO: make this better</span>
+                <span class="n">s1</span><span class="p">,</span> <span class="n">b1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn1</span><span class="o">.</span><span class="n">get_scale_bias</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">)</span>
+                <span class="n">s2</span><span class="p">,</span> <span class="n">b2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn2</span><span class="o">.</span><span class="n">get_scale_bias</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">)</span>
+                <span class="n">s3</span><span class="p">,</span> <span class="n">b3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn3</span><span class="o">.</span><span class="n">get_scale_bias</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">)</span>
+                <span class="n">w_scale</span> <span class="o">=</span> <span class="p">[</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">,</span> <span class="n">s3</span><span class="p">]</span>
+                <span class="n">w_bias</span> <span class="o">=</span> <span class="p">[</span><span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">b3</span><span class="p">]</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">s4</span><span class="p">,</span> <span class="n">b4</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_scale_bias</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">)</span>
+                    <span class="n">w_scale</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s4</span><span class="p">)</span>
+                    <span class="n">w_bias</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b4</span><span class="p">)</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="n">spatial_bottleneck_function</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">spatial_parallel_args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stride</span><span class="p">,</span> <span class="n">w_scale</span><span class="p">,</span> <span class="n">w_bias</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">thresholdTop</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">thresholdBottom</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">w_conv</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="n">spatial_bottleneck_function</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">spatial_parallel_args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stride</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">w_scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">w_bias</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">thresholdTop</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">thresholdBottom</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">w_conv</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">out</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">explicit_nhwc</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;explicit nhwc with native ops is not supported.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># fallback to native ops</span>
+        <span class="n">identity</span> <span class="o">=</span> <span class="n">x</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn1</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn2</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv3</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn3</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">identity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="n">out</span> <span class="o">+=</span> <span class="n">identity</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">out</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018-.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>  
+
+  <style>
+  a:link, a:visited {
+    color: #76b900;
+  }
+
+  a:hover {
+    color: #8c0;
+  }
+
+  .rst-content dl:not(.docutils) dt {
+    background: rgba(118, 185, 0, 0.1);
+    color: rgba(59,93,0,1);
+    border-top: solid 3px rgba(59,93,0,1);
+  }
+  </style>
+  
+
+</body>
+</html>

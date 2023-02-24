@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>apex.contrib &mdash; Apex 0.1.0 documentation</title>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato" type="text/css" />
+      <link rel="stylesheet" href="_static/css/pytorch_theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="apex.contrib.bottleneck.Bottleneck" href="generated/apex.contrib.bottleneck.Bottleneck.html" />
+    <link rel="prev" title="apex.normalization.FusedRMSNorm" href="apex.normalization.FusedRMSNorm.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" > 
+
+          
+          
+          <a href="index.html">
+            
+          </a>
+              <div class="version">
+                0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+  <style>
+    /* Sidebar header (and topbar for mobile) */
+    .wy-side-nav-search, .wy-nav-top {
+      background: #76b900;
+    }
+
+    .wy-side-nav-search a:link, .wy-nav-top a:link {
+      color: #fff;
+    }
+    .wy-side-nav-search a:visited, .wy-nav-top a:visited {
+      color: #fff;
+    }
+    .wy-side-nav-search a:hover, .wy-nav-top a:hover {
+      color: #fff;
+    }
+
+    .wy-menu-vertical a:link, .wy-menu-vertical a:visited {
+      color: #d9d9d9
+    }
+
+    .wy-menu-vertical a:active {
+      background-color: #76b900
+    }
+
+    .wy-side-nav-search>div.version {
+      color: rgba(0, 0, 0, 0.3)
+    }
+  </style>
+  
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Fused Optimizers</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="optimizers.html">apex.optimizers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="apex.optimizers.FusedSGD.html">apex.optimizers.FusedSGD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apex.optimizers.FusedAdam.html">apex.optimizers.FusedAdam</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apex.optimizers.FusedLAMB.html">apex.optimizers.FusedLAMB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apex.optimizers.FusedMixedPrecisionLamb.html">apex.optimizers.FusedMixedPrecisionLamb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apex.optimizers.FusedNovoGrad.html">apex.optimizers.FusedNovoGrad</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="normalization.html">apex.normalization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="apex.normalization.FusedLayerNorm.html">apex.normalization.FusedLayerNorm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apex.normalization.FusedRMSNorm.html">apex.normalization.FusedRMSNorm</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">apex.contrib</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#bottleneck">Bottleneck</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.bottleneck.Bottleneck.html">apex.contrib.bottleneck.Bottleneck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.bottleneck.SpatialBottleneck.html">apex.contrib.bottleneck.SpatialBottleneck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.bottleneck.HaloExchangerNoComm.html">apex.contrib.bottleneck.HaloExchangerNoComm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.bottleneck.HaloExchangerAllGather.html">apex.contrib.bottleneck.HaloExchangerAllGather</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.bottleneck.HaloExchangerSendRecv.html">apex.contrib.bottleneck.HaloExchangerSendRecv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.bottleneck.HaloExchangerPeer.html">apex.contrib.bottleneck.HaloExchangerPeer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#clip-grad">Clip Grad</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.clip_grad.clip_grad_norm_.html">apex.contrib.clip_grad.clip_grad_norm_</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cudnn-frontend-based-conv-bias-relu">cuDNN frontend based Conv-Bias-ReLU</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.conv_bias_relu.ConvBiasReLU.html">apex.contrib.conv_bias_relu.ConvBiasReLU</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.conv_bias_relu.ConvBias.html">apex.contrib.conv_bias_relu.ConvBias</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.conv_bias_relu.ConvBiasMaskReLU.html">apex.contrib.conv_bias_relu.ConvBiasMaskReLU</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cudnn-based-2d-group-batch-normalization">cuDNN based 2D Group Batch Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.cudnn_gbn.GroupBatchNorm2d.html">apex.contrib.cudnn_gbn.GroupBatchNorm2d</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fused-multihead-attention">Fused MultiHead Attention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.fmha.fmha.FMHA.html">apex.contrib.fmha.fmha.FMHA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#focal-loss">Focal Loss</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.focal_loss.focal_loss.focal_loss.html">apex.contrib.focal_loss.focal_loss.focal_loss</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#group-batch-normalization">Group Batch Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.groupbn.BatchNorm2d_NHWC.html">apex.contrib.groupbn.BatchNorm2d_NHWC</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#d-index-multiply">2D Index Multiply</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.index_mul_2d.index_mul_2d.html">apex.contrib.index_mul_2d.index_mul_2d</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#layer-normalization">Layer Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.layer_norm.FastLayerNorm.html">apex.contrib.layer_norm.FastLayerNorm</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#multihead-attention">MultiHead Attention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.multihead_attn.SelfMultiheadAttn.html">apex.contrib.multihead_attn.SelfMultiheadAttn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.multihead_attn.EncdecMultiheadAttn.html">apex.contrib.multihead_attn.EncdecMultiheadAttn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.multihead_attn.fast_mask_softmax_dropout_func.html">apex.contrib.multihead_attn.fast_mask_softmax_dropout_func</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#optimizers">Optimizers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam.html">apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB.html">apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#peer-memory">Peer Memory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.peer_memory.PeerMemoryPool.html">apex.contrib.peer_memory.PeerMemoryPool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.peer_memory.PeerHaloExchanger1d.html">apex.contrib.peer_memory.PeerHaloExchanger1d</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#sparsity">Sparsity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.sparsity.create_mask.html">apex.contrib.sparsity.create_mask</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.sparsity.ASP.html">apex.contrib.sparsity.ASP</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#transducer">Transducer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.transducer.TransducerJoint.html">apex.contrib.transducer.TransducerJoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.transducer.TransducerLoss.html">apex.contrib.transducer.TransducerLoss</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cross-entropy">Cross Entropy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/apex.contrib.xentropy.SoftmaxCrossEntropyLoss.html">apex.contrib.xentropy.SoftmaxCrossEntropyLoss</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Apex</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">apex.contrib</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/contrib.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <span class="target" id="module-apex.contrib"></span><section id="apex-contrib">
+<h1>apex.contrib<a class="headerlink" href="#apex-contrib" title="Permalink to this heading">¶</a></h1>
+<section id="bottleneck">
+<h2>Bottleneck<a class="headerlink" href="#bottleneck" title="Permalink to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/apex.contrib.bottleneck.Bottleneck.html#apex.contrib.bottleneck.Bottleneck" title="apex.contrib.bottleneck.Bottleneck"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.bottleneck.Bottleneck</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/apex.contrib.bottleneck.SpatialBottleneck.html#apex.contrib.bottleneck.SpatialBottleneck" title="apex.contrib.bottleneck.SpatialBottleneck"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.bottleneck.SpatialBottleneck</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/apex.contrib.bottleneck.HaloExchangerNoComm.html#apex.contrib.bottleneck.HaloExchangerNoComm" title="apex.contrib.bottleneck.HaloExchangerNoComm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.bottleneck.HaloExchangerNoComm</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/apex.contrib.bottleneck.HaloExchangerAllGather.html#apex.contrib.bottleneck.HaloExchangerAllGather" title="apex.contrib.bottleneck.HaloExchangerAllGather"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.bottleneck.HaloExchangerAllGather</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/apex.contrib.bottleneck.HaloExchangerSendRecv.html#apex.contrib.bottleneck.HaloExchangerSendRecv" title="apex.contrib.bottleneck.HaloExchangerSendRecv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.bottleneck.HaloExchangerSendRecv</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/apex.contrib.bottleneck.HaloExchangerPeer.html#apex.contrib.bottleneck.HaloExchangerPeer" title="apex.contrib.bottleneck.HaloExchangerPeer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.bottleneck.HaloExchangerPeer</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="clip-grad">
+<h2>Clip Grad<a class="headerlink" href="#clip-grad" title="Permalink to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/apex.contrib.clip_grad.clip_grad_norm_.html#apex.contrib.clip_grad.clip_grad_norm_" title="apex.contrib.clip_grad.clip_grad_norm_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.clip_grad.clip_grad_norm_</span></code></a></p></td>
+<td><p>Clips gradient norm of an iterable of parameters.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="cudnn-frontend-based-conv-bias-relu">
+<h2>cuDNN frontend based Conv-Bias-ReLU<a class="headerlink" href="#cudnn-frontend-based-conv-bias-relu" title="Permalink to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/apex.contrib.conv_bias_relu.ConvBiasReLU.html#apex.contrib.conv_bias_relu.ConvBiasReLU" title="apex.contrib.conv_bias_relu.ConvBiasReLU"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.conv_bias_relu.ConvBiasReLU</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/apex.contrib.conv_bias_relu.ConvBias.html#apex.contrib.conv_bias_relu.ConvBias" title="apex.contrib.conv_bias_relu.ConvBias"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.conv_bias_relu.ConvBias</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/apex.contrib.conv_bias_relu.ConvBiasMaskReLU.html#apex.contrib.conv_bias_relu.ConvBiasMaskReLU" title="apex.contrib.conv_bias_relu.ConvBiasMaskReLU"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.conv_bias_relu.ConvBiasMaskReLU</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="cudnn-based-2d-group-batch-normalization">
+<h2>cuDNN based 2D Group Batch Normalization<a class="headerlink" href="#cudnn-based-2d-group-batch-normalization" title="Permalink to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/apex.contrib.cudnn_gbn.GroupBatchNorm2d.html#apex.contrib.cudnn_gbn.GroupBatchNorm2d" title="apex.contrib.cudnn_gbn.GroupBatchNorm2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.cudnn_gbn.GroupBatchNorm2d</span></code></a></p></td>
+<td><p>synchronized batch normalization module extented from <code class="docutils literal notranslate"><span class="pre">torch.nn.BatchNormNd</span></code> with the added stats reduction across multiple processes.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="fused-multihead-attention">
+<h2>Fused MultiHead Attention<a class="headerlink" href="#fused-multihead-attention" title="Permalink to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/apex.contrib.fmha.fmha.FMHA.html#apex.contrib.fmha.fmha.FMHA" title="apex.contrib.fmha.fmha.FMHA"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.fmha.fmha.FMHA</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="focal-loss">
+<h2>Focal Loss<a class="headerlink" href="#focal-loss" title="Permalink to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/apex.contrib.focal_loss.focal_loss.focal_loss.html#apex.contrib.focal_loss.focal_loss.focal_loss" title="apex.contrib.focal_loss.focal_loss.focal_loss"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.focal_loss.focal_loss.focal_loss</span></code></a></p></td>
+<td><p>Fused focal loss function.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="group-batch-normalization">
+<h2>Group Batch Normalization<a class="headerlink" href="#group-batch-normalization" title="Permalink to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/apex.contrib.groupbn.BatchNorm2d_NHWC.html#apex.contrib.groupbn.BatchNorm2d_NHWC" title="apex.contrib.groupbn.BatchNorm2d_NHWC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.groupbn.BatchNorm2d_NHWC</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="d-index-multiply">
+<h2>2D Index Multiply<a class="headerlink" href="#d-index-multiply" title="Permalink to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/apex.contrib.index_mul_2d.index_mul_2d.html#apex.contrib.index_mul_2d.index_mul_2d" title="apex.contrib.index_mul_2d.index_mul_2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.index_mul_2d.index_mul_2d</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="layer-normalization">
+<h2>Layer Normalization<a class="headerlink" href="#layer-normalization" title="Permalink to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/apex.contrib.layer_norm.FastLayerNorm.html#apex.contrib.layer_norm.FastLayerNorm" title="apex.contrib.layer_norm.FastLayerNorm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.layer_norm.FastLayerNorm</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="multihead-attention">
+<h2>MultiHead Attention<a class="headerlink" href="#multihead-attention" title="Permalink to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/apex.contrib.multihead_attn.SelfMultiheadAttn.html#apex.contrib.multihead_attn.SelfMultiheadAttn" title="apex.contrib.multihead_attn.SelfMultiheadAttn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.multihead_attn.SelfMultiheadAttn</span></code></a></p></td>
+<td><p>Multi-headed attention.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/apex.contrib.multihead_attn.EncdecMultiheadAttn.html#apex.contrib.multihead_attn.EncdecMultiheadAttn" title="apex.contrib.multihead_attn.EncdecMultiheadAttn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.multihead_attn.EncdecMultiheadAttn</span></code></a></p></td>
+<td><p>Multi-headed attention.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/apex.contrib.multihead_attn.fast_mask_softmax_dropout_func.html#apex.contrib.multihead_attn.fast_mask_softmax_dropout_func" title="apex.contrib.multihead_attn.fast_mask_softmax_dropout_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.multihead_attn.fast_mask_softmax_dropout_func</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="optimizers">
+<h2>Optimizers<a class="headerlink" href="#optimizers" title="Permalink to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam.html#apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam" title="apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam</span></code></a></p></td>
+<td><p>Adam optimizer with ZeRO algorithm.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB.html#apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB" title="apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB</span></code></a></p></td>
+<td><p>Implements LAMB algorithm.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="peer-memory">
+<h2>Peer Memory<a class="headerlink" href="#peer-memory" title="Permalink to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/apex.contrib.peer_memory.PeerMemoryPool.html#apex.contrib.peer_memory.PeerMemoryPool" title="apex.contrib.peer_memory.PeerMemoryPool"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.peer_memory.PeerMemoryPool</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/apex.contrib.peer_memory.PeerHaloExchanger1d.html#apex.contrib.peer_memory.PeerHaloExchanger1d" title="apex.contrib.peer_memory.PeerHaloExchanger1d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.peer_memory.PeerHaloExchanger1d</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="sparsity">
+<h2>Sparsity<a class="headerlink" href="#sparsity" title="Permalink to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/apex.contrib.sparsity.create_mask.html#apex.contrib.sparsity.create_mask" title="apex.contrib.sparsity.create_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.sparsity.create_mask</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/apex.contrib.sparsity.ASP.html#apex.contrib.sparsity.ASP" title="apex.contrib.sparsity.ASP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.sparsity.ASP</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="transducer">
+<h2>Transducer<a class="headerlink" href="#transducer" title="Permalink to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/apex.contrib.transducer.TransducerJoint.html#apex.contrib.transducer.TransducerJoint" title="apex.contrib.transducer.TransducerJoint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.transducer.TransducerJoint</span></code></a></p></td>
+<td><p>Transducer joint Detail of this loss function can be found in: Sequence Transduction with Recurrent Neural Networks</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/apex.contrib.transducer.TransducerLoss.html#apex.contrib.transducer.TransducerLoss" title="apex.contrib.transducer.TransducerLoss"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.transducer.TransducerLoss</span></code></a></p></td>
+<td><p>Transducer loss Detail of this loss function can be found in: Sequence Transduction with Recurrent Neural Networks</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="cross-entropy">
+<h2>Cross Entropy<a class="headerlink" href="#cross-entropy" title="Permalink to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/apex.contrib.xentropy.SoftmaxCrossEntropyLoss.html#apex.contrib.xentropy.SoftmaxCrossEntropyLoss" title="apex.contrib.xentropy.SoftmaxCrossEntropyLoss"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apex.contrib.xentropy.SoftmaxCrossEntropyLoss</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="apex.normalization.FusedRMSNorm.html" class="btn btn-neutral float-left" title="apex.normalization.FusedRMSNorm" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="generated/apex.contrib.bottleneck.Bottleneck.html" class="btn btn-neutral float-right" title="apex.contrib.bottleneck.Bottleneck" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018-.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>  
+
+  <style>
+  a:link, a:visited {
+    color: #76b900;
+  }
+
+  a:hover {
+    color: #8c0;
+  }
+
+  .rst-content dl:not(.docutils) dt {
+    background: rgba(118, 185, 0, 0.1);
+    color: rgba(59,93,0,1);
+    border-top: solid 3px rgba(59,93,0,1);
+  }
+  </style>
+  
+
+</body>
+</html>

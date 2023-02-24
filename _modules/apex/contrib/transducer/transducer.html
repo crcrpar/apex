@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>apex.contrib.transducer.transducer &mdash; Apex 0.1.0 documentation</title>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/pytorch_theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" > 
+
+          
+          
+          <a href="../../../../index.html">
+            
+          </a>
+              <div class="version">
+                0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+  <style>
+    /* Sidebar header (and topbar for mobile) */
+    .wy-side-nav-search, .wy-nav-top {
+      background: #76b900;
+    }
+
+    .wy-side-nav-search a:link, .wy-nav-top a:link {
+      color: #fff;
+    }
+    .wy-side-nav-search a:visited, .wy-nav-top a:visited {
+      color: #fff;
+    }
+    .wy-side-nav-search a:hover, .wy-nav-top a:hover {
+      color: #fff;
+    }
+
+    .wy-menu-vertical a:link, .wy-menu-vertical a:visited {
+      color: #d9d9d9
+    }
+
+    .wy-menu-vertical a:active {
+      background-color: #76b900
+    }
+
+    .wy-side-nav-search>div.version {
+      color: rgba(0, 0, 0, 0.3)
+    }
+  </style>
+  
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Fused Optimizers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../optimizers.html">apex.optimizers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../apex.optimizers.FusedSGD.html">apex.optimizers.FusedSGD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../apex.optimizers.FusedAdam.html">apex.optimizers.FusedAdam</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../apex.optimizers.FusedLAMB.html">apex.optimizers.FusedLAMB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../apex.optimizers.FusedMixedPrecisionLamb.html">apex.optimizers.FusedMixedPrecisionLamb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../apex.optimizers.FusedNovoGrad.html">apex.optimizers.FusedNovoGrad</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../normalization.html">apex.normalization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../apex.normalization.FusedLayerNorm.html">apex.normalization.FusedLayerNorm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../apex.normalization.FusedRMSNorm.html">apex.normalization.FusedRMSNorm</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contrib.html">apex.contrib</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#bottleneck">Bottleneck</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.Bottleneck.html">apex.contrib.bottleneck.Bottleneck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.SpatialBottleneck.html">apex.contrib.bottleneck.SpatialBottleneck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.HaloExchangerNoComm.html">apex.contrib.bottleneck.HaloExchangerNoComm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.HaloExchangerAllGather.html">apex.contrib.bottleneck.HaloExchangerAllGather</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.HaloExchangerSendRecv.html">apex.contrib.bottleneck.HaloExchangerSendRecv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.HaloExchangerPeer.html">apex.contrib.bottleneck.HaloExchangerPeer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#clip-grad">Clip Grad</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.clip_grad.clip_grad_norm_.html">apex.contrib.clip_grad.clip_grad_norm_</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#cudnn-frontend-based-conv-bias-relu">cuDNN frontend based Conv-Bias-ReLU</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.conv_bias_relu.ConvBiasReLU.html">apex.contrib.conv_bias_relu.ConvBiasReLU</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.conv_bias_relu.ConvBias.html">apex.contrib.conv_bias_relu.ConvBias</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.conv_bias_relu.ConvBiasMaskReLU.html">apex.contrib.conv_bias_relu.ConvBiasMaskReLU</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#cudnn-based-2d-group-batch-normalization">cuDNN based 2D Group Batch Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.cudnn_gbn.GroupBatchNorm2d.html">apex.contrib.cudnn_gbn.GroupBatchNorm2d</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#fused-multihead-attention">Fused MultiHead Attention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.fmha.fmha.FMHA.html">apex.contrib.fmha.fmha.FMHA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#focal-loss">Focal Loss</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.focal_loss.focal_loss.focal_loss.html">apex.contrib.focal_loss.focal_loss.focal_loss</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#group-batch-normalization">Group Batch Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.groupbn.BatchNorm2d_NHWC.html">apex.contrib.groupbn.BatchNorm2d_NHWC</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#d-index-multiply">2D Index Multiply</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.index_mul_2d.index_mul_2d.html">apex.contrib.index_mul_2d.index_mul_2d</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#layer-normalization">Layer Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.layer_norm.FastLayerNorm.html">apex.contrib.layer_norm.FastLayerNorm</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#multihead-attention">MultiHead Attention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.multihead_attn.SelfMultiheadAttn.html">apex.contrib.multihead_attn.SelfMultiheadAttn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.multihead_attn.EncdecMultiheadAttn.html">apex.contrib.multihead_attn.EncdecMultiheadAttn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.multihead_attn.fast_mask_softmax_dropout_func.html">apex.contrib.multihead_attn.fast_mask_softmax_dropout_func</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#optimizers">Optimizers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam.html">apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB.html">apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#peer-memory">Peer Memory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.peer_memory.PeerMemoryPool.html">apex.contrib.peer_memory.PeerMemoryPool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.peer_memory.PeerHaloExchanger1d.html">apex.contrib.peer_memory.PeerHaloExchanger1d</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#sparsity">Sparsity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.sparsity.create_mask.html">apex.contrib.sparsity.create_mask</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.sparsity.ASP.html">apex.contrib.sparsity.ASP</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#transducer">Transducer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.transducer.TransducerJoint.html">apex.contrib.transducer.TransducerJoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.transducer.TransducerLoss.html">apex.contrib.transducer.TransducerLoss</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#cross-entropy">Cross Entropy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.xentropy.SoftmaxCrossEntropyLoss.html">apex.contrib.xentropy.SoftmaxCrossEntropyLoss</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Apex</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">apex.contrib.transducer.transducer</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for apex.contrib.transducer.transducer</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">transducer_loss_cuda</span>
+<span class="kn">import</span> <span class="nn">transducer_joint_cuda</span>
+
+<div class="viewcode-block" id="TransducerJoint"><a class="viewcode-back" href="../../../../generated/apex.contrib.transducer.TransducerJoint.html#apex.contrib.transducer.TransducerJoint">[docs]</a><span class="k">class</span> <span class="nc">TransducerJoint</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Transducer joint</span>
+<span class="sd">    Detail of this loss function can be found in: Sequence Transduction with Recurrent Neural </span>
+<span class="sd">    Networks</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        pack_output (bool, optional): whether to pack the output in a compact form with don&#39;t-care </span>
+<span class="sd">        data being removed. (default: False)</span>
+<span class="sd">        relu (bool, optional): apply ReLU to the output of the joint operation. Requires opt=1  </span>
+<span class="sd">        (default: False)</span>
+<span class="sd">        dropout (bool, optional): apply dropout to the output of the joint operation. Requires opt=1  </span>
+<span class="sd">        (default: False)</span>
+<span class="sd">        opt (int, optional): pick the optimization level in [0, 1]. opt=1 picks a tiled algorithm. </span>
+<span class="sd">            (default: 1)</span>
+<span class="sd">        fwd_tile_size (int, optional): tile size used in forward operation. This argument will be </span>
+<span class="sd">        ignored if opt != 1. (default: 4) </span>
+<span class="sd">        dropout_prob (float, optional): dropout probability. (default: 0.0)</span>
+<span class="sd">        probe_mask (bool, optional): a flag used to probe the mask generated by ReLU and/or dropout</span>
+<span class="sd">        operation. When this argument is set to True, the mask can be accessed through </span>
+<span class="sd">        self.mask_probe. (default: false)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TransducerJoint.__init__"><a class="viewcode-back" href="../../../../generated/apex.contrib.transducer.TransducerJoint.html#apex.contrib.transducer.TransducerJoint.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pack_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">relu</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">opt</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">fwd_tile_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> 
+                    <span class="n">dropout_prob</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">probe_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TransducerJoint</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">pack_output</span> <span class="o">=</span> <span class="n">pack_output</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relu</span> <span class="o">=</span> <span class="n">relu</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="n">dropout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout_prob</span> <span class="o">=</span> <span class="n">dropout_prob</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opt</span> <span class="o">=</span> <span class="n">opt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fwd_tile_size</span> <span class="o">=</span> <span class="n">fwd_tile_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dummy_batch_offset</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">masked</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mask_probe</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">masked</span> <span class="ow">and</span> <span class="n">probe_mask</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">masked</span> <span class="ow">and</span> <span class="n">opt</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;ReLU and dropout fusion is only supported with opt=1&quot;</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">f_len</span><span class="p">,</span> <span class="n">g_len</span><span class="p">,</span> <span class="n">batch_offset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">packed_batch</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Forward operation of transducer joint</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            f (tensor): transcription vector from encode block of shape (B, T, H).</span>
+<span class="sd">            g (tensor): prediction vector form predict block of shape (B, U, H).</span>
+<span class="sd">            f_len (tensor): length of transcription vector for each batch.</span>
+<span class="sd">            g_len (tensor): length of prediction vector minus 1 for each batch.</span>
+<span class="sd">            batch_offset (tensor, optional): tensor containing the offset of each batch</span>
+<span class="sd">                in the results. For example, batch offset can be obtained from: </span>
+<span class="sd">                batch_offset = torch.cumsum(f_len*g_len, dim=0)</span>
+<span class="sd">                This argument is required if pack_output == True, and is ignored if </span>
+<span class="sd">                pack_output == False. (default: None)</span>
+<span class="sd">            packed_batch (int, optional): the batch size after packing. This argument is </span>
+<span class="sd">                ignored if pack_output == False. (default: 0)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">my_batch_offset</span> <span class="o">=</span> <span class="n">batch_offset</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pack_output</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">dummy_batch_offset</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pack_output</span> <span class="ow">and</span> <span class="p">(</span><span class="n">batch_offset</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">packed_batch</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Please specify batch_offset and packed_batch when packing is enabled&quot;</span><span class="p">)</span>
+        <span class="n">dropout</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">training</span>    <span class="c1"># only dropout for training</span>
+        <span class="k">return</span> <span class="n">TransducerJointFunc</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">f_len</span><span class="p">,</span> <span class="n">g_len</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pack_output</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">,</span> <span class="n">dropout</span><span class="p">,</span> 
+                                            <span class="n">my_batch_offset</span><span class="p">,</span> <span class="n">packed_batch</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">opt</span><span class="p">,</span> 
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">fwd_tile_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout_prob</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mask_probe</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TransducerLoss"><a class="viewcode-back" href="../../../../generated/apex.contrib.transducer.TransducerLoss.html#apex.contrib.transducer.TransducerLoss">[docs]</a><span class="k">class</span> <span class="nc">TransducerLoss</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Transducer loss</span>
+<span class="sd">    Detail of this loss function can be found in: Sequence Transduction with Recurrent Neural </span>
+<span class="sd">    Networks</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        fuse_softmax_backward (bool, optional) whether to fuse the backward of transducer loss with</span>
+<span class="sd">            softmax. (default: True)</span>
+<span class="sd">        opt (int, optional): pick the optimization level in [0, 1]. opt=1 picks a more optimized </span>
+<span class="sd">            algorithm. In some cases, opt=1 might fall back to opt=0. (default: 1)</span>
+<span class="sd">        packed_input (bool, optional): whether to pack the output in a compact form with don&#39;t-care </span>
+<span class="sd">        data being removed. (default: False)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="TransducerLoss.__init__"><a class="viewcode-back" href="../../../../generated/apex.contrib.transducer.TransducerLoss.html#apex.contrib.transducer.TransducerLoss.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fuse_softmax_backward</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">opt</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">packed_input</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TransducerLoss</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">fuse_softmax_backward</span> <span class="o">=</span> <span class="n">fuse_softmax_backward</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opt</span> <span class="o">=</span> <span class="n">opt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">packed_input</span> <span class="o">=</span> <span class="n">packed_input</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dummy_batch_offset</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">f_len</span><span class="p">,</span> <span class="n">y_len</span><span class="p">,</span> <span class="n">blank_idx</span><span class="p">,</span> <span class="n">batch_offset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_f_len</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                <span class="n">debug_list</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Forward operation of transducer joint</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">            x (tensor): input tensor to the loss function with a shape of (B, T, U, H).</span>
+<span class="sd">            label (tensor): labels for the input data.</span>
+<span class="sd">            f_len (tensor): lengths of the inputs in the time dimension for each batch.</span>
+<span class="sd">            y_len (tensor): lengths of the labels for each batch.</span>
+<span class="sd">            blank_idx (int): index for the null symbol.</span>
+<span class="sd">            batch_offset (tensor, optional): tensor containing the offset of each batch</span>
+<span class="sd">                in the input. For example, batch offset can be obtained from: </span>
+<span class="sd">                batch_offset = torch.cumsum(f_len*(y_len+1), dim=0)</span>
+<span class="sd">                This argument is required if packed_input == True, and is ignored if </span>
+<span class="sd">                packed_input == False. (default: None)</span>
+<span class="sd">            max_f_len (int, optional): maximum length of the input in the time dimension.</span>
+<span class="sd">                For example, it can be obtained as </span>
+<span class="sd">                max_f_len = max(f_len)</span>
+<span class="sd">                This argument is required if packed_input == True, and is ignored if </span>
+<span class="sd">                packed_input == False. (default: None)</span>
+<span class="sd">                (default: None)</span>
+<span class="sd">            debug_list (list, optional): when an empty list is supplied, Alpha and Beta generated </span>
+<span class="sd">                in the forward operation will be attached to this list for debug purpose. </span>
+<span class="sd">                (default: None)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">packed_input</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">batch_offset</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">max_f_len</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Please specify batch_offset and max_f_len when packing is </span><span class="se">\</span>
+<span class="s2">                                    enabled&quot;</span><span class="p">)</span> 
+            <span class="n">my_batch_offset</span> <span class="o">=</span> <span class="n">batch_offset</span>
+            <span class="n">my_max_f_len</span> <span class="o">=</span> <span class="n">max_f_len</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">my_batch_offset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dummy_batch_offset</span>
+            <span class="n">my_max_f_len</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">TransducerLossFunc</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">f_len</span><span class="p">,</span> <span class="n">y_len</span><span class="p">,</span> <span class="n">my_batch_offset</span><span class="p">,</span> <span class="n">my_max_f_len</span><span class="p">,</span> 
+                                            <span class="n">blank_idx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fuse_softmax_backward</span><span class="p">,</span> <span class="n">debug_list</span><span class="p">,</span> 
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">opt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">packed_input</span><span class="p">)</span></div>
+
+<span class="k">class</span> <span class="nc">TransducerLossFunc</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">Function</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">f_len</span><span class="p">,</span> <span class="n">y_len</span><span class="p">,</span> <span class="n">batch_offset</span><span class="p">,</span> <span class="n">max_f_len</span><span class="p">,</span> <span class="n">blank_idx</span><span class="p">,</span> 
+                <span class="n">fuse_softmax_backward</span><span class="p">,</span> <span class="n">debug_list</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">packed_input</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">fuse_softmax_backward</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">enable_grad</span><span class="p">():</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">log_softmax</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">log_softmax</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">loss</span> <span class="o">=</span> <span class="n">transducer_loss_cuda</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span>   <span class="n">x</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">f_len</span><span class="p">,</span> <span class="n">y_len</span><span class="p">,</span> <span class="n">batch_offset</span><span class="p">,</span> 
+                                                            <span class="n">max_f_len</span><span class="p">,</span> <span class="n">blank_idx</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">packed_input</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">debug_list</span> <span class="o">==</span> <span class="p">[]:</span>
+            <span class="n">debug_list</span> <span class="o">+=</span> <span class="p">[</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">]</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">save_for_backward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">f_len</span><span class="p">,</span> <span class="n">y_len</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">batch_offset</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">blank_idx</span> <span class="o">=</span> <span class="n">blank_idx</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">fuse_softmax_backward</span> <span class="o">=</span> <span class="n">fuse_softmax_backward</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">opt</span> <span class="o">=</span> <span class="n">opt</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">packed_input</span> <span class="o">=</span> <span class="n">packed_input</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">max_f_len</span> <span class="o">=</span> <span class="n">max_f_len</span>
+        <span class="k">return</span> <span class="n">loss</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">loss_grad</span><span class="p">):</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">f_len</span><span class="p">,</span> <span class="n">y_len</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">batch_offset</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span>
+        <span class="n">x_grad</span> <span class="o">=</span> <span class="n">transducer_loss_cuda</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">loss_grad</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">f_len</span><span class="p">,</span> <span class="n">y_len</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> 
+                                                <span class="n">batch_offset</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">max_f_len</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">blank_idx</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">opt</span><span class="p">,</span> 
+                                                <span class="n">ctx</span><span class="o">.</span><span class="n">fuse_softmax_backward</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">packed_input</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">fuse_softmax_backward</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">x_grad</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">x_grad</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x_grad</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+<span class="k">class</span> <span class="nc">TransducerJointFunc</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">Function</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">f_len</span><span class="p">,</span> <span class="n">g_len</span><span class="p">,</span> <span class="n">pack_output</span><span class="p">,</span> <span class="n">relu</span><span class="p">,</span> <span class="n">dropout</span><span class="p">,</span> <span class="n">batch_offset</span><span class="p">,</span> <span class="n">packed_batch</span><span class="p">,</span> 
+                <span class="n">opt</span><span class="p">,</span> <span class="n">fwd_tile_size</span><span class="p">,</span> <span class="n">dropout_prob</span><span class="p">,</span> <span class="n">mask_probe</span><span class="p">):</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">transducer_joint_cuda</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">f_len</span><span class="p">,</span> <span class="n">g_len</span><span class="p">,</span> <span class="n">batch_offset</span><span class="p">,</span> <span class="n">packed_batch</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> 
+                                            <span class="n">pack_output</span><span class="p">,</span> <span class="n">relu</span><span class="p">,</span> <span class="n">dropout</span><span class="p">,</span> <span class="n">dropout_prob</span><span class="p">,</span> <span class="n">fwd_tile_size</span><span class="p">)</span>
+        <span class="n">masked</span> <span class="o">=</span> <span class="n">relu</span> <span class="ow">or</span> <span class="n">dropout</span>
+        <span class="k">if</span> <span class="n">masked</span><span class="p">:</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">save_for_backward</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">f_len</span><span class="p">,</span> <span class="n">g_len</span><span class="p">,</span> <span class="n">batch_offset</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">mask_probe</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">mask_probe</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ctx</span><span class="o">.</span><span class="n">save_for_backward</span><span class="p">(</span><span class="n">f_len</span><span class="p">,</span> <span class="n">g_len</span><span class="p">,</span> <span class="n">batch_offset</span><span class="p">)</span>
+
+        <span class="n">ctx</span><span class="o">.</span><span class="n">pack_output</span> <span class="o">=</span> <span class="n">pack_output</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">masked</span> <span class="o">=</span> <span class="n">relu</span> <span class="ow">or</span> <span class="n">dropout</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">max_f_len</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">max_g_len</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">dropout_prob</span><span class="p">)</span> <span class="k">if</span> <span class="n">dropout</span> <span class="ow">and</span> <span class="n">dropout_prob</span> <span class="o">!=</span> <span class="mi">1</span> <span class="k">else</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">loss_grad</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">masked</span><span class="p">:</span>
+            <span class="n">mask</span><span class="p">,</span> <span class="n">f_len</span><span class="p">,</span> <span class="n">g_len</span><span class="p">,</span> <span class="n">batch_offset</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span>
+            <span class="n">inp</span> <span class="o">=</span> <span class="p">[</span><span class="n">loss_grad</span><span class="p">,</span> <span class="n">mask</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">f_len</span><span class="p">,</span> <span class="n">g_len</span><span class="p">,</span> <span class="n">batch_offset</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span>
+            <span class="n">inp</span> <span class="o">=</span> <span class="p">[</span><span class="n">loss_grad</span><span class="p">]</span>
+
+        <span class="n">f_grad</span><span class="p">,</span> <span class="n">g_grad</span> <span class="o">=</span> <span class="n">transducer_joint_cuda</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span>    <span class="n">inp</span><span class="p">,</span> <span class="n">f_len</span><span class="p">,</span> <span class="n">g_len</span><span class="p">,</span> <span class="n">batch_offset</span><span class="p">,</span> 
+                                                            <span class="n">ctx</span><span class="o">.</span><span class="n">max_f_len</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">max_g_len</span><span class="p">,</span> 
+                                                            <span class="n">ctx</span><span class="o">.</span><span class="n">pack_output</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">f_grad</span><span class="p">,</span> <span class="n">g_grad</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> \
+                <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018-.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>  
+
+  <style>
+  a:link, a:visited {
+    color: #76b900;
+  }
+
+  a:hover {
+    color: #8c0;
+  }
+
+  .rst-content dl:not(.docutils) dt {
+    background: rgba(118, 185, 0, 0.1);
+    color: rgba(59,93,0,1);
+    border-top: solid 3px rgba(59,93,0,1);
+  }
+  </style>
+  
+
+</body>
+</html>

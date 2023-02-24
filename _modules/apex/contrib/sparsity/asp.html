@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>apex.contrib.sparsity.asp &mdash; Apex 0.1.0 documentation</title>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/pytorch_theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" > 
+
+          
+          
+          <a href="../../../../index.html">
+            
+          </a>
+              <div class="version">
+                0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+  <style>
+    /* Sidebar header (and topbar for mobile) */
+    .wy-side-nav-search, .wy-nav-top {
+      background: #76b900;
+    }
+
+    .wy-side-nav-search a:link, .wy-nav-top a:link {
+      color: #fff;
+    }
+    .wy-side-nav-search a:visited, .wy-nav-top a:visited {
+      color: #fff;
+    }
+    .wy-side-nav-search a:hover, .wy-nav-top a:hover {
+      color: #fff;
+    }
+
+    .wy-menu-vertical a:link, .wy-menu-vertical a:visited {
+      color: #d9d9d9
+    }
+
+    .wy-menu-vertical a:active {
+      background-color: #76b900
+    }
+
+    .wy-side-nav-search>div.version {
+      color: rgba(0, 0, 0, 0.3)
+    }
+  </style>
+  
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Fused Optimizers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../optimizers.html">apex.optimizers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../apex.optimizers.FusedSGD.html">apex.optimizers.FusedSGD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../apex.optimizers.FusedAdam.html">apex.optimizers.FusedAdam</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../apex.optimizers.FusedLAMB.html">apex.optimizers.FusedLAMB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../apex.optimizers.FusedMixedPrecisionLamb.html">apex.optimizers.FusedMixedPrecisionLamb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../apex.optimizers.FusedNovoGrad.html">apex.optimizers.FusedNovoGrad</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../normalization.html">apex.normalization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../apex.normalization.FusedLayerNorm.html">apex.normalization.FusedLayerNorm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../apex.normalization.FusedRMSNorm.html">apex.normalization.FusedRMSNorm</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contrib.html">apex.contrib</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#bottleneck">Bottleneck</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.Bottleneck.html">apex.contrib.bottleneck.Bottleneck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.SpatialBottleneck.html">apex.contrib.bottleneck.SpatialBottleneck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.HaloExchangerNoComm.html">apex.contrib.bottleneck.HaloExchangerNoComm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.HaloExchangerAllGather.html">apex.contrib.bottleneck.HaloExchangerAllGather</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.HaloExchangerSendRecv.html">apex.contrib.bottleneck.HaloExchangerSendRecv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.bottleneck.HaloExchangerPeer.html">apex.contrib.bottleneck.HaloExchangerPeer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#clip-grad">Clip Grad</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.clip_grad.clip_grad_norm_.html">apex.contrib.clip_grad.clip_grad_norm_</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#cudnn-frontend-based-conv-bias-relu">cuDNN frontend based Conv-Bias-ReLU</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.conv_bias_relu.ConvBiasReLU.html">apex.contrib.conv_bias_relu.ConvBiasReLU</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.conv_bias_relu.ConvBias.html">apex.contrib.conv_bias_relu.ConvBias</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.conv_bias_relu.ConvBiasMaskReLU.html">apex.contrib.conv_bias_relu.ConvBiasMaskReLU</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#cudnn-based-2d-group-batch-normalization">cuDNN based 2D Group Batch Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.cudnn_gbn.GroupBatchNorm2d.html">apex.contrib.cudnn_gbn.GroupBatchNorm2d</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#fused-multihead-attention">Fused MultiHead Attention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.fmha.fmha.FMHA.html">apex.contrib.fmha.fmha.FMHA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#focal-loss">Focal Loss</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.focal_loss.focal_loss.focal_loss.html">apex.contrib.focal_loss.focal_loss.focal_loss</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#group-batch-normalization">Group Batch Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.groupbn.BatchNorm2d_NHWC.html">apex.contrib.groupbn.BatchNorm2d_NHWC</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#d-index-multiply">2D Index Multiply</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.index_mul_2d.index_mul_2d.html">apex.contrib.index_mul_2d.index_mul_2d</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#layer-normalization">Layer Normalization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.layer_norm.FastLayerNorm.html">apex.contrib.layer_norm.FastLayerNorm</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#multihead-attention">MultiHead Attention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.multihead_attn.SelfMultiheadAttn.html">apex.contrib.multihead_attn.SelfMultiheadAttn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.multihead_attn.EncdecMultiheadAttn.html">apex.contrib.multihead_attn.EncdecMultiheadAttn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.multihead_attn.fast_mask_softmax_dropout_func.html">apex.contrib.multihead_attn.fast_mask_softmax_dropout_func</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#optimizers">Optimizers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam.html">apex.contrib.optimizers.distributed_fused_adam.DistributedFusedAdam</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB.html">apex.contrib.optimizers.distributed_fused_lamb.DistributedFusedLAMB</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#peer-memory">Peer Memory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.peer_memory.PeerMemoryPool.html">apex.contrib.peer_memory.PeerMemoryPool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.peer_memory.PeerHaloExchanger1d.html">apex.contrib.peer_memory.PeerHaloExchanger1d</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#sparsity">Sparsity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.sparsity.create_mask.html">apex.contrib.sparsity.create_mask</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.sparsity.ASP.html">apex.contrib.sparsity.ASP</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#transducer">Transducer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.transducer.TransducerJoint.html">apex.contrib.transducer.TransducerJoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.transducer.TransducerLoss.html">apex.contrib.transducer.TransducerLoss</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../contrib.html#cross-entropy">Cross Entropy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../generated/apex.contrib.xentropy.SoftmaxCrossEntropyLoss.html">apex.contrib.xentropy.SoftmaxCrossEntropyLoss</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Apex</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">apex.contrib.sparsity.asp</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for apex.contrib.sparsity.asp</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">types</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">.sparse_masklib</span> <span class="kn">import</span> <span class="n">create_mask</span>
+<span class="kn">from</span> <span class="nn">.permutation_lib</span> <span class="kn">import</span> <span class="n">Permutation</span>
+
+<span class="n">torchvision_imported</span><span class="o">=</span><span class="kc">True</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">torchvision</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[ASP][Warning] torchvision cannot be imported.&quot;</span><span class="p">)</span>
+    <span class="n">torchvision_imported</span><span class="o">=</span><span class="kc">False</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">def</span> <span class="nf">eligible_modules</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">whitelist_layer_types</span><span class="p">,</span> <span class="n">allowed_layer_names</span><span class="p">,</span> <span class="n">disallowed_layer_names</span><span class="p">):</span>
+    <span class="n">eligible_modules_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">mod</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">named_modules</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="n">whitelist_layer_types</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">disallowed_layer_names</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">allowed_layer_names</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allowed_layer_names</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">eligible_modules_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">mod</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">eligible_modules_list</span>
+
+
+<div class="viewcode-block" id="ASP"><a class="viewcode-back" href="../../../../generated/apex.contrib.sparsity.ASP.html#apex.contrib.sparsity.ASP">[docs]</a><span class="k">class</span> <span class="nc">ASP</span><span class="p">:</span>
+    <span class="n">__model</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">__verbosity</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">__optimizer</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">__sparse_parameters</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">__calculate_mask</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">__allow_permutation</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">__all_parameters</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">__save_permutation_graph</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">__permutation_output_dir</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">init_model_for_pruning</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">mask_calculator</span><span class="o">=</span><span class="s2">&quot;m4n2_1d&quot;</span><span class="p">,</span>
+             <span class="n">verbosity</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+             <span class="n">whitelist</span><span class="o">=</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv1d</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv3d</span><span class="p">],</span> 
+             <span class="n">allowed_layer_names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">disallowed_layer_names</span><span class="o">=</span><span class="p">[],</span>
+             <span class="n">allow_recompute_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">custom_layer_dict</span><span class="o">=</span><span class="p">{},</span>
+             <span class="n">allow_permutation</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call this method to modify your model to take advantage of sparse matrix multiplication.</span>
+<span class="sd">        Note that this call alone only augments the model with additional buffers needed for sparse MMA,</span>
+<span class="sd">        it does not enable use of sparse MMA. </span>
+
+<span class="sd">        If you are starting with a fresh model:</span>
+
+<span class="sd">        model = ...</span>
+<span class="sd">        ASP.init_model_for_pruning(model, mask_calculator, ...)</span>
+<span class="sd">        if (training) ASP.init_optimizer_for_pruning(optimizer)</span>
+<span class="sd">        ASP.compute_sparse_masks() // sparsity is off by default, call when youy want to enable it.</span>
+
+<span class="sd">        If you are starting from a checkpoint:</span>
+
+<span class="sd">        model = ...</span>
+<span class="sd">        ASP.init_model_for_pruning(model, mask_calculator, ...)</span>
+<span class="sd">        torch.load(...)</span>
+<span class="sd">        if (training) ASP.init_optimizer_for_pruning(optimizer)</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">          model                    The model</span>
+<span class="sd">          mask_calculator          Either callable that computes mask given a tensor OR pattern string for sparse mask lib.</span>
+<span class="sd">          verbosity                Integer controling verbosity level.</span>
+<span class="sd">                                   0 -&gt; Only errors.</span>
+<span class="sd">                                   1 -&gt; Errors and warnings.</span>
+<span class="sd">                                   2 -&gt; Errors, warnings and info.</span>
+<span class="sd">                                   3 -&gt; Errors, warnings, info and debug.</span>
+<span class="sd">          whitelist                Module types approved for sparsity.</span>
+<span class="sd">          allowed_layer_names      If not None, only layer names that appear in this list are considered for sparsity.</span>
+<span class="sd">          disallowed_layer_names   If not [], only layer names that do not appear in this list are considered for sparsity.</span>
+<span class="sd">          allow_recompute_mask     If True, stores pruned values so that dense weights can be restored.</span>
+<span class="sd">                                   Pruned weights are stored in CPU memory, hence this option does not increase GPU memory usage.</span>
+<span class="sd">          custom_layer_dict        Dictionary of additional layer paremeters to sparsify. e.g. {CustomLinear: [&#39;weight&#39;]}</span>
+<span class="sd">          allow_permutation        If True, allow the input channel permutation to ease the influence of weight pruning.</span>
+<span class="sd">          </span>
+<span class="sd">          [Future] Support for allow_recompute_mask can be removed, it is not part of sparse inference recipe.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">__model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">),</span> <span class="s2">&quot;ASP has been initialized already.&quot;</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">__model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">__verbosity</span> <span class="o">=</span> <span class="n">verbosity</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">__allow_permutation</span> <span class="o">=</span> <span class="n">allow_permutation</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mask_calculator</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">def</span> <span class="nf">create_mask_from_pattern</span><span class="p">(</span><span class="n">param</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">create_mask</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">mask_calculator</span><span class="p">)</span><span class="o">.</span><span class="n">bool</span><span class="p">()</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">__calculate_mask</span> <span class="o">=</span> <span class="n">create_mask_from_pattern</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">__calculate_mask</span> <span class="o">=</span> <span class="n">mask_calculator</span> <span class="c1">#user defined function</span>
+
+        <span class="c1"># function to extract variables that will be sparsified. </span>
+        <span class="c1"># idea is that you will add one of these functions for each module type that can be sparsified.</span>
+        <span class="k">if</span> <span class="n">torchvision_imported</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[ASP] torchvision is imported, can work with the MaskRCNN/KeypointRCNN from torchvision.&quot;</span><span class="p">)</span>
+            <span class="n">torchvision_version</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">torchvision</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+            <span class="n">torchvision_version_major</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">torchvision_version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">torchvision_version_minor</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">torchvision_version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">torchvision_version_major</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">torchvision_version_minor</span> <span class="o">&lt;</span> <span class="mi">12</span><span class="p">:</span>
+                <span class="n">sparse_parameter_list</span> <span class="o">=</span> <span class="p">{</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">],</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv1d</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">],</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">],</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv3d</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">],</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]}</span>
+            <span class="k">else</span><span class="p">:</span>    <span class="c1"># Torchvision remove APIs that were deprecated before 0.8 (#5386) in 0.12.0, torchvision.ops.misc.Conv2d is removed</span>
+                <span class="n">sparse_parameter_list</span> <span class="o">=</span> <span class="p">{</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">],</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv1d</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">],</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">],</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv3d</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sparse_parameter_list</span> <span class="o">=</span> <span class="p">{</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">],</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv1d</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">],</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">],</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv3d</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]}</span>
+        <span class="k">if</span> <span class="n">custom_layer_dict</span><span class="p">:</span> <span class="c1"># Update default list to include user supplied custom (layer type : parameter tensor), make sure this tensor type is something ASP knows how to prune</span>
+            <span class="n">sparse_parameter_list</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">custom_layer_dict</span><span class="p">)</span>
+            <span class="n">whitelist</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="n">custom_layer_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="k">for</span> <span class="n">module_type</span> <span class="ow">in</span> <span class="n">whitelist</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="p">(</span><span class="n">module_type</span> <span class="ow">in</span> <span class="n">sparse_parameter_list</span><span class="p">),</span> <span class="s2">&quot;Module </span><span class="si">%s</span><span class="s2"> :: Don&#39;t know how to sparsify module.&quot;</span> <span class="o">%</span> <span class="n">module</span><span class="o">.</span><span class="n">dtype</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">allow_permutation</span><span class="p">:</span>    <span class="c1"># find all named modules, extract parameters and decorate, used for offline permutation in K dim</span>
+            <span class="k">for</span> <span class="n">module_name</span><span class="p">,</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">named_modules</span><span class="p">():</span>
+                <span class="n">module_type_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">module</span><span class="p">))</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\&#39;</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">module_type_str</span> <span class="o">==</span> <span class="s1">&#39;torch.nn.modules.container.Sequential&#39;</span> <span class="ow">or</span> <span class="n">module_type_str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;torchvision.models&#39;</span><span class="p">):</span>
+                    <span class="c1"># filter out the &#39;torch.nn.modules.container.Sequential&#39; type and the whole model, like &#39;torchvision.models.vgg.VGG&#39;</span>
+                    <span class="k">continue</span>
+                <span class="k">for</span> <span class="n">p_name</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">module</span><span class="o">.</span><span class="n">named_parameters</span><span class="p">():</span>
+                    <span class="bp">cls</span><span class="o">.</span><span class="n">__all_parameters</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">module_name</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">p_name</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">module_type_str</span> <span class="o">==</span> <span class="s1">&#39;torch.nn.modules.batchnorm.BatchNorm2d&#39;</span><span class="p">:</span>
+                <span class="c1"># need to get the running_mean and running_var from model.state_dict(), as they are not the learnable parameters</span>
+                    <span class="n">module_mean_name</span> <span class="o">=</span> <span class="n">module_name</span> <span class="o">+</span> <span class="s1">&#39;.running_mean&#39;</span>
+                    <span class="n">module_var_name</span> <span class="o">=</span> <span class="n">module_name</span> <span class="o">+</span> <span class="s1">&#39;.running_var&#39;</span>
+                    <span class="k">for</span> <span class="n">param_key</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">():</span>
+                        <span class="k">if</span> <span class="n">module_mean_name</span> <span class="o">==</span> <span class="n">param_key</span> <span class="ow">or</span> <span class="n">module_var_name</span> <span class="o">==</span> <span class="n">param_key</span><span class="p">:</span>
+                            <span class="bp">cls</span><span class="o">.</span><span class="n">__all_parameters</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">module_name</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">param_key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">()[</span><span class="n">param_key</span><span class="p">]))</span>
+            <span class="c1"># add the __permutation_output_dir field to save the intermediate results for permutation</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">__permutation_output_dir</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span>
+            <span class="c1"># Set the corresponding params from ASP class to the Permutation class</span>
+            <span class="n">Permutation</span><span class="o">.</span><span class="n">set_permutation_params_from_asp</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">__model</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__sparse_parameters</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__all_parameters</span><span class="p">)</span>
+            <span class="c1"># Set the identical random seed for all GPUs to make sure the same results generated in permutation search</span>
+            <span class="n">Permutation</span><span class="o">.</span><span class="n">set_identical_seed</span><span class="p">()</span>
+
+        <span class="c1"># find all sparse modules, extract sparse parameters and decorate</span>
+        <span class="k">def</span> <span class="nf">add_sparse_attributes</span><span class="p">(</span><span class="n">module_name</span><span class="p">,</span> <span class="n">module</span><span class="p">):</span>
+            <span class="n">sparse_parameters</span> <span class="o">=</span> <span class="n">sparse_parameter_list</span><span class="p">[</span><span class="nb">type</span><span class="p">(</span><span class="n">module</span><span class="p">)]</span>
+            <span class="k">for</span> <span class="n">p_name</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">module</span><span class="o">.</span><span class="n">named_parameters</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">p_name</span> <span class="ow">in</span> <span class="n">sparse_parameters</span> <span class="ow">and</span> <span class="n">p</span><span class="o">.</span><span class="n">requires_grad</span><span class="p">:</span>
+                    <span class="c1"># check for NVIDIA&#39;s TC compatibility: we check along the horizontal direction</span>
+                    <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">float32</span> <span class="ow">and</span> <span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">%</span> <span class="mi">8</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span> <span class="o">%</span> <span class="mi">16</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span> <span class="c1">#User defines FP32 and APEX internally uses FP16 math</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[ASP] Auto skipping pruning </span><span class="si">%s</span><span class="s2">::</span><span class="si">%s</span><span class="s2"> of size=</span><span class="si">%s</span><span class="s2"> and type=</span><span class="si">%s</span><span class="s2"> for sparsity&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">module_name</span><span class="p">,</span> <span class="n">p_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">size</span><span class="p">()),</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">dtype</span><span class="p">)))</span>
+                        <span class="k">continue</span>
+                    <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">float16</span> <span class="ow">and</span> <span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">%</span> <span class="mi">8</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span> <span class="o">%</span> <span class="mi">16</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span> <span class="c1">#For Conv2d dim= K x CRS; we prune along C</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[ASP] Auto skipping pruning </span><span class="si">%s</span><span class="s2">::</span><span class="si">%s</span><span class="s2"> of size=</span><span class="si">%s</span><span class="s2"> and type=</span><span class="si">%s</span><span class="s2"> for sparsity&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">module_name</span><span class="p">,</span> <span class="n">p_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">size</span><span class="p">()),</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">dtype</span><span class="p">)))</span>
+                        <span class="k">continue</span>
+                    
+                    <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__verbosity</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[ASP] Sparsifying </span><span class="si">%s</span><span class="s2">::</span><span class="si">%s</span><span class="s2"> of size=</span><span class="si">%s</span><span class="s2"> and type=</span><span class="si">%s</span><span class="s2"> for sparsity&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">module_name</span><span class="p">,</span> <span class="n">p_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">size</span><span class="p">()),</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">dtype</span><span class="p">)))</span>
+                    
+                    <span class="n">mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">bool</span><span class="p">()</span>
+                    <span class="n">buffname</span> <span class="o">=</span> <span class="n">p_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># buffer names cannot contain &quot;.&quot;</span>
+                    <span class="n">module</span><span class="o">.</span><span class="n">register_buffer</span><span class="p">(</span><span class="s1">&#39;__</span><span class="si">%s</span><span class="s1">_mma_mask&#39;</span> <span class="o">%</span> <span class="n">buffname</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">allow_recompute_mask</span><span class="p">:</span>
+                        <span class="n">pruned</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+                        <span class="n">module</span><span class="o">.</span><span class="n">register_buffer</span><span class="p">(</span><span class="s1">&#39;__</span><span class="si">%s</span><span class="s1">_mma_pruned_p&#39;</span> <span class="o">%</span> <span class="n">buffname</span><span class="p">,</span> <span class="n">pruned</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">pruned</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="bp">cls</span><span class="o">.</span><span class="n">__sparse_parameters</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">module_name</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">p_name</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">pruned</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__verbosity</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[ASP] Not sparsifying </span><span class="si">%s</span><span class="s2">::</span><span class="si">%s</span><span class="s2"> of size=</span><span class="si">%s</span><span class="s2"> and type=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">module_name</span><span class="p">,</span> <span class="n">p_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">size</span><span class="p">()),</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">dtype</span><span class="p">)))</span>
+
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">sparse_module</span> <span class="ow">in</span> <span class="n">eligible_modules</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">whitelist</span><span class="p">),</span> <span class="n">allowed_layer_names</span><span class="p">,</span> <span class="n">disallowed_layer_names</span><span class="p">):</span>
+            <span class="n">add_sparse_attributes</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">sparse_module</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">already_init_asp_model</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call this method to check whether ASP has been initialized already.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__verbosity</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[ASP] ASP has not been initialized.&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__verbosity</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[ASP] ASP has been initialized already.&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">init_optimizer_for_pruning</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call this method to monkey patch optimizer step function so that masks can be applied to</span>
+<span class="sd">        gradients and weights during training.</span>
+<span class="sd">        You must call init_model_for_pruning(...) before calling init_optimizer_for_pruning(...)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">__optimizer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">),</span> <span class="s2">&quot;ASP has initialized optimizer already.&quot;</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">__calculate_mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">),</span> <span class="s2">&quot;Called ASP.init_optimizer_for_pruning before ASP.init_model_for_pruning.&quot;</span>
+
+        <span class="c1"># store pointer to original optimizer step method</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">__optimizer</span> <span class="o">=</span> <span class="n">optimizer</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">__optimizer</span><span class="o">.</span><span class="n">__step</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span>
+
+        <span class="k">def</span> <span class="nf">__step</span><span class="p">(</span><span class="n">opt_self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="c1"># prune gradients before step method</span>
+            <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">module_name</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">p_name</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">pruned</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__sparse_parameters</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">grad</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span> <span class="c1">#thx pjudd</span>
+                        <span class="n">p</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">mul_</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+            <span class="c1"># call original optimizer step method</span>
+            <span class="n">rval</span> <span class="o">=</span> <span class="n">opt_self</span><span class="o">.</span><span class="n">__step</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="c1"># prune parameters after step method</span>
+            <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">module_name</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">p_name</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">pruned</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__sparse_parameters</span><span class="p">:</span>
+                    <span class="n">p</span><span class="o">.</span><span class="n">mul_</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">rval</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">__optimizer</span><span class="o">.</span><span class="n">step</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">(</span><span class="n">__step</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__optimizer</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">compute_sparse_masks</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call this method to enable sparsity.</span>
+<span class="sd">        If init(...) was called with allow_recompute_mask=False AND sparsity is disabled, pruned field can be None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__allow_permutation</span><span class="p">:</span>
+                <span class="c1"># Step 1: use the Torch.FX library to build the graph</span>
+                <span class="c1"># Step 2: permutation search with the customized kernel</span>
+                <span class="c1"># Notice: need to use the single GPU to build the Torch.FX graph</span>
+                <span class="c1"># The simplest without user intervention:</span>
+                <span class="c1"># A. try to import with the distributed mode of the original model</span>
+                <span class="c1"># B. if meet the error, import with the none-distributed mode of the original model</span>
+                <span class="n">start_time_build_offline_permutation_graph</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">offline_permutation_fx_graph</span><span class="p">,</span> <span class="n">success_in_build_offline_permutation_graph</span> <span class="o">=</span> <span class="n">Permutation</span><span class="o">.</span><span class="n">build_offline_permutation_graph</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">__model</span><span class="o">.</span><span class="n">module</span><span class="p">,</span> <span class="n">dump_fx_graph</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">__save_permutation_graph</span><span class="p">,</span> <span class="n">save_dumped_fx_graph</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">__permutation_output_dir</span><span class="p">,</span> <span class="s1">&#39;model_offline_permutation_graph.json&#39;</span><span class="p">))</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[compute_sparse_masks] build offline permutation graph on distributed model.&quot;</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                    <span class="n">offline_permutation_fx_graph</span><span class="p">,</span> <span class="n">success_in_build_offline_permutation_graph</span> <span class="o">=</span> <span class="n">Permutation</span><span class="o">.</span><span class="n">build_offline_permutation_graph</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">__model</span><span class="p">,</span> <span class="n">dump_fx_graph</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">__save_permutation_graph</span><span class="p">,</span> <span class="n">save_dumped_fx_graph</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">__permutation_output_dir</span><span class="p">,</span> <span class="s1">&#39;model_offline_permutation_graph.json&#39;</span><span class="p">))</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[compute_sparse_masks] build offline permutation graph on none-distributed model.&quot;</span><span class="p">)</span>
+                <span class="n">duration_build_offline_permutation_graph</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time_build_offline_permutation_graph</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[compute_sparse_masks] Take </span><span class="si">{:.4f}</span><span class="s2"> seconds to finish build_offline_permutation_graph function.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">duration_build_offline_permutation_graph</span><span class="p">))</span>
+
+                <span class="c1"># Step 3: off-line permutation to avoid the runtime overhead in deployment</span>
+                <span class="k">if</span> <span class="n">success_in_build_offline_permutation_graph</span><span class="p">:</span>
+                    <span class="n">start_time_apply_offline_permutation</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">Permutation</span><span class="o">.</span><span class="n">apply_offline_permutation</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">__model</span><span class="o">.</span><span class="n">module</span><span class="p">,</span> <span class="n">fx_graph</span><span class="o">=</span><span class="n">offline_permutation_fx_graph</span><span class="p">)</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[compute_sparse_masks] apply offline permutation on distributed model.&quot;</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                        <span class="n">Permutation</span><span class="o">.</span><span class="n">apply_offline_permutation</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">__model</span><span class="p">,</span> <span class="n">fx_graph</span><span class="o">=</span><span class="n">offline_permutation_fx_graph</span><span class="p">)</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[compute_sparse_masks] apply offline permutation on none-distributed model.&quot;</span><span class="p">)</span>
+                    <span class="n">duration_apply_offline_permutation</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time_apply_offline_permutation</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[compute_sparse_masks] Take </span><span class="si">{:.4f}</span><span class="s2"> seconds to finish apply_offline_permutation function.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">duration_apply_offline_permutation</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[compute_sparse_masks] skip applying offline permutation because there is no valid offline_permutation_fx_graph.&quot;</span><span class="p">)</span>
+                <span class="c1"># Finally, permutation search and off-line permutation is done, give the model back to ASP to generate the normal structured sparse mask</span>
+
+            <span class="k">for</span> <span class="n">module_name</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">p_name</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">pruned</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__sparse_parameters</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">mask</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">mask</span><span class="o">.</span><span class="n">numel</span><span class="p">():</span> <span class="c1"># when recalculating masks</span>
+                    <span class="c1"># restore dense parameter if allow_recompute_mask is enabled</span>
+                    <span class="k">assert</span> <span class="p">(</span><span class="n">pruned</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">),</span> <span class="s2">&quot;Unable to restore dense parameter because allow_recompute_mask == False&quot;</span>
+                    <span class="n">p</span><span class="o">.</span><span class="n">add_</span><span class="p">(</span><span class="n">pruned</span><span class="o">.</span><span class="n">cuda</span><span class="p">())</span>
+
+                <span class="n">mask</span><span class="o">.</span><span class="n">set_</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">__calculate_mask</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+
+                <span class="k">if</span> <span class="n">pruned</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span> <span class="c1"># stow away pruned weights to cpu</span>
+                    <span class="n">pruned</span><span class="o">.</span><span class="n">set_</span><span class="p">((</span><span class="n">p</span> <span class="o">*</span> <span class="p">(</span><span class="o">~</span><span class="n">mask</span><span class="p">))</span><span class="o">.</span><span class="n">cpu</span><span class="p">())</span>
+
+                <span class="n">p</span><span class="o">.</span><span class="n">mul_</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span> <span class="c1"># in-place multiplication, so pruned weights are 0-values, hence checkpoint will have 0s for pruned weights</span>
+                <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__verbosity</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[ASP] Enabled </span><span class="si">%.2f%%</span><span class="s2"> sparsity for </span><span class="si">%s</span><span class="s2">::</span><span class="si">%s</span><span class="s2"> of size=</span><span class="si">%s</span><span class="s2"> and type=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="mf">100.0</span><span class="o">-</span><span class="mf">100.0</span><span class="o">*</span><span class="n">mask</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="n">mask</span><span class="o">.</span><span class="n">numel</span><span class="p">(),</span> <span class="n">module_name</span><span class="p">,</span> <span class="n">p_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">size</span><span class="p">()),</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">dtype</span><span class="p">)))</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">restore_pruned_weights</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call this method to disable sparsity and restore all weights.</span>
+<span class="sd">        This will only work if init(...) was called with allow_recompute=True.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">module_name</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">p_name</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">pruned</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__sparse_parameters</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">mask</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">mask</span><span class="o">.</span><span class="n">numel</span><span class="p">():</span>
+                    <span class="k">assert</span> <span class="p">(</span><span class="n">pruned</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">),</span> <span class="s2">&quot;Unable to restore dense parameter because allow_recompute_mask == False&quot;</span>
+                    <span class="n">p</span><span class="o">.</span><span class="n">add_</span><span class="p">(</span><span class="n">pruned</span><span class="o">.</span><span class="n">cuda</span><span class="p">())</span>
+                    <span class="n">mask</span><span class="o">.</span><span class="n">fill_</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="n">pruned</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__verbosity</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[ASP] Disabled sparsity for </span><span class="si">%s</span><span class="s2">::</span><span class="si">%s</span><span class="s2"> (dense weights restored)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">module_name</span><span class="p">,</span> <span class="n">p_name</span><span class="p">))</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">is_sparsity_enabled</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call this method to determine if sparsity is enabled in the model.</span>
+<span class="sd">        The typical use case is right after checkpoint has been loaded.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">total</span><span class="p">,</span><span class="n">sp100</span><span class="p">,</span><span class="n">sp50</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+        <span class="k">for</span> <span class="n">module_name</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">p_name</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">pruned</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__sparse_parameters</span><span class="p">:</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">mask_sum</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">mask_numel</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">mask_sum</span> <span class="o">==</span> <span class="n">mask_numel</span><span class="p">:</span>
+                <span class="n">sp100</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">elif</span> <span class="n">mask_sum</span><span class="o">*</span><span class="mi">2</span> <span class="o">==</span> <span class="n">mask_numel</span><span class="p">:</span>
+                <span class="n">sp50</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">assert</span> <span class="p">(</span><span class="n">total</span> <span class="o">==</span> <span class="n">sp100</span> <span class="ow">or</span> <span class="n">total</span> <span class="o">==</span> <span class="n">sp50</span><span class="p">),</span> <span class="s2">&quot;Inconsistent model sparsity&quot;</span>
+        <span class="k">if</span> <span class="n">total</span> <span class="o">==</span> <span class="n">sp100</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="n">total</span> <span class="o">==</span> <span class="n">sp50</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">prune_trained_model</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">):</span>
+        <span class="c1"># add mask buffers to model (init_model_for_pruning), augment optimizer (init_optimizer_for_pruning) and compute masks (compute_sparse_masks)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">init_model_for_pruning</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">mask_calculator</span><span class="o">=</span><span class="s2">&quot;m4n2_1d&quot;</span><span class="p">,</span> <span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">whitelist</span><span class="o">=</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">],</span> <span class="n">allow_recompute_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">init_optimizer_for_pruning</span><span class="p">(</span><span class="n">optimizer</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">compute_sparse_masks</span><span class="p">()</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">set_permutation_saving_params</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">allow_permutation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">save_permutation_graph</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">permutation_output_dir</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This function is used to set the permutation saving related parameters in ASP class and inside of the Permutation class.&quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[ASP][set_permutation_saving_param] Set permutation saving related parameters&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[set_permutation_saving_param] Set permutation saving related parameters&quot;</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">__allow_permutation</span> <span class="o">=</span> <span class="n">allow_permutation</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[set_permutation_saving_param]</span><span class="se">\t</span><span class="s2"> Allow permutation: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">__allow_permutation</span><span class="p">))</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">__save_permutation_graph</span> <span class="o">=</span> <span class="n">save_permutation_graph</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[set_permutation_saving_param]</span><span class="se">\t</span><span class="s2"> Save permutation graphs: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">__save_permutation_graph</span><span class="p">))</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">__permutation_output_dir</span> <span class="o">=</span> <span class="n">permutation_output_dir</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[set_permutation_saving_param]</span><span class="se">\t</span><span class="s2"> Permutation graphs saving dir: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">__permutation_output_dir</span><span class="p">))</span>
+
+        <span class="n">Permutation</span><span class="o">.</span><span class="n">set_permutation_saving_params</span><span class="p">(</span><span class="n">allow_permutation</span><span class="p">,</span> <span class="n">save_permutation_graph</span><span class="p">,</span> <span class="n">permutation_output_dir</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018-.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>  
+
+  <style>
+  a:link, a:visited {
+    color: #76b900;
+  }
+
+  a:hover {
+    color: #8c0;
+  }
+
+  .rst-content dl:not(.docutils) dt {
+    background: rgba(118, 185, 0, 0.1);
+    color: rgba(59,93,0,1);
+    border-top: solid 3px rgba(59,93,0,1);
+  }
+  </style>
+  
+
+</body>
+</html>
