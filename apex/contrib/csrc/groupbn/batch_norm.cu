@@ -6,8 +6,6 @@
 
 #include <cuda.h>
 
-#include "compat.h"
-
 #define cudaCheckErrors(msg) \
     do { \
         cudaError_t __err = cudaGetLastError(); \

@@ -9,7 +9,6 @@
 #include <vector>
 
 #include "type_shim.h"
-#include "compat.h"
 
 
 __device__ __forceinline__ int lastpow2(int n)

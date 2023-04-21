@@ -3,8 +3,6 @@
 
 #include <cuda.h>
 
-#include "compat.h"
-
 
 #define cudaCheckErrors(msg) \
     do { \

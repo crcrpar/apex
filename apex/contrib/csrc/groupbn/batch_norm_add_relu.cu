@@ -6,8 +6,6 @@
 
 #include <cuda.h>
 
-#include "compat.h"
-
 //FIXME move the common stuff to common h file
 #define cudaCheckErrors(msg) \
     do { \
