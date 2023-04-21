@@ -1,5 +1,4 @@
 #include <ATen/ATen.h>
-#include "compat.h"
 
 // Forward/backward compatiblity hack around
 // https://github.com/pytorch/pytorch/commit/3aeb78079bcd68282fe9117088e138b77318e288
@@ -30,7 +29,7 @@
       break; \
     } \
     default: \
-      AT_ERROR(#NAME, " not implemented for '", toString(TYPE), "'");  \
+      TORCH_CHECK(false, #NAME, " not implemented for '", toString(TYPE), "'");  \
   }
 
 
@@ -56,7 +55,7 @@
       break; \
     } \
     default: \
-      AT_ERROR(#NAME, " not implemented for '", toString(TYPE), "'");  \
+      TORCH_CHECK(false, #NAME, " not implemented for '", toString(TYPE), "'");  \
   }
 
 
@@ -82,7 +81,7 @@
       break; \
     } \
     default: \
-      AT_ERROR(#NAME, " not implemented for '", toString(TYPE), "'");  \
+      TORCH_CHECK(false, #NAME, " not implemented for '", toString(TYPE), "'");  \
   }
 
 
@@ -108,7 +107,7 @@
       break; \
     } \
     default: \
-      AT_ERROR(#NAME, " not implemented for '", toString(TYPE), "'");  \
+      TORCH_CHECK(false, #NAME, " not implemented for '", toString(TYPE), "'");  \
   }
 
 
@@ -140,7 +139,7 @@
       break; \
     } \
     default: \
-      AT_ERROR(#NAME, " not implemented for '", toString(TYPE), "'");  \
+      TORCH_CHECK(false, #NAME, " not implemented for '", toString(TYPE), "'");  \
   }
 
 
@@ -160,7 +159,7 @@
       break; \
     } \
     default: \
-      AT_ERROR(#NAME, " not implemented for '", toString(TYPE), "'");  \
+      TORCH_CHECK(false, #NAME, " not implemented for '", toString(TYPE), "'");  \
   }
 
 
@@ -180,7 +179,7 @@
 	break;								\
       }									\
     default:								\
-      AT_ERROR(#NAME, " not implemented for '", toString(TYPE), "'");	\
+      TORCH_CHECK(false, #NAME, " not implemented for '", toString(TYPE), "'");	\
   }
 
 
@@ -211,7 +210,7 @@
 	      break;							\
 	    }								\
 	  default:							\
-	    AT_ERROR(#NAME, " not implemented for '", toString(TYPEOUT), "'"); \
+	    TORCH_CHECK(false, #NAME, " not implemented for '", toString(TYPEOUT), "'"); \
 	  }								\
 	break;								\
       }									\
@@ -230,7 +229,7 @@
 	break;								\
       }									\
     default:								\
-      AT_ERROR(#NAME, " not implemented for '", toString(TYPEIN), "'");	\
+      TORCH_CHECK(false, #NAME, " not implemented for '", toString(TYPEIN), "'");	\
     }
 
 
@@ -267,7 +266,7 @@
 	      break;							\
 	    }								\
 	  default:							\
-	    AT_ERROR(#NAME, " not implemented for '", toString(TYPEOUT), "'"); \
+	    TORCH_CHECK(false, #NAME, " not implemented for '", toString(TYPEOUT), "'"); \
 	  }								\
 	break;								\
       }									\
@@ -295,7 +294,7 @@
 	      break;							\
 	    }								\
 	  default:							\
-	    AT_ERROR(#NAME, " not implemented for '", toString(TYPEOUT), "'"); \
+	    TORCH_CHECK(false, #NAME, " not implemented for '", toString(TYPEOUT), "'"); \
 	  }								\
 	break;								\
       }									\
@@ -314,7 +313,7 @@
 	break;								\
       }									\
     default:								\
-      AT_ERROR(#NAME, " not implemented for '", toString(TYPEIN), "'");	\
+      TORCH_CHECK(false, #NAME, " not implemented for '", toString(TYPEIN), "'");	\
     }
 
 
