@@ -902,14 +902,14 @@ void cuda_layer_norm(
         input->scalar_type(), output->scalar_type(), "layer_norm_cuda_kernel",
         using accscalar_t = at::acc_type<scalar_t_in, true>;
         HostApplyLayerNorm<scalar_t_in, accscalar_t, scalar_t_out>(
-          output->DATA_PTR<scalar_t_out>(),
-              mean->DATA_PTR<accscalar_t>(),
-          invvar->DATA_PTR<accscalar_t>(),
-          input->DATA_PTR<scalar_t_in>(),
+          output->data_ptr<scalar_t_out>(),
+              mean->data_ptr<accscalar_t>(),
+          invvar->data_ptr<accscalar_t>(),
+          input->data_ptr<scalar_t_in>(),
           n1,n2,
           epsilon,
-          gamma != NULL ? gamma->DATA_PTR<scalar_t_out>() : NULL,
-          beta != NULL ? beta->DATA_PTR<scalar_t_out>() : NULL);
+          gamma != NULL ? gamma->data_ptr<scalar_t_out>() : NULL,
+          beta != NULL ? beta->data_ptr<scalar_t_out>() : NULL);
       )
 }
 
@@ -932,12 +932,12 @@ void cuda_rms_norm(
         input->scalar_type(), output->scalar_type(), "rms_norm_cuda_kernel",
         using accscalar_t = at::acc_type<scalar_t_in, true>;
         HostApplyRMSNorm<scalar_t_in, accscalar_t, scalar_t_out>(
-          output->DATA_PTR<scalar_t_out>(),
-          invvar->DATA_PTR<accscalar_t>(),
-          input->DATA_PTR<scalar_t_in>(),
+          output->data_ptr<scalar_t_out>(),
+          invvar->data_ptr<accscalar_t>(),
+          input->data_ptr<scalar_t_in>(),
           n1,n2,
           epsilon,
-          gamma != NULL ? gamma->DATA_PTR<scalar_t_out>() : NULL);
+          gamma != NULL ? gamma->data_ptr<scalar_t_out>() : NULL);
       )
 }
 
@@ -978,21 +978,21 @@ void HostLayerNormGradient(
       at::Tensor part_grad_beta = at::empty_like(part_grad_gamma);
       cuComputePartGradGammaBeta<<<blocks2, threads2, nshared2, stream>>>(
                       dout,
-                      input->DATA_PTR<T>(),
+                      input->data_ptr<T>(),
                       n1,n2,
                       mean,
                       invvar,
                       U(epsilon),
-                      part_grad_gamma.DATA_PTR<U>(),
-                      part_grad_beta.DATA_PTR<U>(),
+                      part_grad_gamma.data_ptr<U>(),
+                      part_grad_beta.data_ptr<U>(),
                       false);
 
       const dim3 threads3(32,8,1);
       const dim3 blocks3((n2+threads2.x-1)/threads2.x,1,1);
       const int nshared3 = threads3.x * threads3.y * sizeof(U);
       cuComputeGradGammaBeta<<<blocks3, threads3, nshared3, stream>>>(
-                      part_grad_gamma.DATA_PTR<U>(),
-                      part_grad_beta.DATA_PTR<U>(),
+                      part_grad_gamma.data_ptr<U>(),
+                      part_grad_beta.data_ptr<U>(),
                       part_size,
                       n1,n2,
                       grad_gamma,
@@ -1010,7 +1010,7 @@ void HostLayerNormGradient(
             0;
     cuComputeGradInput<<<blocks1, threads1, nshared, stream>>>(
             dout,
-            input->DATA_PTR<T>(),
+            input->data_ptr<T>(),
             n1,n2,
             mean,
             invvar,
@@ -1050,21 +1050,21 @@ void HostRMSNormGradient(
       at::Tensor part_grad_gamma = at::empty({part_size,n2}, input->options().dtype(part_grad_dtype));
       cuComputePartGradGammaBeta<<<blocks2, threads2, nshared2, stream>>>(
                       dout,
-                      input->DATA_PTR<T>(),
+                      input->data_ptr<T>(),
                       n1,n2,
                       invvar, // unused
                       invvar,
                       U(epsilon),
-                      part_grad_gamma.DATA_PTR<U>(),
-                      part_grad_gamma.DATA_PTR<U>(), /* unused */
+                      part_grad_gamma.data_ptr<U>(),
+                      part_grad_gamma.data_ptr<U>(), /* unused */
                       true);
 
       const dim3 threads3(32,8,1);
       const dim3 blocks3((n2+threads2.x-1)/threads2.x,1,1);
       const int nshared3 = threads3.x * threads3.y * sizeof(U);
       cuComputeGradGammaBeta<<<blocks3, threads3, nshared3, stream>>>(
-                      part_grad_gamma.DATA_PTR<U>(),
-                      part_grad_gamma.DATA_PTR<U>(), /* unused */
+                      part_grad_gamma.data_ptr<U>(),
+                      part_grad_gamma.data_ptr<U>(), /* unused */
                       part_size,
                       n1,n2,
                       grad_gamma,
@@ -1082,7 +1082,7 @@ void HostRMSNormGradient(
             0;
     cuComputeGradInput<<<blocks1, threads1, nshared, stream>>>(
             dout,
-            input->DATA_PTR<T>(),
+            input->data_ptr<T>(),
             n1,n2,
             invvar, /* unused */
             invvar,
@@ -1117,19 +1117,19 @@ void cuda_layer_norm_gradient(
       input->scalar_type(), gamma == NULL ? input->scalar_type() :  gamma->scalar_type(), "cuComputeGradInput",
       using accscalar_t = at::acc_type<scalar_t_in, true>;
       HostLayerNormGradient(
-        dout->DATA_PTR<scalar_t_out>(),
-        mean->DATA_PTR<accscalar_t>(),
-        invvar->DATA_PTR<accscalar_t>(),
+        dout->data_ptr<scalar_t_out>(),
+        mean->data_ptr<accscalar_t>(),
+        invvar->data_ptr<accscalar_t>(),
         input,
         n1,n2,
             // TMJ pass NULL argument for gamma, beta, grad_gamma and grad_beta
             // if gamma Tensor is NULL on input.
-        gamma != NULL ? gamma->DATA_PTR<scalar_t_out>() : NULL,
-        gamma != NULL ? beta->DATA_PTR<scalar_t_out>() : NULL,
+        gamma != NULL ? gamma->data_ptr<scalar_t_out>() : NULL,
+        gamma != NULL ? beta->data_ptr<scalar_t_out>() : NULL,
         epsilon,
-        grad_input->DATA_PTR<scalar_t_in>(),
-        gamma != NULL ? grad_gamma->DATA_PTR<scalar_t_out>() : NULL,
-        gamma != NULL ? grad_beta->DATA_PTR<scalar_t_out>() : NULL);
+        grad_input->data_ptr<scalar_t_in>(),
+        gamma != NULL ? grad_gamma->data_ptr<scalar_t_out>() : NULL,
+        gamma != NULL ? grad_beta->data_ptr<scalar_t_out>() : NULL);
     )
 }
 
@@ -1156,15 +1156,15 @@ void cuda_rms_norm_gradient(
       input->scalar_type(), gamma == NULL ? input->scalar_type() :  gamma->scalar_type(), "cuComputeGradInputRMS",
       using accscalar_t = at::acc_type<scalar_t_in, true>;
       HostRMSNormGradient(
-        dout->DATA_PTR<scalar_t_out>(),
-        invvar->DATA_PTR<accscalar_t>(),
+        dout->data_ptr<scalar_t_out>(),
+        invvar->data_ptr<accscalar_t>(),
         input,
         n1,n2,
             // TMJ pass NULL argument for gamma, beta, grad_gamma and grad_beta
             // if gamma Tensor is NULL on input.
-        gamma != NULL ? gamma->DATA_PTR<scalar_t_out>() : NULL,
+        gamma != NULL ? gamma->data_ptr<scalar_t_out>() : NULL,
         epsilon,
-        grad_input->DATA_PTR<scalar_t_in>(),
-        gamma != NULL ? grad_gamma->DATA_PTR<scalar_t_out>() : NULL);
+        grad_input->data_ptr<scalar_t_in>(),
+        gamma != NULL ? grad_gamma->data_ptr<scalar_t_out>() : NULL);
     )
 }
