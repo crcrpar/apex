@@ -71,7 +71,7 @@ at::Tensor nhwc_bn_addrelu_fwd_train(
   const int C = x.size(3);
 
   // generating new magic number and use that for sync
-  int* magic = magic_tensor.DATA_PTR<int>();
+  int* magic = magic_tensor.data_ptr<int>();
   *magic = (*magic + 1) & 0xff;
 
   // Allocate output tensor
@@ -86,15 +86,15 @@ at::Tensor nhwc_bn_addrelu_fwd_train(
   bn->setConstants(momentum, epsilon);
 
   // set pointers within the wrapper
-  bn->setInputOutputPointers(x.DATA_PTR<at::Half>(),
+  bn->setInputOutputPointers(x.data_ptr<at::Half>(),
                              nullptr,
-                             y.DATA_PTR<at::Half>(),
+                             y.data_ptr<at::Half>(),
                              nullptr,
-                             z.DATA_PTR<at::Half>(),
+                             z.data_ptr<at::Half>(),
                              nullptr);
 
-  bn->setWeightPointers({scale.DATA_PTR<float>(), bias.DATA_PTR<float>()}, {nullptr, nullptr});
-  bn->setParameterPointers({running_mean.DATA_PTR<float>(), running_inv_var.DATA_PTR<float>()});
+  bn->setWeightPointers({scale.data_ptr<float>(), bias.data_ptr<float>()}, {nullptr, nullptr});
+  bn->setParameterPointers({running_mean.data_ptr<float>(), running_inv_var.data_ptr<float>()});
 
   // deal with workspace(s)
   auto workspace_bytes = bn->numWorkspaceBytes();
@@ -115,13 +115,13 @@ at::Tensor nhwc_bn_addrelu_fwd_train(
   Workspace ws(total_workspace_bytes);
 
   std::vector<void *> workspace;
-  workspace.push_back(minibatch_mean.DATA_PTR<float>());
-  workspace.push_back(minibatch_inv_var.DATA_PTR<float>());
-  workspace.push_back(bitmask.DATA_PTR<int32_t>());
+  workspace.push_back(minibatch_mean.data_ptr<float>());
+  workspace.push_back(minibatch_inv_var.data_ptr<float>());
+  workspace.push_back(bitmask.data_ptr<int32_t>());
 
   auto stream = at::cuda::getCurrentCUDAStream().stream();
   const int retired_cta_bytes = workspace_bytes[3];
-  void* retired_ctas = ret_cta.DATA_PTR<uint8_t>();
+  void* retired_ctas = ret_cta.data_ptr<uint8_t>();
   assert(ret_cta.size(0)>=retired_cta_bytes);
 
   workspace.push_back(retired_ctas);
@@ -168,15 +168,15 @@ at::Tensor nhwc_bn_addrelu_fwd_eval(
   bn->setConstants(momentum, epsilon);
 
   // set pointers within the wrapper
-  bn->setInputOutputPointers(x.DATA_PTR<at::Half>(),
+  bn->setInputOutputPointers(x.data_ptr<at::Half>(),
                              nullptr,
-                             y.DATA_PTR<at::Half>(),
+                             y.data_ptr<at::Half>(),
                              nullptr,
-                             z.DATA_PTR<at::Half>(),
+                             z.data_ptr<at::Half>(),
                              nullptr);
 
-  bn->setWeightPointers({scale.DATA_PTR<float>(), bias.DATA_PTR<float>()}, {nullptr, nullptr});
-  bn->setParameterPointers({running_mean.DATA_PTR<float>(), running_inv_var.DATA_PTR<float>()});
+  bn->setWeightPointers({scale.data_ptr<float>(), bias.data_ptr<float>()}, {nullptr, nullptr});
+  bn->setParameterPointers({running_mean.data_ptr<float>(), running_inv_var.data_ptr<float>()});
 
   // deal with workspace(s)
   auto workspace_bytes = bn->numWorkspaceBytes();
@@ -203,7 +203,7 @@ at::Tensor nhwc_bn_addrelu_fwd_eval(
 
   auto stream = at::cuda::getCurrentCUDAStream().stream();
   const int retired_cta_bytes = workspace_bytes[3];
-  void* retired_ctas = ret_cta.DATA_PTR<uint8_t>();
+  void* retired_ctas = ret_cta.data_ptr<uint8_t>();
   assert(ret_cta.size(0)>=retired_cta_bytes);
   workspace.push_back(retired_ctas);
 
@@ -235,9 +235,9 @@ std::vector<at::Tensor> nhwc_bn_addrelu_bwd(
                        const float momentum,
                        const float epsilon,
                        void * my_data,
-                       void * pair_data, 
-                       void * pair_data2, 
-                       void * pair_data3, 
+                       void * pair_data,
+                       void * pair_data2,
+                       void * pair_data3,
                        const int bn_group,
                        const at::Tensor& magic_tensor,
                        const int occupancy,
@@ -250,7 +250,7 @@ std::vector<at::Tensor> nhwc_bn_addrelu_bwd(
   const int C = x.size(3);
 
   // generating new magic number and use that for sync
-  int* magic = magic_tensor.DATA_PTR<int>();
+  int* magic = magic_tensor.data_ptr<int>();
   *magic = (*magic + 1) & 0xff;
 
   // outputs
@@ -271,15 +271,15 @@ std::vector<at::Tensor> nhwc_bn_addrelu_bwd(
   bn->setConstants(momentum, epsilon);
 
   // set pointers within the wrapper
-  bn->setInputOutputPointers(x.DATA_PTR<at::Half>(),
-                             x_grad.DATA_PTR<at::Half>(),
+  bn->setInputOutputPointers(x.data_ptr<at::Half>(),
+                             x_grad.data_ptr<at::Half>(),
                              nullptr,
-                             dy.DATA_PTR<at::Half>(),
+                             dy.data_ptr<at::Half>(),
                              nullptr,
-                             z_grad.DATA_PTR<at::Half>());
+                             z_grad.data_ptr<at::Half>());
 
-  bn->setWeightPointers({scale.DATA_PTR<float>(), bias.DATA_PTR<float>()}, {scale_grad.DATA_PTR<float>(), bias_grad.DATA_PTR<float>()});
-  bn->setParameterPointers({running_mean.DATA_PTR<float>(), running_inv_var.DATA_PTR<float>()});
+  bn->setWeightPointers({scale.data_ptr<float>(), bias.data_ptr<float>()}, {scale_grad.data_ptr<float>(), bias_grad.data_ptr<float>()});
+  bn->setParameterPointers({running_mean.data_ptr<float>(), running_inv_var.data_ptr<float>()});
 
   // deal with workspace(s)
   auto workspace_bytes = bn->numWorkspaceBytes();
@@ -300,13 +300,13 @@ std::vector<at::Tensor> nhwc_bn_addrelu_bwd(
   Workspace ws(total_workspace_bytes);
 
   std::vector<void *> workspace;
-  workspace.push_back(minibatch_mean.DATA_PTR<float>());
-  workspace.push_back(minibatch_inv_var.DATA_PTR<float>());
-  workspace.push_back(bitmask.DATA_PTR<int32_t>());
+  workspace.push_back(minibatch_mean.data_ptr<float>());
+  workspace.push_back(minibatch_inv_var.data_ptr<float>());
+  workspace.push_back(bitmask.data_ptr<int32_t>());
 
   auto stream = at::cuda::getCurrentCUDAStream().stream();
   const int retired_cta_bytes = workspace_bytes[3];
-  void* retired_ctas = ret_cta.DATA_PTR<uint8_t>();
+  void* retired_ctas = ret_cta.data_ptr<uint8_t>();
   assert(ret_cta.size(0)>=retired_cta_bytes);
   workspace.push_back(retired_ctas);
 
@@ -325,7 +325,7 @@ std::vector<at::Tensor> nhwc_bn_addrelu_bwd(
 int nhwc_bn_addrelu_fwd_occupancy() {
     int device_id=-1;
     cudaGetDevice(&device_id);
-    
+
     //max occupancy supported by the code is 2
     return NhwcBatchNormAddRelu::smem_driven_fwd_occupancy(device_id, 2);
 }

@@ -24,7 +24,7 @@ __device__ __forceinline__ void load_store(T* dst, T* src, int dst_offset, int s
   ((LT*)dst)[dst_offset] = ((LT*)src)[src_offset];
 }
 
-template <typename FROM_T, typename TO_T> 
+template <typename FROM_T, typename TO_T>
 __device__ void convert(const FROM_T vi, TO_T& vo)
 {
     vo = static_cast<TO_T>(vi);
@@ -456,16 +456,16 @@ void multi_tensor_lamb_compute_update_term_cuda(
           noop_flag,
           tensor_lists,
           DistOptLAMBStage1Functor<scalar_t_0, scalar_t_1, scalar_t_2>(),
-          per_tensor_beta1.DATA_PTR<scalar_t_2>(),
-          per_tensor_beta2.DATA_PTR<scalar_t_2>(),
-          per_tensor_beta3.DATA_PTR<scalar_t_2>(),
-          per_tensor_bias_correction.DATA_PTR<int>(),
-          step.DATA_PTR<int>(),
-          per_tensor_epsilon.DATA_PTR<scalar_t_2>(),
+          per_tensor_beta1.data_ptr<scalar_t_2>(),
+          per_tensor_beta2.data_ptr<scalar_t_2>(),
+          per_tensor_beta3.data_ptr<scalar_t_2>(),
+          per_tensor_bias_correction.data_ptr<int>(),
+          step.data_ptr<int>(),
+          per_tensor_epsilon.data_ptr<scalar_t_2>(),
           (adamMode_t) mode,
-          per_tensor_decay.DATA_PTR<scalar_t_2>(),
-          global_scale.DATA_PTR<scalar_t_2>(),
-	  global_grad_norm.DATA_PTR<scalar_t_2>(),
+          per_tensor_decay.data_ptr<scalar_t_2>(),
+          global_scale.data_ptr<scalar_t_2>(),
+	  global_grad_norm.data_ptr<scalar_t_2>(),
 	  max_grad_norm); )))
 
   AT_CUDA_CHECK(cudaGetLastError());
@@ -494,12 +494,12 @@ void multi_tensor_lamb_update_weights_cuda(
           noop_flag,
           tensor_lists,
           DistOptLAMBStage2Functor<scalar_t_0, scalar_t_1, scalar_t_2>(),
-          per_tensor_param_norm.DATA_PTR<scalar_t_2>(),
-          per_tensor_update_norm.DATA_PTR<scalar_t_2>(),
-          update_norm_offset.DATA_PTR<long>(),
-	  learning_rate.DATA_PTR<scalar_t_2>(),
-          per_tensor_decay.DATA_PTR<scalar_t_2>(),
-	  global_grad_norm.DATA_PTR<scalar_t_2>(),
+          per_tensor_param_norm.data_ptr<scalar_t_2>(),
+          per_tensor_update_norm.data_ptr<scalar_t_2>(),
+          update_norm_offset.data_ptr<long>(),
+	  learning_rate.data_ptr<scalar_t_2>(),
+          per_tensor_decay.data_ptr<scalar_t_2>(),
+	  global_grad_norm.data_ptr<scalar_t_2>(),
           use_nvlamb); )))
 
   AT_CUDA_CHECK(cudaGetLastError());

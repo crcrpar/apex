@@ -164,7 +164,7 @@ struct LAMBStage2Functor
 
     MATH_T ratio = learning_rate;
     // apply adaptive learning rate to parameters with non-zero weight decay
-    if (decay != 0.0) 
+    if (decay != 0.0)
     {
       float param_norm = per_tensor_param_norm[tensor_num];
       float update_norm = per_tensor_update_norm[tensor_num];
@@ -284,8 +284,8 @@ void multi_tensor_lamb_cuda(
        	noop_flag,
         grad_param_list,
         LAMBStage2Functor<scalar_t_0>(),
-        std::get<1>(param_norm_tuple).DATA_PTR<float>(),
-        std::get<1>(update_norm_tuple).DATA_PTR<float>(),
+        std::get<1>(param_norm_tuple).data_ptr<float>(),
+        std::get<1>(update_norm_tuple).data_ptr<float>(),
         lr,
 	weight_decay); )
 
