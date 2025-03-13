@@ -124,7 +124,7 @@ class FusedAdam(torch.optim.Optimizer):
         else:
             super(FusedAdam, self).zero_grad()
 
-    def step(self, closure=None, grads=None, output_params=None, scale=None, grad_norms=None, grad_scaler=None):
+    def step(self, closure=None, grads=None, output_params=None, scale=None, grad_norms=None):
         """Performs a single optimization step.
 
         Arguments:
@@ -196,6 +196,7 @@ class FusedAdam(torch.optim.Optimizer):
                 else:
                     raise RuntimeError('FusedAdam only support fp16 and fp32.')
 
+            grad_scaler = getattr(self, "grad_scale", None)
             # If the optimizer is capturable, then if there's a grad scaler it works
             # on the GPU + a different multi_tensor_applier should be called
             if self.capturable:
